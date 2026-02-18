@@ -10,17 +10,11 @@
   <style>
     :root{
       --bg0:#070b14;
-      --bg1:#081a3a;
-      --bg2:#0b3a2f;
-      --bg3:#2b1451;
       --card: rgba(255,255,255,.06);
-      --card2: rgba(255,255,255,.08);
       --stroke: rgba(255,255,255,.10);
-      --stroke2: rgba(255,255,255,.14);
       --text: rgba(255,255,255,.92);
       --muted: rgba(255,255,255,.70);
       --muted2: rgba(255,255,255,.55);
-      --shadow: 0 18px 50px rgba(0,0,0,.45);
       --shadow2: 0 10px 30px rgba(0,0,0,.35);
       --r: 22px;
 
@@ -31,9 +25,12 @@
       --max: 1100px;
       --pad: 28px;
       --top: 18px;
+
+      /* cursor vars */
+      --mx: 50vw;
+      --my: 50vh;
     }
 
-    /* ===== Base ===== */
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
@@ -52,7 +49,7 @@
       z-index:2;
     }
 
-    /* ===== Animated gradient background (переливание) ===== */
+    /* ===== Animated gradient background (сильнее “переливание”) ===== */
     .bg{
       position:fixed;
       inset:0;
@@ -63,19 +60,38 @@
         radial-gradient(900px 900px at 50% 85%, rgba(168,85,247,.32), transparent 55%),
         radial-gradient(700px 700px at 20% 75%, rgba(14,165,233,.22), transparent 55%),
         linear-gradient(180deg, #050816 0%, #070b14 45%, #050816 100%);
-      filter:saturate(1.15) contrast(1.02);
+      filter:saturate(1.18) contrast(1.03);
+      overflow:hidden;
     }
+
+    /* мягкие “пятна” двигаются */
     .bg::before{
       content:"";
-      position:absolute; inset:-30%;
+      position:absolute; inset:-35%;
       background:
-        radial-gradient(900px 700px at 20% 20%, rgba(59,130,246,.55), transparent 60%),
-        radial-gradient(900px 700px at 85% 30%, rgba(34,197,94,.45), transparent 60%),
-        radial-gradient(800px 800px at 55% 85%, rgba(168,85,247,.42), transparent 60%);
+        radial-gradient(900px 700px at 20% 20%, rgba(59,130,246,.60), transparent 62%),
+        radial-gradient(900px 700px at 85% 30%, rgba(34,197,94,.52), transparent 62%),
+        radial-gradient(900px 900px at 55% 85%, rgba(168,85,247,.48), transparent 62%),
+        radial-gradient(700px 700px at 15% 75%, rgba(14,165,233,.30), transparent 62%);
       transform: translate3d(0,0,0);
-      animation: floaty 16s ease-in-out infinite alternate;
-      opacity:.85;
+      animation: floaty 14s ease-in-out infinite alternate;
+      opacity:.90;
     }
+
+    /* второй слой для более “живого” переливания */
+    .bg .layer{
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(800px 700px at 30% 60%, rgba(34,197,94,.25), transparent 62%),
+        radial-gradient(900px 800px at 70% 55%, rgba(59,130,246,.22), transparent 62%),
+        radial-gradient(900px 900px at 55% 25%, rgba(168,85,247,.18), transparent 62%);
+      animation: floaty2 18s ease-in-out infinite alternate;
+      opacity:.9;
+      filter: blur(1px);
+    }
+
+    /* сетка/текстура */
     .bg::after{
       content:"";
       position:absolute; inset:0;
@@ -86,14 +102,36 @@
       mix-blend-mode: overlay;
       opacity:.35;
       mask-image: radial-gradient(closest-side at 50% 40%, rgba(0,0,0,.9), transparent 92%);
-    }
-    @keyframes floaty{
-      0%{ transform: translate(-2%, -1%) scale(1.02) rotate(-2deg); }
-      50%{ transform: translate(2%, 1%) scale(1.06) rotate(2deg); }
-      100%{ transform: translate(1%, -2%) scale(1.03) rotate(-1deg); }
+      pointer-events:none;
     }
 
-    /* ===== Glass card helpers ===== */
+    @keyframes floaty{
+      0%{ transform: translate(-3%, -2%) scale(1.02) rotate(-2deg); }
+      50%{ transform: translate(3%, 2%) scale(1.08) rotate(2deg); }
+      100%{ transform: translate(2%, -3%) scale(1.04) rotate(-1deg); }
+    }
+    @keyframes floaty2{
+      0%{ transform: translate(2%, 3%) scale(1.04) rotate(1deg); }
+      50%{ transform: translate(-3%, 1%) scale(1.10) rotate(-2deg); }
+      100%{ transform: translate(-1%, -2%) scale(1.06) rotate(1deg); }
+    }
+
+    /* ===== Cursor-follow glow (анимация за курсором) ===== */
+    .cursorGlow{
+      position:fixed;
+      inset:-20%;
+      z-index:1;
+      pointer-events:none;
+      background:
+        radial-gradient(420px 420px at var(--mx) var(--my), rgba(59,130,246,.22), transparent 60%),
+        radial-gradient(520px 520px at calc(var(--mx) + 60px) calc(var(--my) + 30px), rgba(34,197,94,.16), transparent 62%),
+        radial-gradient(620px 620px at calc(var(--mx) - 70px) calc(var(--my) - 40px), rgba(168,85,247,.14), transparent 64%);
+      filter: blur(0px);
+      mix-blend-mode: screen;
+      opacity: .95;
+    }
+
+    /* ===== Glass helpers ===== */
     .glass{
       background: linear-gradient(180deg, var(--card) 0%, rgba(255,255,255,.04) 100%);
       border: 1px solid var(--stroke);
@@ -118,10 +156,7 @@
       padding: 12px 14px;
       border-radius: 999px;
     }
-    .brand{
-      display:flex; align-items:center; gap:10px;
-      min-width: 220px;
-    }
+    .brand{display:flex; align-items:center; gap:10px; min-width: 220px;}
     .avatar{
       width:38px; height:38px; border-radius: 14px;
       background:
@@ -274,24 +309,9 @@
       border-color: rgba(34,197,94,.35);
     }
 
-    .cardTitle{
-      font-weight:900;
-      margin:0 0 6px;
-      font-size: 16px;
-    }
-    .list{
-      margin: 8px 0 0;
-      padding-left: 16px;
-      color: var(--muted);
-      line-height: 1.6;
-      font-size: 14px;
-    }
-    .stackLine{
-      color: var(--muted);
-      line-height: 1.6;
-      font-size: 14px;
-      margin: 0;
-    }
+    .cardTitle{font-weight:900;margin:0 0 6px;font-size: 16px;}
+    .list{margin: 8px 0 0;padding-left: 16px;color: var(--muted);line-height: 1.6;font-size: 14px;}
+    .stackLine{color: var(--muted);line-height: 1.6;font-size: 14px;margin: 0;}
 
     /* ===== Sections ===== */
     section{ margin-top: 18px; scroll-margin-top: 120px; }
@@ -300,30 +320,12 @@
       gap:12px;
       margin: 18px 0 10px;
     }
-    .sectionHead h2{
-      margin:0;
-      font-size: 22px;
-      letter-spacing:.2px;
-    }
-    .sectionHead .hint{
-      color: var(--muted2);
-      font-size: 13px;
-    }
+    .sectionHead h2{margin:0;font-size: 22px;letter-spacing:.2px;}
+    .sectionHead .hint{color: var(--muted2);font-size: 13px;}
 
-    .grid3{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-    .tile{
-      padding: 16px;
-      min-height: 140px;
-    }
-    .tile .k{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:10px;
-      margin-bottom: 10px;
-    }
+    .grid3{display:grid;grid-template-columns: repeat(3, 1fr);gap: 12px;}
+    .tile{padding: 16px;min-height: 140px;}
+    .tile .k{display:flex; align-items:center; justify-content:space-between;gap:10px;margin-bottom: 10px;}
     .badge{
       font-size: 12px;
       padding: 6px 10px;
@@ -332,18 +334,10 @@
       background: rgba(255,255,255,.05);
       color: rgba(255,255,255,.75);
     }
-    .tile p{
-      margin:0;
-      color: var(--muted);
-      line-height: 1.6;
-      font-size: 14px;
-    }
+    .tile p{margin:0;color: var(--muted);line-height: 1.6;font-size: 14px;}
 
     /* ===== Projects ===== */
-    .projects{
-      display:grid;
-      gap: 12px;
-    }
+    .projects{display:grid;gap: 12px;}
     .project{
       display:grid;
       grid-template-columns: 1.2fr .8fr;
@@ -351,29 +345,10 @@
       padding: 16px;
       align-items:stretch;
     }
-    .projTitle{
-      margin:0;
-      font-weight:900;
-      font-size: 17px;
-      letter-spacing:.2px;
-    }
-    .projDesc{
-      margin: 8px 0 0;
-      color: var(--muted);
-      line-height: 1.6;
-      font-size: 14px;
-    }
-    .projBullets{
-      margin: 10px 0 0;
-      padding-left: 16px;
-      color: var(--muted);
-      line-height:1.6;
-      font-size: 14px;
-    }
-    .projLinks{
-      display:flex; gap:10px; flex-wrap:wrap;
-      margin-top: 12px;
-    }
+    .projTitle{margin:0;font-weight:900;font-size: 17px;letter-spacing:.2px;}
+    .projDesc{margin: 8px 0 0;color: var(--muted);line-height: 1.6;font-size: 14px;}
+    .projBullets{margin: 10px 0 0;padding-left: 16px;color: var(--muted);line-height:1.6;font-size: 14px;}
+    .projLinks{display:flex; gap:10px; flex-wrap:wrap;margin-top: 12px;}
     .mini{
       padding: 9px 12px;
       border-radius: 12px;
@@ -398,28 +373,12 @@
       overflow:hidden;
       position:relative;
     }
-    .preview img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-      opacity:.95;
-    }
-    .preview .ph{
-      padding: 16px;
-      text-align:center;
-      line-height:1.4;
-    }
+    .preview img{width:100%;height:100%;object-fit:cover;display:block;opacity:.95;}
+    .preview .ph{padding: 16px;text-align:center;line-height:1.4;}
 
     /* ===== Steps ===== */
-    .steps{
-      display:grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-    }
-    .step{
-      padding: 16px;
-    }
+    .steps{display:grid;grid-template-columns: repeat(4, 1fr);gap: 12px;}
+    .step{padding: 16px;}
     .step .n{
       width: 34px; height: 34px;
       border-radius: 12px;
@@ -433,28 +392,15 @@
     .step p{ margin:0; color: var(--muted); font-size: 13.5px; line-height:1.55; }
 
     /* ===== Reviews ===== */
-    .reviews{
-      display:grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-    .review{
-      padding: 16px;
-    }
-    .review .who{
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-      margin-bottom: 8px;
-    }
+    .reviews{display:grid;grid-template-columns: repeat(2, 1fr);gap: 12px;}
+    .review{padding: 16px;}
+    .review .who{display:flex; align-items:center; justify-content:space-between; gap:10px;margin-bottom: 8px;}
     .review .who strong{font-weight:900}
     .review .stars{color: rgba(255,255,255,.75); font-size:12px}
     .review p{ margin:0; color: var(--muted); line-height:1.6; font-size: 14px; }
 
     /* ===== Contacts ===== */
-    .contacts{
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 12px;
-    }
+    .contacts{display:grid;grid-template-columns: 1.2fr .8fr;gap: 12px;}
     .contactCard{ padding: 16px; }
     .contactRow{
       display:flex; align-items:center; justify-content:space-between;
@@ -465,9 +411,7 @@
       background: rgba(255,255,255,.04);
       margin-top: 10px;
     }
-    .contactRow .left{
-      display:flex; flex-direction:column; gap:3px;
-    }
+    .contactRow .left{display:flex; flex-direction:column; gap:3px;}
     .contactRow .label{ font-size:12px; color: var(--muted2); }
     .contactRow .value{ font-weight:900; letter-spacing:.2px; }
     .copyBtn{
@@ -518,7 +462,6 @@
     body.is-mobile .right{ min-width: unset; }
     body.is-mobile .nav{ justify-content:flex-start; }
 
-    /* ===== Strong responsive (без JS тоже работает) ===== */
     @media (max-width: 920px){
       .hero{ grid-template-columns: 1fr; }
       .grid3{ grid-template-columns: 1fr; }
@@ -566,7 +509,10 @@
 </head>
 
 <body>
-  <div class="bg" aria-hidden="true"></div>
+  <div class="bg" aria-hidden="true">
+    <div class="layer" aria-hidden="true"></div>
+  </div>
+  <div class="cursorGlow" aria-hidden="true"></div>
 
   <div class="wrap">
     <!-- Topbar -->
@@ -619,13 +565,11 @@
             <span class="i18n" data-i18n="btnSeeProjects">Дивитись проєкти</span>
           </a>
 
-          <!-- Telegram button -->
           <a class="btn green" id="tgBtn" href="https://t.me/Moonsl1" target="_blank" rel="noopener">
             <span class="i18n" data-i18n="btnTelegram">Написати в Telegram</span>
           </a>
 
-          <!-- Phone button (ВСТАВЬ свой номер) -->
-          <a class="btn" id="phoneBtn" href="tel:+380000000000">
+          <a class="btn" id="phoneBtn" href="tel:+380985964355">
             <span class="i18n" data-i18n="btnCall">Подзвонити</span>
           </a>
         </div>
@@ -688,7 +632,7 @@
     <section id="projects">
       <div class="sectionHead">
         <h2 class="i18n" data-i18n="projectsTitle">Проєкти</h2>
-        <div class="hint i18n" data-i18n="projectsHint">Скріншоти — опціонально. Можемо замінити на твої реальні.</div>
+        <!-- УБРАЛИ подсказку “Скріншоти — опціонально…” (как на скрине) -->
       </div>
 
       <div class="projects">
@@ -704,7 +648,6 @@
               <li>Логи та стабільна робота 24/7</li>
             </ul>
             <div class="projLinks">
-              <!-- Якщо захочеш — вставиш посилання на репозиторій проекту -->
               <a class="mini" href="#contacts"><span class="i18n" data-i18n="pLinkDiscuss">Обговорити</span></a>
               <a class="mini" href="#contacts"><span class="i18n" data-i18n="pLinkOrder">Замовити схожий</span></a>
             </div>
@@ -829,20 +772,16 @@
           <div class="contactRow">
             <div class="left">
               <div class="label i18n" data-i18n="phoneLabel">Телефон</div>
-              <div class="value" id="phoneText">+38 (0__) ___ __ __</div>
+              <div class="value" id="phoneText">+38 (098) 596 43 55</div>
             </div>
             <div style="display:flex; gap:8px; align-items:center;">
-              <a class="copyBtn" id="callNow" href="tel:+380000000000">
+              <a class="copyBtn" id="callNow" href="tel:+380985964355">
                 <span class="i18n" data-i18n="callBtn">Подзвонити</span>
               </a>
-              <button class="copyBtn" type="button" id="copyPhone" data-copy="+380000000000">
+              <button class="copyBtn" type="button" id="copyPhone" data-copy="+380985964355">
                 <span class="i18n" data-i18n="copyBtn">Копіювати</span>
               </button>
             </div>
-          </div>
-
-          <div class="subtitle i18n" data-i18n="contactNote" style="margin-top:10px;">
-            * Замінити номер дуже просто: знайди в коді <b>+380000000000</b> і постав свій.
           </div>
         </div>
 
@@ -867,14 +806,13 @@
 
     <footer class="glass">
       <span class="i18n" data-i18n="footerLeft">© <span id="y"></span> Ярослав — Python / Telegram</span>
-      <span class="i18n" data-i18n="footerRight">GitHub Pages • Авто-режим ПК/телефон • 3 мови</span>
+      <!-- УБРАЛИ правый текст “GitHub Pages • … • 3 мови” (как на скрине) -->
     </footer>
   </div>
 
   <div class="toast" id="toast">Copied</div>
 
   <script>
-    // ===== Utils =====
     const $ = (s, p=document)=>p.querySelector(s);
     const $$ = (s, p=document)=>Array.from(p.querySelectorAll(s));
 
@@ -885,7 +823,6 @@
     function setActiveNav(id){
       $$(".pill").forEach(a => a.classList.toggle("active", a.getAttribute("href")==="#"+id));
     }
-
     function onScroll(){
       const ids = ["services","projects","process","reviews","contacts"];
       let current = ids[0];
@@ -900,14 +837,12 @@
     }
     window.addEventListener("scroll", onScroll, {passive:true});
 
-    // ===== Fix clicking anchors from other pages / keep on same index =====
     $$(".pill").forEach(a=>{
       a.addEventListener("click", (e)=>{
         const href = a.getAttribute("href");
         if(!href || !href.startsWith("#")) return;
         const target = document.querySelector(href);
         if(!target) return;
-
         e.preventDefault();
         target.scrollIntoView({behavior:"smooth", block:"start"});
         history.replaceState(null, "", href);
@@ -918,20 +853,16 @@
     // ===== Auto mode (PC/Phone) =====
     const deviceBadge = $("#deviceBadge");
     function applyAutoMode(){
-      // “Авто” по ширине окна, а не по userAgent (это надежнее)
       const w = window.innerWidth;
       const isMobile = w <= 820;
-
       document.body.classList.toggle("is-mobile", isMobile);
       document.body.classList.toggle("is-desktop", !isMobile);
-
-      // Badge text
       deviceBadge.textContent = isMobile ? "Auto: Phone UI" : "Auto: Desktop UI";
     }
     window.addEventListener("resize", applyAutoMode, {passive:true});
     applyAutoMode();
 
-    // ===== i18n text pack =====
+    // ===== i18n =====
     const T = {
       uk: {
         brandName: "Ярослав",
@@ -972,7 +903,6 @@
         srv3Text: "Requests/API, бази (SQLite/JSON), збереження статистики, резервні копії, деплой.",
 
         projectsTitle: "Проєкти",
-        projectsHint: "Скріншоти — опціонально. Можемо замінити на твої реальні.",
         p1Title: "VIKING Monitoring — моніторинг Telegram-каналів",
         p1Desc: "Читає пости з каналів, фільтрує по ключових словах і надсилає в групу волонтерів.",
         p1Bullets: `
@@ -1017,12 +947,10 @@
         copyBtn: "Копіювати",
         phoneLabel: "Телефон",
         callBtn: "Подзвонити",
-        contactNote: "* Замінити номер дуже просто: знайди в коді <b>+380000000000</b> і постав свій.",
         quickTitle: "Швидко",
         quickText: "Напиши, що саме треба: “бот заявок”, “моніторинг каналів”, “парсер”, “адмінка”, “статистика”. Я відповім з планом і варіантами.",
 
         footerLeft: "© <span id='y'></span> Ярослав — Python / Telegram",
-        footerRight: "GitHub Pages • Авто-режим ПК/телефон • 3 мови",
       },
 
       ru: {
@@ -1049,7 +977,7 @@
         stackTitle: "Стек",
         stackLine1: "Python, aiogram / python-telegram-bot, Telethon",
         stackLine2: "SQLite/JSON, Requests, Webhooks",
-        stackLine3: "GitHub Pages (для портфолио)",
+        stackLine3: "GitHub Pages (портфолио)",
 
         servicesTitle: "Услуги",
         servicesHint: "Пишу чисто, с логами и структурой. Могу довести проект до продакшена.",
@@ -1064,7 +992,6 @@
         srv3Text: "Requests/API, базы (SQLite/JSON), статистика, бэкапы, деплой.",
 
         projectsTitle: "Проекты",
-        projectsHint: "Скриншоты — опционально. Можно заменить на твои реальные.",
         p1Title: "VIKING Monitoring — мониторинг Telegram-каналов",
         p1Desc: "Читает посты из каналов, фильтрует по ключевым словам и отправляет в группу волонтеров.",
         p1Bullets: `
@@ -1081,7 +1008,7 @@
         `,
         pLinkDiscuss: "Обсудить",
         pLinkOrder: "Заказать похожий",
-        phScreenshot1: "Тут можно вставить твой реальный скриншот (img).<br/>Сейчас плейсхолдер.",
+        phScreenshot1: "Здесь можно вставить твой реальный скриншот (img).<br/>Сейчас плейсхолдер.",
         phScreenshot2: "Добавь реальный скрин чат-бота/меню — будет топ.<br/>Сейчас плейсхолдер.",
 
         processTitle: "Как работаю",
@@ -1109,12 +1036,10 @@
         copyBtn: "Копировать",
         phoneLabel: "Телефон",
         callBtn: "Позвонить",
-        contactNote: "* Поменять номер просто: найди в коде <b>+380000000000</b> и постав свой.",
         quickTitle: "Быстро",
         quickText: "Напиши, что нужно: “бот заявок”, “мониторинг каналов”, “парсер”, “админка”, “статистика”. Отвечу планом и вариантами.",
 
         footerLeft: "© <span id='y'></span> Ярослав — Python / Telegram",
-        footerRight: "GitHub Pages • Авто-режим ПК/телефон • 3 языка",
       },
 
       en: {
@@ -1127,7 +1052,7 @@
         navContacts: "Contacts",
 
         heroTitle: "Python Telegram Bot Developer",
-        heroSubtitle: "I build “turnkey” bots: requests/forms, menus, admin tools, stats, channel/chat monitoring, keyword filters, API + database integrations.",
+        heroSubtitle: "I build turnkey bots: forms/requests, menus, admin tools, stats, channel/chat monitoring, keyword filters, API + database integrations.",
         btnSeeProjects: "View projects",
         btnTelegram: "Message on Telegram",
         btnCall: "Call",
@@ -1156,7 +1081,6 @@
         srv3Text: "Requests/API, storage (SQLite/JSON), stats, backups, deployment.",
 
         projectsTitle: "Projects",
-        projectsHint: "Screenshots are optional — replace with real ones anytime.",
         p1Title: "VIKING Monitoring — Telegram channel monitoring",
         p1Desc: "Reads posts, filters by keywords, forwards to a volunteers group.",
         p1Bullets: `
@@ -1201,16 +1125,13 @@
         copyBtn: "Copy",
         phoneLabel: "Phone",
         callBtn: "Call",
-        contactNote: "* To change your phone: find <b>+380000000000</b> in the code and replace it.",
         quickTitle: "Quick",
         quickText: "Tell me what you need: request bot, monitoring, parser, admin panel, analytics. I’ll reply with a plan.",
 
         footerLeft: "© <span id='y'></span> Yaroslav — Python / Telegram",
-        footerRight: "GitHub Pages • Auto desktop/mobile • 3 languages",
       }
     };
 
-    // ===== i18n apply with smooth fade =====
     const i18nEls = $$("[data-i18n]");
     let lang = localStorage.getItem("lang") || "uk";
 
@@ -1225,14 +1146,12 @@
       localStorage.setItem("lang", lang);
       document.documentElement.lang = (lang==="uk" ? "uk" : (lang==="ru" ? "ru" : "en"));
 
-      // fade out
       i18nEls.forEach(el => el.classList.add("fadeOut"));
       setTimeout(()=>{
         i18nEls.forEach(el=>{
           const k = el.getAttribute("data-i18n");
           const val = T[lang][k];
           if (val == null) return;
-          // If looks like HTML list, set as HTML
           if (val.includes("<li") || val.includes("<br") || val.includes("<b") || val.includes("<span")) {
             el.innerHTML = val;
           } else {
@@ -1241,7 +1160,6 @@
         });
 
         setLangButtons();
-        // fade in
         i18nEls.forEach(el=>{
           el.classList.remove("fadeOut");
           el.classList.add("fadeIn");
@@ -1269,7 +1187,6 @@
         await navigator.clipboard.writeText(text);
         showToast(lang==="en" ? "Copied" : (lang==="ru" ? "Скопировано" : "Скопійовано"));
       }catch{
-        // fallback
         const ta = document.createElement("textarea");
         ta.value = text;
         document.body.appendChild(ta);
@@ -1286,16 +1203,15 @@
       });
     });
 
-    // ===== PHONE SETUP (замени тут номер один раз) =====
-    const REAL_PHONE = "+380000000000"; // <-- ВСТАВЬ СВОЙ НОМЕР (в формате +380...)
-    const PRETTY_PHONE = "+38 (0__) ___ __ __"; // <-- Можешь написать красиво, как хочешь
-
+    // ===== Phone setup (твой номер) =====
+    const REAL_PHONE = "+380985964355";
+    const PRETTY_PHONE = "+38 (098) 596 43 55";
     $("#phoneText").textContent = PRETTY_PHONE;
     $("#copyPhone").setAttribute("data-copy", REAL_PHONE);
     $("#callNow").setAttribute("href", "tel:" + REAL_PHONE);
     $("#phoneBtn").setAttribute("href", "tel:" + REAL_PHONE);
 
-    // ===== On load: if hash exists, scroll smooth =====
+    // ===== Hash smooth scroll =====
     function scrollToHash(){
       const h = location.hash;
       if(!h || h.length < 2) return;
@@ -1308,6 +1224,31 @@
       onScroll();
       scrollToHash();
     });
+
+    // ===== Cursor-follow animation (smooth lerp) =====
+    const root = document.documentElement;
+    let tx = window.innerWidth * 0.5, ty = window.innerHeight * 0.5;
+    let cx = tx, cy = ty;
+
+    function setVars(x,y){
+      root.style.setProperty("--mx", x + "px");
+      root.style.setProperty("--my", y + "px");
+    }
+
+    window.addEventListener("pointermove", (e)=>{
+      tx = e.clientX;
+      ty = e.clientY;
+    }, {passive:true});
+
+    function animateCursor(){
+      // lerp
+      cx += (tx - cx) * 0.12;
+      cy += (ty - cy) * 0.12;
+      setVars(cx, cy);
+      requestAnimationFrame(animateCursor);
+    }
+    setVars(cx, cy);
+    animateCursor();
   </script>
 </body>
 </html>
