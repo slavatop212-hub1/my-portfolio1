@@ -3,32 +3,28 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#0b1220" />
+  <meta name="theme-color" content="#050814" />
   <title>Ярослав (@Moonsl1) — Python / Telegram</title>
   <meta name="description" content="Ярослав — Python розробник Telegram-ботів. Автоматизація, моніторинг каналів, парсинг, інтеграції." />
 
   <style>
     :root{
-      --bg0:#070b14;
+      --bg0:#050814;
       --card: rgba(255,255,255,.06);
-      --stroke: rgba(255,255,255,.10);
+      --stroke: rgba(255,255,255,.12);
       --text: rgba(255,255,255,.92);
       --muted: rgba(255,255,255,.70);
       --muted2: rgba(255,255,255,.55);
-      --shadow2: 0 10px 30px rgba(0,0,0,.35);
+      --shadow2: 0 10px 30px rgba(0,0,0,.38);
       --r: 22px;
 
-      --accent: #3b82f6;
-      --accent2:#22c55e;
-      --accent3:#a855f7;
+      --accent: #60a5fa;
+      --accent2:#34d399;
+      --accent3:#c084fc;
 
       --max: 1100px;
       --pad: 28px;
       --top: 18px;
-
-      /* cursor vars */
-      --mx: 50vw;
-      --my: 50vh;
     }
 
     *{box-sizing:border-box}
@@ -46,94 +42,80 @@
       margin:0 auto;
       padding: 22px 0 80px;
       position:relative;
-      z-index:2;
+      z-index:3;
     }
 
-    /* ===== Animated gradient background (сильнее “переливание”) ===== */
+    /* ===== Космический фон (насыщенный) ===== */
     .bg{
       position:fixed;
       inset:0;
       z-index:0;
       background:
-        radial-gradient(1200px 900px at 15% 15%, rgba(59,130,246,.42), transparent 55%),
-        radial-gradient(900px 800px at 85% 10%, rgba(34,197,94,.38), transparent 55%),
-        radial-gradient(900px 900px at 50% 85%, rgba(168,85,247,.32), transparent 55%),
-        radial-gradient(700px 700px at 20% 75%, rgba(14,165,233,.22), transparent 55%),
-        linear-gradient(180deg, #050816 0%, #070b14 45%, #050816 100%);
-      filter:saturate(1.18) contrast(1.03);
+        radial-gradient(1100px 800px at 12% 20%, rgba(96,165,250,.45), transparent 60%),
+        radial-gradient(900px 700px at 85% 18%, rgba(52,211,153,.32), transparent 62%),
+        radial-gradient(900px 900px at 52% 86%, rgba(192,132,252,.30), transparent 65%),
+        radial-gradient(800px 700px at 20% 80%, rgba(56,189,248,.20), transparent 62%),
+        linear-gradient(180deg, #040614 0%, #060a18 40%, #040614 100%);
+      filter:saturate(1.28) contrast(1.05);
       overflow:hidden;
     }
 
-    /* мягкие “пятна” двигаются */
+    /* туманности */
     .bg::before{
       content:"";
-      position:absolute; inset:-35%;
+      position:absolute; inset:-40%;
       background:
-        radial-gradient(900px 700px at 20% 20%, rgba(59,130,246,.60), transparent 62%),
-        radial-gradient(900px 700px at 85% 30%, rgba(34,197,94,.52), transparent 62%),
-        radial-gradient(900px 900px at 55% 85%, rgba(168,85,247,.48), transparent 62%),
-        radial-gradient(700px 700px at 15% 75%, rgba(14,165,233,.30), transparent 62%);
+        radial-gradient(950px 720px at 20% 20%, rgba(96,165,250,.62), transparent 62%),
+        radial-gradient(920px 760px at 80% 28%, rgba(52,211,153,.50), transparent 64%),
+        radial-gradient(980px 980px at 55% 82%, rgba(192,132,252,.48), transparent 64%),
+        radial-gradient(780px 780px at 25% 70%, rgba(56,189,248,.32), transparent 64%);
       transform: translate3d(0,0,0);
-      animation: floaty 14s ease-in-out infinite alternate;
-      opacity:.90;
+      animation: nebula 14s ease-in-out infinite alternate;
+      opacity:.92;
+      filter: blur(.3px);
+    }
+    @keyframes nebula{
+      0%{ transform: translate(-3%, -2%) scale(1.02) rotate(-2deg); }
+      50%{ transform: translate(3%, 2%) scale(1.10) rotate(2deg); }
+      100%{ transform: translate(2%, -3%) scale(1.05) rotate(-1deg); }
     }
 
-    /* второй слой для более “живого” переливания */
-    .bg .layer{
-      position:absolute;
-      inset:-40%;
-      background:
-        radial-gradient(800px 700px at 30% 60%, rgba(34,197,94,.25), transparent 62%),
-        radial-gradient(900px 800px at 70% 55%, rgba(59,130,246,.22), transparent 62%),
-        radial-gradient(900px 900px at 55% 25%, rgba(168,85,247,.18), transparent 62%);
-      animation: floaty2 18s ease-in-out infinite alternate;
-      opacity:.9;
-      filter: blur(1px);
-    }
-
-    /* сетка/текстура */
+    /* звёздная сетка/пыль */
     .bg::after{
       content:"";
       position:absolute; inset:0;
       background:
-        linear-gradient(transparent 0 0),
-        repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 1px, transparent 1px 70px),
-        repeating-linear-gradient(0deg, rgba(255,255,255,.02) 0 1px, transparent 1px 70px);
+        radial-gradient(1px 1px at 15% 20%, rgba(255,255,255,.55), transparent 60%),
+        radial-gradient(1px 1px at 35% 30%, rgba(255,255,255,.35), transparent 60%),
+        radial-gradient(1px 1px at 70% 18%, rgba(255,255,255,.45), transparent 60%),
+        radial-gradient(1px 1px at 82% 46%, rgba(255,255,255,.35), transparent 60%),
+        radial-gradient(1px 1px at 25% 70%, rgba(255,255,255,.35), transparent 60%),
+        radial-gradient(1px 1px at 55% 76%, rgba(255,255,255,.25), transparent 60%),
+        radial-gradient(1px 1px at 90% 80%, rgba(255,255,255,.25), transparent 60%),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.02) 0 1px, transparent 1px 78px),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.015) 0 1px, transparent 1px 78px);
+      opacity:.55;
       mix-blend-mode: overlay;
-      opacity:.35;
-      mask-image: radial-gradient(closest-side at 50% 40%, rgba(0,0,0,.9), transparent 92%);
+      animation: twinkle 6s ease-in-out infinite alternate;
       pointer-events:none;
+      mask-image: radial-gradient(closest-side at 50% 45%, rgba(0,0,0,.95), transparent 92%);
+    }
+    @keyframes twinkle{
+      0%{ opacity:.42; filter: blur(0px); }
+      100%{ opacity:.65; filter: blur(.25px); }
     }
 
-    @keyframes floaty{
-      0%{ transform: translate(-3%, -2%) scale(1.02) rotate(-2deg); }
-      50%{ transform: translate(3%, 2%) scale(1.08) rotate(2deg); }
-      100%{ transform: translate(2%, -3%) scale(1.04) rotate(-1deg); }
-    }
-    @keyframes floaty2{
-      0%{ transform: translate(2%, 3%) scale(1.04) rotate(1deg); }
-      50%{ transform: translate(-3%, 1%) scale(1.10) rotate(-2deg); }
-      100%{ transform: translate(-1%, -2%) scale(1.06) rotate(1deg); }
-    }
-
-    /* ===== Cursor-follow glow (анимация за курсором) ===== */
-    .cursorGlow{
+    /* Canvas FX for stars + cursor (поверх bg, под контентом) */
+    #fx{
       position:fixed;
-      inset:-20%;
+      inset:0;
       z-index:1;
       pointer-events:none;
-      background:
-        radial-gradient(420px 420px at var(--mx) var(--my), rgba(59,130,246,.22), transparent 60%),
-        radial-gradient(520px 520px at calc(var(--mx) + 60px) calc(var(--my) + 30px), rgba(34,197,94,.16), transparent 62%),
-        radial-gradient(620px 620px at calc(var(--mx) - 70px) calc(var(--my) - 40px), rgba(168,85,247,.14), transparent 64%);
-      filter: blur(0px);
-      mix-blend-mode: screen;
-      opacity: .95;
     }
 
     /* ===== Glass helpers ===== */
     .glass{
-      background: linear-gradient(180deg, var(--card) 0%, rgba(255,255,255,.04) 100%);
+      background: linear-gradient(180deg, var(--card) 0%, rgba(255,255,255,.035) 100%);
       border: 1px solid var(--stroke);
       border-radius: var(--r);
       box-shadow: var(--shadow2);
@@ -161,7 +143,7 @@
       width:38px; height:38px; border-radius: 14px;
       background:
         radial-gradient(circle at 30% 30%, rgba(255,255,255,.35), transparent 42%),
-        linear-gradient(135deg, rgba(59,130,246,.9), rgba(34,197,94,.7), rgba(168,85,247,.75));
+        linear-gradient(135deg, rgba(96,165,250,.95), rgba(52,211,153,.70), rgba(192,132,252,.78));
       border: 1px solid rgba(255,255,255,.18);
       box-shadow: 0 12px 30px rgba(0,0,0,.25);
       position:relative;
@@ -211,8 +193,8 @@
     }
     .pill:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.07); }
     .pill.active{
-      background: rgba(59,130,246,.22);
-      border-color: rgba(59,130,246,.38);
+      background: rgba(96,165,250,.22);
+      border-color: rgba(96,165,250,.40);
     }
 
     .right{
@@ -301,12 +283,12 @@
     }
     .btn:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.08); }
     .btn.primary{
-      background: rgba(59,130,246,.22);
-      border-color: rgba(59,130,246,.40);
+      background: rgba(96,165,250,.22);
+      border-color: rgba(96,165,250,.42);
     }
     .btn.green{
-      background: rgba(34,197,94,.18);
-      border-color: rgba(34,197,94,.35);
+      background: rgba(52,211,153,.18);
+      border-color: rgba(52,211,153,.38);
     }
 
     .cardTitle{font-weight:900;margin:0 0 6px;font-size: 16px;}
@@ -384,8 +366,8 @@
       border-radius: 12px;
       display:grid; place-items:center;
       font-weight:900;
-      background: rgba(59,130,246,.18);
-      border: 1px solid rgba(59,130,246,.35);
+      background: rgba(96,165,250,.18);
+      border: 1px solid rgba(96,165,250,.35);
       margin-bottom: 10px;
     }
     .step h3{ margin:0 0 6px; font-size: 15px; }
@@ -394,9 +376,32 @@
     /* ===== Reviews ===== */
     .reviews{display:grid;grid-template-columns: repeat(2, 1fr);gap: 12px;}
     .review{padding: 16px;}
-    .review .who{display:flex; align-items:center; justify-content:space-between; gap:10px;margin-bottom: 8px;}
-    .review .who strong{font-weight:900}
-    .review .stars{color: rgba(255,255,255,.75); font-size:12px}
+    .review .who{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom: 10px;
+    }
+    .whoLeft{display:flex; flex-direction:column; gap:3px;}
+    .whoLeft .nm{font-weight:950; letter-spacing:.25px;}
+    .whoLeft .role{font-size:12px; color:var(--muted2);}
+    .ratingBox{
+      display:flex; flex-direction:column; align-items:flex-end; gap:3px;
+      min-width: 130px;
+    }
+    .starsRow{
+      font-size: 13px;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,.86);
+      text-shadow: 0 2px 14px rgba(255,255,255,.12);
+      white-space:nowrap;
+    }
+    .starsRow .off{opacity:.25}
+    .score{
+      font-size:12px;
+      color: rgba(255,255,255,.72);
+    }
     .review p{ margin:0; color: var(--muted); line-height:1.6; font-size: 14px; }
 
     /* ===== Contacts ===== */
@@ -489,7 +494,7 @@
       padding: 10px 12px;
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.35);
+      background: rgba(0,0,0,.40);
       color: rgba(255,255,255,.92);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
@@ -509,10 +514,8 @@
 </head>
 
 <body>
-  <div class="bg" aria-hidden="true">
-    <div class="layer" aria-hidden="true"></div>
-  </div>
-  <div class="cursorGlow" aria-hidden="true"></div>
+  <div class="bg" aria-hidden="true"></div>
+  <canvas id="fx" aria-hidden="true"></canvas>
 
   <div class="wrap">
     <!-- Topbar -->
@@ -565,7 +568,7 @@
             <span class="i18n" data-i18n="btnSeeProjects">Дивитись проєкти</span>
           </a>
 
-          <a class="btn green" id="tgBtn" href="https://t.me/Moonsl1" target="_blank" rel="noopener">
+          <a class="btn green" href="https://t.me/Moonsl1" target="_blank" rel="noopener">
             <span class="i18n" data-i18n="btnTelegram">Написати в Telegram</span>
           </a>
 
@@ -632,7 +635,6 @@
     <section id="projects">
       <div class="sectionHead">
         <h2 class="i18n" data-i18n="projectsTitle">Проєкти</h2>
-        <!-- УБРАЛИ подсказку “Скріншоти — опціонально…” (как на скрине) -->
       </div>
 
       <div class="projects">
@@ -721,24 +723,40 @@
     <section id="reviews">
       <div class="sectionHead">
         <h2 class="i18n" data-i18n="reviewsTitle">Відгуки</h2>
-        <div class="hint i18n" data-i18n="reviewsHint">Можеш замінити на реальні відгуки, коли будуть.</div>
+        <!-- УБРАЛИ подсказку “Можеш замінити…” (как на скрине) -->
       </div>
 
       <div class="reviews">
-        <div class="review glass">
+        <div class="review glass" data-rating="5">
           <div class="who">
-            <strong class="i18n" data-i18n="r1Who">Замовник</strong>
-            <span class="stars">★★★★★</span>
+            <div class="whoLeft">
+              <div class="nm">VLADISLAV</div>
+              <div class="role i18n" data-i18n="revRole1">Замовник (бот заявок)</div>
+            </div>
+            <div class="ratingBox">
+              <div class="starsRow" data-stars></div>
+              <div class="score"><span data-score></span>/5</div>
+            </div>
           </div>
-          <p class="i18n" data-i18n="r1Text">Зробив меню, заявки та адмінку. Все працює стабільно, швидко вніс правки.</p>
+          <p class="i18n" data-i18n="r1Text">
+            Зробив меню, заявки та адмінку. Все працює стабільно, швидко вніс правки. Комунікація — топ.
+          </p>
         </div>
 
-        <div class="review glass">
+        <div class="review glass" data-rating="4">
           <div class="who">
-            <strong class="i18n" data-i18n="r2Who">Команда</strong>
-            <span class="stars">★★★★★</span>
+            <div class="whoLeft">
+              <div class="nm">ANASTASIIA</div>
+              <div class="role i18n" data-i18n="revRole2">Команда (моніторинг)</div>
+            </div>
+            <div class="ratingBox">
+              <div class="starsRow" data-stars></div>
+              <div class="score"><span data-score></span>/5</div>
+            </div>
           </div>
-          <p class="i18n" data-i18n="r2Text">Моніторинг каналів з фільтрами — дуже зручно. Повідомлення гарно оформлені.</p>
+          <p class="i18n" data-i18n="r2Text">
+            Моніторинг каналів з фільтрами — дуже зручно. Повідомлення гарно оформлені, є антиспам і логи.
+          </p>
         </div>
       </div>
     </section>
@@ -747,7 +765,7 @@
     <section id="contacts">
       <div class="sectionHead">
         <h2 class="i18n" data-i18n="contactsTitle">Контакти</h2>
-        <div class="hint i18n" data-i18n="contactsHint">Натискай — відкриється Telegram / дзвінок. Є копіювання.</div>
+        <!-- УБРАЛИ подсказку “Натискай — відкриється …” (как на скрине) -->
       </div>
 
       <div class="contacts">
@@ -806,7 +824,6 @@
 
     <footer class="glass">
       <span class="i18n" data-i18n="footerLeft">© <span id="y"></span> Ярослав — Python / Telegram</span>
-      <!-- УБРАЛИ правый текст “GitHub Pages • … • 3 мови” (как на скрине) -->
     </footer>
   </div>
 
@@ -934,14 +951,12 @@
         s4Text: "Запуск 24/7 + інструкція, резервні копії, підтримка.",
 
         reviewsTitle: "Відгуки",
-        reviewsHint: "Можеш замінити на реальні відгуки, коли будуть.",
-        r1Who: "Замовник",
-        r1Text: "Зробив меню, заявки та адмінку. Все працює стабільно, швидко вніс правки.",
-        r2Who: "Команда",
-        r2Text: "Моніторинг каналів з фільтрами — дуже зручно. Повідомлення гарно оформлені.",
+        revRole1: "Замовник (бот заявок)",
+        revRole2: "Команда (моніторинг)",
+        r1Text: "Зробив меню, заявки та адмінку. Все працює стабільно, швидко вніс правки. Комунікація — топ.",
+        r2Text: "Моніторинг каналів з фільтрами — дуже зручно. Повідомлення гарно оформлені, є антиспам і логи.",
 
         contactsTitle: "Контакти",
-        contactsHint: "Натискай — відкриється Telegram / дзвінок. Є копіювання.",
         contactMainTitle: "Зв’язатися зі мною",
         openBtn: "Відкрити",
         copyBtn: "Копіювати",
@@ -1023,14 +1038,12 @@
         s4Text: "Запуск 24/7 + инструкция, бэкапы, поддержка.",
 
         reviewsTitle: "Отзывы",
-        reviewsHint: "Можно заменить на реальные отзывы, когда будут.",
-        r1Who: "Заказчик",
-        r1Text: "Сделал меню, заявки и админку. Все стабильно, быстро внес правки.",
-        r2Who: "Команда",
-        r2Text: "Мониторинг каналов с фильтрами — очень удобно. Сообщения красиво оформлены.",
+        revRole1: "Клиент (бот заявок)",
+        revRole2: "Команда (мониторинг)",
+        r1Text: "Сделал меню, заявки и админку. Все стабильно, быстро внес правки. Коммуникация — топ.",
+        r2Text: "Мониторинг каналов с фильтрами — очень удобно. Сообщения красиво оформлены, есть антиспам и логи.",
 
         contactsTitle: "Контакты",
-        contactsHint: "Нажимай — откроется Telegram / звонок. Есть копирование.",
         contactMainTitle: "Связаться со мной",
         openBtn: "Открыть",
         copyBtn: "Копировать",
@@ -1112,14 +1125,12 @@
         s4Text: "24/7 launch + docs, backups, support.",
 
         reviewsTitle: "Reviews",
-        reviewsHint: "Replace with real reviews when you have them.",
-        r1Who: "Client",
-        r1Text: "Built menus, requests, admin tools. Stable and quick fixes.",
-        r2Who: "Team",
-        r2Text: "Monitoring with filters is very handy. Messages look great.",
+        revRole1: "Client (request bot)",
+        revRole2: "Team (monitoring)",
+        r1Text: "Built menus, requests and admin tools. Stable, quick fixes. Great communication.",
+        r2Text: "Monitoring with filters is very handy. Nice formatting, anti-spam and logs included.",
 
         contactsTitle: "Contacts",
-        contactsHint: "Tap — opens Telegram / call. Copy supported.",
         contactMainTitle: "Get in touch",
         openBtn: "Open",
         copyBtn: "Copy",
@@ -1140,25 +1151,19 @@
       $("#btnRU").classList.toggle("active", lang==="ru");
       $("#btnEN").classList.toggle("active", lang==="en");
     }
-
     function applyLang(nextLang){
       lang = nextLang;
       localStorage.setItem("lang", lang);
       document.documentElement.lang = (lang==="uk" ? "uk" : (lang==="ru" ? "ru" : "en"));
-
       i18nEls.forEach(el => el.classList.add("fadeOut"));
       setTimeout(()=>{
         i18nEls.forEach(el=>{
           const k = el.getAttribute("data-i18n");
           const val = T[lang][k];
           if (val == null) return;
-          if (val.includes("<li") || val.includes("<br") || val.includes("<b") || val.includes("<span")) {
-            el.innerHTML = val;
-          } else {
-            el.textContent = val;
-          }
+          if (val.includes("<li") || val.includes("<br") || val.includes("<b") || val.includes("<span")) el.innerHTML = val;
+          else el.textContent = val;
         });
-
         setLangButtons();
         i18nEls.forEach(el=>{
           el.classList.remove("fadeOut");
@@ -1167,7 +1172,6 @@
         setTimeout(()=> i18nEls.forEach(el=> el.classList.remove("fadeIn")), 250);
       }, 160);
     }
-
     $("#btnUA").addEventListener("click", ()=>applyLang("uk"));
     $("#btnRU").addEventListener("click", ()=>applyLang("ru"));
     $("#btnEN").addEventListener("click", ()=>applyLang("en"));
@@ -1176,8 +1180,8 @@
     // ===== Copy helpers =====
     const toast = $("#toast");
     let toastTimer = null;
-    function showToast(text){
-      toast.textContent = text;
+    function showToast(){
+      toast.textContent = (lang==="en" ? "Copied" : (lang==="ru" ? "Скопировано" : "Скопійовано"));
       toast.classList.add("show");
       clearTimeout(toastTimer);
       toastTimer = setTimeout(()=>toast.classList.remove("show"), 1100);
@@ -1185,7 +1189,7 @@
     async function copyText(text){
       try{
         await navigator.clipboard.writeText(text);
-        showToast(lang==="en" ? "Copied" : (lang==="ru" ? "Скопировано" : "Скопійовано"));
+        showToast();
       }catch{
         const ta = document.createElement("textarea");
         ta.value = text;
@@ -1193,7 +1197,7 @@
         ta.select();
         document.execCommand("copy");
         ta.remove();
-        showToast(lang==="en" ? "Copied" : (lang==="ru" ? "Скопировано" : "Скопійовано"));
+        showToast();
       }
     }
     $$("[data-copy]").forEach(btn=>{
@@ -1223,32 +1227,154 @@
     window.addEventListener("load", ()=>{
       onScroll();
       scrollToHash();
+      renderRatings();
     });
 
-    // ===== Cursor-follow animation (smooth lerp) =====
-    const root = document.documentElement;
-    let tx = window.innerWidth * 0.5, ty = window.innerHeight * 0.5;
-    let cx = tx, cy = ty;
-
-    function setVars(x,y){
-      root.style.setProperty("--mx", x + "px");
-      root.style.setProperty("--my", y + "px");
+    // ===== Render rating stars =====
+    function renderRatings(){
+      $$(".review[data-rating]").forEach(card=>{
+        const rating = Math.max(0, Math.min(5, Number(card.getAttribute("data-rating")||0)));
+        const starsEl = card.querySelector("[data-stars]");
+        const scoreEl = card.querySelector("[data-score]");
+        if(scoreEl) scoreEl.textContent = String(rating);
+        if(starsEl){
+          let s = "";
+          for(let i=1;i<=5;i++){
+            if(i<=rating) s += "★";
+            else s += "<span class='off'>★</span>";
+          }
+          starsEl.innerHTML = s;
+        }
+      });
     }
+
+    // ===== Canvas FX: stars drift + stronger cursor trail =====
+    const canvas = document.getElementById("fx");
+    const ctx = canvas.getContext("2d", { alpha: true });
+
+    let W=0, H=0, DPR=1;
+    function resize(){
+      DPR = Math.min(2, window.devicePixelRatio || 1);
+      W = Math.floor(window.innerWidth);
+      H = Math.floor(window.innerHeight);
+      canvas.width = Math.floor(W * DPR);
+      canvas.height = Math.floor(H * DPR);
+      canvas.style.width = W + "px";
+      canvas.style.height = H + "px";
+      ctx.setTransform(DPR,0,0,DPR,0,0);
+    }
+    window.addEventListener("resize", resize, {passive:true});
+    resize();
+
+    // stars
+    const STAR_COUNT = 140;
+    const stars = [];
+    function rand(a,b){ return a + Math.random()*(b-a); }
+    function initStars(){
+      stars.length = 0;
+      for(let i=0;i<STAR_COUNT;i++){
+        stars.push({
+          x: rand(0,W),
+          y: rand(0,H),
+          r: rand(0.4, 1.4),
+          a: rand(0.18, 0.75),
+          s: rand(0.12, 0.65),     // speed
+          tw: rand(0.002, 0.012)   // twinkle speed
+        });
+      }
+    }
+    initStars();
+
+    // cursor particles
+    let tx = W*0.5, ty = H*0.5;
+    let cx = tx, cy = ty;
+    const trail = [];
+    const TRAIL_MAX = 34;
 
     window.addEventListener("pointermove", (e)=>{
       tx = e.clientX;
       ty = e.clientY;
+      // emit a few particles per move to make it “stronger”
+      for(let k=0;k<2;k++){
+        trail.push({
+          x: tx + rand(-6,6),
+          y: ty + rand(-6,6),
+          vx: rand(-0.35,0.35),
+          vy: rand(-0.35,0.35),
+          life: rand(26, 46),
+          max: 46,
+          r: rand(3.5, 10.5),
+          hue: rand(195, 285) // bluish-purple range
+        });
+      }
+      while(trail.length > 220) trail.shift();
     }, {passive:true});
 
-    function animateCursor(){
-      // lerp
-      cx += (tx - cx) * 0.12;
-      cy += (ty - cy) * 0.12;
-      setVars(cx, cy);
-      requestAnimationFrame(animateCursor);
+    function draw(){
+      ctx.clearRect(0,0,W,H);
+
+      // starfield
+      for(const st of stars){
+        st.y += st.s;
+        if(st.y > H + 10){ st.y = -10; st.x = rand(0,W); }
+        st.a += Math.sin((Date.now()*st.tw) + st.x*0.01) * 0.002;
+
+        ctx.globalAlpha = Math.max(0.05, Math.min(0.9, st.a));
+        ctx.fillStyle = "rgba(255,255,255,1)";
+        ctx.beginPath();
+        ctx.arc(st.x, st.y, st.r, 0, Math.PI*2);
+        ctx.fill();
+      }
+
+      // lerp cursor (smooth)
+      cx += (tx - cx) * 0.10;
+      cy += (ty - cy) * 0.10;
+
+      // big cursor glow (stronger)
+      const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, 240);
+      g.addColorStop(0, "rgba(96,165,250,0.22)");
+      g.addColorStop(0.35, "rgba(52,211,153,0.12)");
+      g.addColorStop(0.65, "rgba(192,132,252,0.10)");
+      g.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.globalCompositeOperation = "screen";
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = g;
+      ctx.fillRect(cx-260, cy-260, 520, 520);
+
+      // trail particles
+      ctx.globalCompositeOperation = "lighter";
+      for(let i=trail.length-1;i>=0;i--){
+        const p = trail[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.life -= 1;
+
+        const t = Math.max(0, p.life / p.max);
+        const alpha = t * 0.75;
+        const rr = p.r * (0.6 + (1 - t) * 0.6);
+
+        const pg = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, rr);
+        pg.addColorStop(0, `hsla(${p.hue}, 95%, 70%, ${alpha})`);
+        pg.addColorStop(1, `hsla(${p.hue}, 95%, 60%, 0)`);
+        ctx.fillStyle = pg;
+        ctx.fillRect(p.x-rr, p.y-rr, rr*2, rr*2);
+
+        if(p.life <= 0) trail.splice(i,1);
+      }
+
+      // reset composite
+      ctx.globalCompositeOperation = "source-over";
+      ctx.globalAlpha = 1;
+
+      requestAnimationFrame(draw);
     }
-    setVars(cx, cy);
-    animateCursor();
+    draw();
+
+    // ===== On load: initial stars refresh on big screens =====
+    window.addEventListener("load", ()=>{
+      resize();
+      initStars();
+    });
   </script>
 </body>
 </html>
