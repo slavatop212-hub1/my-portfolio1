@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Слава — Telegram-боти на Python</title>
+  <meta name="description" content="Портфоліо: Telegram-боти, автоматизація, парсинг, інтеграції. Python." />
+  <style>
+    :root{--bg:#0b1220;--card:#121b2e;--text:#e8eefc;--muted:#a7b4d6;--line:#22304f;--btn:#2f6bff}
+    *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#070b14,var(--bg));color:var(--text)}
+    .wrap{max-width:980px;margin:0 auto;padding:28px 18px}
+    h1{margin:0;font-size:40px} h2{margin:0 0 14px;font-size:26px} h3{margin:0 0 8px;font-size:20px}
+    .sub{margin:8px 0 12px;color:var(--muted)} .small{color:var(--muted);font-size:14px}
+    .top{display:flex;gap:16px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+    .chips{display:flex;flex-wrap:wrap;gap:8px}
+    .chips span{border:1px solid var(--line);background:rgba(255,255,255,.02);padding:6px 10px;border-radius:999px;font-size:13px;color:var(--muted)}
+    .cta{display:flex;gap:10px}
+    .btn{display:inline-block;padding:10px 14px;border-radius:10px;background:var(--btn);color:#fff;text-decoration:none;font-weight:600}
+    .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
+    .hero{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+    .card{border:1px solid var(--line);background:rgba(255,255,255,.03);border-radius:16px;padding:16px}
+    ul{margin:10px 0 0;padding-left:18px} li{margin:6px 0;color:var(--muted)}
+    #projects{margin-top:26px}
+    .proj{display:grid;grid-template-columns:1.25fr .75fr;gap:14px;align-items:stretch;padding:16px;margin:12px 0;border:1px solid var(--line);background:rgba(255,255,255,.03);border-radius:16px}
+    .proj__media{border:1px dashed var(--line);border-radius:14px;overflow:hidden;background:rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;min-height:180px}
+    .proj__media img{width:100%;height:100%;object-fit:cover;display:block}
+    .links{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+    .link{color:#9fc1ff;text-decoration:none} .link:hover{text-decoration:underline}
+    .contact{display:grid;gap:8px;margin-top:8px}
+    .foot{opacity:.9;border-top:1px solid var(--line);margin-top:30px;padding-top:18px}
+    @media (max-width:820px){.hero{grid-template-columns:1fr}.proj{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <div class="top">
+      <div>
+        <h1>Слава</h1>
+        <p class="sub">Python розробник • Telegram-боти • Автоматизація</p>
+        <div class="chips">
+          <span>python</span><span>telegram</span><span>aiogram</span><span>telethon</span><span>api</span>
+        </div>
+      </div>
+      <div class="cta">
+        <a class="btn" href="#projects">Проєкти</a>
+        <a class="btn ghost" href="#contact">Контакти</a>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div class="card">
+        <h2>Що роблю</h2>
+        <ul>
+          <li>Telegram-боти під ключ (заявки, меню, адмінка, статистика)</li>
+          <li>Моніторинг каналів/чатів + фільтри/ключові слова</li>
+          <li>Парсинг/обробка даних, інтеграції API</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Стек</h2>
+        <p>Python, aiogram / python-telegram-bot, Telethon, SQLite/JSON, Requests, Webhooks, GitHub Pages.</p>
+        <p class="small">Пишу акуратно: логування, конфіг, структура проєкту, збереження даних.</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="projects">
+      <h2>Проєкти</h2>
+
+      <article class="proj">
+        <div>
+          <h3>VIKING Monitoring — моніторинг Telegram-каналів</h3>
+          <p class="small">Читає пости з каналів, фільтрує по ключових словах і надсилає в групу волонтерів.</p>
+          <ul>
+            <li>Фільтри / ключові слова / антиспам</li>
+            <li>Форматування повідомлень + кнопки</li>
+            <li>Логи та стабільна робота 24/7</li>
+          </ul>
+          <div class="links">
+            <a class="link" href="#">GitHub Repo</a>
+            <a class="link" href="#">Скріншот</a>
+          </div>
+        </div>
+        <div class="proj__media">
+          <img src="assets/viking.png" alt="VIKING Monitoring screenshot">
+        </div>
+      </article>
+
+      <article class="proj">
+        <div>
+          <h3>Кіно-бот — пошук фільмів + статистика</h3>
+          <p class="small">Пошук фільмів, картка фільму, адмін-меню та збереження статистики.</p>
+          <ul>
+            <li>Пошук / видача картки фільму</li>
+            <li>Збереження статистики в базі</li>
+            <li>Адмінські команди</li>
+          </ul>
+          <div class="links">
+            <a class="link" href="#">GitHub Repo</a>
+            <a class="link" href="#">Скріншот</a>
+          </div>
+        </div>
+        <div class="proj__media">
+          <img src="assets/cinema.png" alt="Cinema bot screenshot">
+        </div>
+      </article>
+    </section>
+
+    <section id="contact">
+      <h2>Контакти</h2>
+      <div class="card">
+        <div class="contact">
+          <div><b>Telegram:</b> <span>@твій_нік</span></div>
+          <div><b>Email:</b> <span>твій@email.com</span></div>
+          <div><b>GitHub:</b> <span>github.com/slavatop212-hub1</span></div>
+        </div>
+        <p class="small">Замінити @твій_нік та email на свої.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap foot">
+    © <span id="y"></span> Слава
+  </footer>
+
+  <script>document.getElementById("y").textContent=new Date().getFullYear()</script>
+</body>
+</html>
