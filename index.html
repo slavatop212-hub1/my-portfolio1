@@ -1,1526 +1,1312 @@
 <!doctype html>
-<html lang="uk" data-lang="uk">
+<html lang="uk">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#070B12" />
-  <title>Ярослав — Python / Telegram bots</title>
-  <meta name="description" content="Portfolio: Python Telegram bots, automation, monitoring, API integrations. Yaroslav @Moonsl1 (Ukraine)." />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1220" />
+  <title>Ярослав (@Moonsl1) — Python / Telegram</title>
+  <meta name="description" content="Ярослав — Python розробник Telegram-ботів. Автоматизація, моніторинг каналів, парсинг, інтеграції." />
 
   <style>
-    /* ===== Reset ===== */
-    *, *::before, *::after { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body { margin: 0; overflow-x: hidden; }
-    a { color: inherit; text-decoration: none; }
-    button { font: inherit; }
-    img { max-width: 100%; display: block; }
-    html{ scroll-behavior: smooth; }
-
-    /* ===== Theme ===== */
     :root{
-      --bg0:#070b12;
-      --bg1:#0b1222;
+      --bg0:#070b14;
+      --bg1:#081a3a;
+      --bg2:#0b3a2f;
+      --bg3:#2b1451;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.08);
+      --stroke: rgba(255,255,255,.10);
+      --stroke2: rgba(255,255,255,.14);
       --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.68);
-      --muted2: rgba(255,255,255,.52);
-      --shadow: 0 20px 70px rgba(0,0,0,.55);
-      --shadow2: 0 12px 40px rgba(0,0,0,.45);
+      --muted: rgba(255,255,255,.70);
+      --muted2: rgba(255,255,255,.55);
+      --shadow: 0 18px 50px rgba(0,0,0,.45);
+      --shadow2: 0 10px 30px rgba(0,0,0,.35);
+      --r: 22px;
 
-      --blue:#3b82f6;
-      --green:#22c55e;
-      --purple:#a855f7;
-      --cyan:#06b6d4;
+      --accent: #3b82f6;
+      --accent2:#22c55e;
+      --accent3:#a855f7;
 
-      --r: 18px;
-      --r2: 26px;
-
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --max: 1100px;
+      --pad: 28px;
+      --top: 18px;
     }
 
+    /* ===== Base ===== */
+    *{box-sizing:border-box}
+    html,body{height:100%}
     body{
-      font-family: var(--sans);
-      color: var(--text);
-      background: radial-gradient(1200px 700px at 15% 10%, rgba(59,130,246,.14), transparent 60%),
-                  radial-gradient(900px 600px at 85% 0%, rgba(34,197,94,.12), transparent 58%),
-                  radial-gradient(1000px 700px at 55% 85%, rgba(168,85,247,.12), transparent 60%),
-                  linear-gradient(180deg, var(--bg0), var(--bg1));
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      color:var(--text);
+      background: var(--bg0);
+      overflow-x:hidden;
     }
-
-    /* ===== Background MAX ===== */
-    .bg-flow{
-      position: fixed; inset: 0; z-index: -6; pointer-events: none;
-      background: linear-gradient(270deg, #070b12, #0a1023, #071a2c, #0a0f1f, #070b12);
-      background-size: 400% 400%;
-      opacity: .92;
-      animation: gradientMove 16s ease infinite;
-    }
-    @keyframes gradientMove{
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .aurora{
-      position: fixed; inset: -20%; z-index: -5; pointer-events: none;
-      filter: blur(70px) saturate(135%);
-      opacity: .85;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(59,130,246,.35), transparent 45%),
-        radial-gradient(circle at 80% 25%, rgba(34,197,94,.28), transparent 45%),
-        radial-gradient(circle at 55% 80%, rgba(168,85,247,.28), transparent 45%),
-        radial-gradient(circle at 30% 70%, rgba(6,182,212,.22), transparent 45%);
-      animation: auroraMove 18s ease-in-out infinite;
-      transform: translate3d(0,0,0);
-    }
-    @keyframes auroraMove{
-      0%   { transform: translate(-2%, -1%) rotate(0deg) scale(1.02); }
-      33%  { transform: translate(2%, 1%) rotate(6deg) scale(1.05); }
-      66%  { transform: translate(-1%, 2%) rotate(-6deg) scale(1.04); }
-      100% { transform: translate(-2%, -1%) rotate(0deg) scale(1.02); }
-    }
-
-    #particles{
-      position: fixed; inset: 0; z-index: -4;
-      pointer-events: none; opacity: .55;
-    }
-
-    .grid{
-      position: fixed; inset: 0; z-index: -3; pointer-events: none;
-      opacity: .25;
-      background-image:
-        linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
-      background-size: 70px 70px;
-      mask-image: radial-gradient(circle at 50% 20%, rgba(0,0,0,1), rgba(0,0,0,.2) 55%, rgba(0,0,0,0) 75%);
-    }
-
-    .noise{
-      position: fixed; inset: 0; z-index: -2; pointer-events: none;
-      opacity: .10;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
-      mix-blend-mode: overlay;
-    }
-
-    /* ===== Layout ===== */
+    a{color:inherit}
     .wrap{
-      width: min(1120px, calc(100% - 40px));
-      margin: 0 auto;
-      padding: 26px 0 70px;
+      width:min(var(--max), calc(100% - var(--pad)*2));
+      margin:0 auto;
+      padding: 22px 0 80px;
+      position:relative;
+      z-index:2;
     }
 
-    /* Topbar */
-    .topbar{
-      position: sticky;
-      top: 14px;
-      z-index: 20;
-      margin-top: 10px;
+    /* ===== Animated gradient background (переливание) ===== */
+    .bg{
+      position:fixed;
+      inset:0;
+      z-index:0;
+      background:
+        radial-gradient(1200px 900px at 15% 15%, rgba(59,130,246,.42), transparent 55%),
+        radial-gradient(900px 800px at 85% 10%, rgba(34,197,94,.38), transparent 55%),
+        radial-gradient(900px 900px at 50% 85%, rgba(168,85,247,.32), transparent 55%),
+        radial-gradient(700px 700px at 20% 75%, rgba(14,165,233,.22), transparent 55%),
+        linear-gradient(180deg, #050816 0%, #070b14 45%, #050816 100%);
+      filter:saturate(1.15) contrast(1.02);
     }
-    .topbar .glass{
-      display: flex; align-items: center; justify-content: space-between; gap: 14px;
-      padding: 12px 14px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.10);
+    .bg::before{
+      content:"";
+      position:absolute; inset:-30%;
+      background:
+        radial-gradient(900px 700px at 20% 20%, rgba(59,130,246,.55), transparent 60%),
+        radial-gradient(900px 700px at 85% 30%, rgba(34,197,94,.45), transparent 60%),
+        radial-gradient(800px 800px at 55% 85%, rgba(168,85,247,.42), transparent 60%);
+      transform: translate3d(0,0,0);
+      animation: floaty 16s ease-in-out infinite alternate;
+      opacity:.85;
+    }
+    .bg::after{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        linear-gradient(transparent 0 0),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 1px, transparent 1px 70px),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.02) 0 1px, transparent 1px 70px);
+      mix-blend-mode: overlay;
+      opacity:.35;
+      mask-image: radial-gradient(closest-side at 50% 40%, rgba(0,0,0,.9), transparent 92%);
+    }
+    @keyframes floaty{
+      0%{ transform: translate(-2%, -1%) scale(1.02) rotate(-2deg); }
+      50%{ transform: translate(2%, 1%) scale(1.06) rotate(2deg); }
+      100%{ transform: translate(1%, -2%) scale(1.03) rotate(-1deg); }
+    }
+
+    /* ===== Glass card helpers ===== */
+    .glass{
+      background: linear-gradient(180deg, var(--card) 0%, rgba(255,255,255,.04) 100%);
+      border: 1px solid var(--stroke);
+      border-radius: var(--r);
       box-shadow: var(--shadow2);
       backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
     }
 
-    .brand{ display: flex; align-items: center; gap: 10px; min-width: 220px; }
-    .avatar{
-      width: 38px; height: 38px; border-radius: 12px;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(59,130,246,.75), transparent 55%),
-        radial-gradient(circle at 70% 60%, rgba(168,85,247,.65), transparent 55%),
-        rgba(255,255,255,.10);
-      border: 1px solid rgba(255,255,255,.16);
-      box-shadow: 0 10px 25px rgba(0,0,0,.35);
+    /* ===== Topbar ===== */
+    .topbar{
+      position: sticky;
+      top: var(--top);
+      z-index: 10;
+      margin-top: 8px;
     }
-    .name{ display:flex; flex-direction:column; line-height:1.12; }
-    .name strong{ font-size: 14px; letter-spacing: .2px; }
-    .name span{ font-size: 12px; color: var(--muted2); }
-
-    .nav{ display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
-
-    .pill{
-      display: inline-flex; align-items:center; gap:8px;
-      padding: 10px 12px;
+    .topbar .bar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding: 12px 14px;
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
-      transition: transform .15s ease, border-color .15s ease, background .15s ease;
-      user-select: none;
     }
-    .pill:hover{
-      transform: translateY(-1px);
-      border-color: rgba(255,255,255,.22);
-      background: rgba(255,255,255,.08);
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      min-width: 220px;
     }
-    .pill.primary{
-      border-color: rgba(59,130,246,.45);
-      background: rgba(59,130,246,.18);
+    .avatar{
+      width:38px; height:38px; border-radius: 14px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.35), transparent 42%),
+        linear-gradient(135deg, rgba(59,130,246,.9), rgba(34,197,94,.7), rgba(168,85,247,.75));
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 12px 30px rgba(0,0,0,.25);
+      position:relative;
+      overflow:hidden;
     }
-    .pill.primary:hover{
-      border-color: rgba(59,130,246,.70);
-      background: rgba(59,130,246,.24);
+    .avatar::after{
+      content:"";
+      position:absolute; inset:-40%;
+      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,.28), transparent 60%);
+      animation: avatarGlow 4.8s ease-in-out infinite alternate;
+    }
+    @keyframes avatarGlow{
+      0%{ transform: translate(-6%, -6%) rotate(0deg); opacity:.65;}
+      100%{ transform: translate(6%, 6%) rotate(6deg); opacity:.9;}
+    }
+    .brand .name{font-weight:800; letter-spacing:.2px}
+    .brand .sub{font-size:12px; color:var(--muted2); margin-top:2px}
+    .pillrow{display:flex; gap:6px; flex-wrap:wrap; margin-top:6px}
+    .tag{
+      font-size:12px;
+      color: rgba(255,255,255,.78);
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      white-space:nowrap;
     }
 
-    /* Language switch */
+    .nav{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex:1;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+    .pill{
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.86);
+      text-decoration:none;
+      font-size: 13px;
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+      user-select:none;
+    }
+    .pill:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.07); }
+    .pill.active{
+      background: rgba(59,130,246,.22);
+      border-color: rgba(59,130,246,.38);
+    }
+
+    .right{
+      display:flex; align-items:center; gap:10px;
+      min-width: 260px;
+      justify-content:flex-end;
+    }
     .lang{
-      display:flex; gap:6px; align-items:center;
+      display:flex;
+      gap:6px;
       padding: 6px;
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.14);
-      box-shadow: 0 8px 26px rgba(0,0,0,.25);
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
     }
     .lang button{
-      border: 0;
+      border:0;
       background: transparent;
       color: rgba(255,255,255,.75);
+      padding: 7px 10px;
+      border-radius: 999px;
+      cursor:pointer;
+      transition: background .18s ease, color .18s ease;
+      font-weight:700;
+      font-size: 12px;
+    }
+    .lang button.active{
+      background: rgba(255,255,255,.10);
+      color: rgba(255,255,255,.95);
+    }
+
+    .deviceBadge{
+      font-size:12px;
       padding: 8px 10px;
       border-radius: 999px;
-      cursor: pointer;
-      transition: background .15s ease, transform .15s ease, color .15s ease;
-      font-family: var(--mono);
-      font-size: 12px;
-      letter-spacing: .2px;
-    }
-    .lang button:hover{ transform: translateY(-1px); background: rgba(255,255,255,.06); color: rgba(255,255,255,.92); }
-    .lang button.active{
-      background: rgba(59,130,246,.24);
-      color: rgba(255,255,255,.96);
-      box-shadow: 0 10px 30px rgba(59,130,246,.10);
-      border: 1px solid rgba(59,130,246,.40);
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      color: rgba(255,255,255,.72);
+      white-space:nowrap;
     }
 
-    /* Cards */
-    .card{
-      border-radius: var(--r2);
-      border: 1px solid rgba(255,255,255,.11);
-      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
-      box-shadow: var(--shadow2);
-      backdrop-filter: blur(16px);
-      overflow: hidden;
-      position: relative;
-    }
-    .card::before{
-      content:""; position:absolute; inset:-2px; pointer-events:none;
-      background:
-        radial-gradient(600px 200px at 20% 0%, rgba(59,130,246,.22), transparent 60%),
-        radial-gradient(420px 220px at 80% 10%, rgba(34,197,94,.18), transparent 60%),
-        radial-gradient(500px 260px at 50% 110%, rgba(168,85,247,.18), transparent 55%);
-      opacity: .65; filter: blur(20px);
-    }
-    .card > *{ position:relative; }
-
-    /* Hero */
+    /* ===== Hero ===== */
     .hero{
-      margin: 36px 0 26px;
+      margin-top: 22px;
       display:grid;
       grid-template-columns: 1.2fr .8fr;
-      gap: 18px;
-      align-items:start;
+      gap: 14px;
+      align-items:stretch;
     }
-    @media (max-width: 980px){
-      .hero{ grid-template-columns: 1fr; }
-      .brand{ min-width:0; }
+    h1{
+      margin:0;
+      font-size: 44px;
+      letter-spacing: .2px;
+      line-height: 1.05;
     }
-
-    .hero-left{ padding: 22px 22px 18px; }
-    .kicker{
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--muted2);
-      display:flex; gap:10px; flex-wrap:wrap;
-      margin-bottom: 10px;
-    }
-    .tag{
-      display:inline-flex;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.05);
-    }
-
-    h1{ margin: 0 0 8px; font-size: 42px; letter-spacing: -0.7px; }
-    @media (max-width:520px){ h1{ font-size:34px; } }
-
     .subtitle{
-      margin: 0 0 14px;
+      margin-top: 10px;
       color: var(--muted);
       font-size: 15px;
-      line-height: 1.6;
-      max-width: 62ch;
+      line-height: 1.5;
+      max-width: 58ch;
     }
-
-    .metaRow{
-      display:flex; gap:10px; flex-wrap:wrap;
-      margin-top: 10px;
-      color: var(--muted2);
-      font-size: 12px;
+    .heroLeft{ padding: 20px; }
+    .heroRight{ padding: 20px; display:flex; flex-direction:column; gap:12px; }
+    .heroActions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 14px;
     }
-    .metaRow span{
-      display:inline-flex; align-items:center; gap:8px;
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
-    }
-
-    .hero-actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
     .btn{
-      display:inline-flex; align-items:center; justify-content:center; gap:10px;
-      padding: 12px 14px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding: 11px 14px;
       border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.12);
+      text-decoration:none;
+      border: 1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.06);
-      cursor:pointer;
-      transition: transform .15s ease, background .15s ease, border-color .15s ease;
-      user-select:none;
-      white-space: nowrap;
+      color: rgba(255,255,255,.9);
+      box-shadow: 0 12px 28px rgba(0,0,0,.20);
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+      font-weight:800;
+      font-size: 13px;
     }
-    .btn:hover{
-      transform: translateY(-1px);
-      background: rgba(255,255,255,.08);
-      border-color: rgba(255,255,255,.22);
-    }
+    .btn:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.08); }
     .btn.primary{
       background: rgba(59,130,246,.22);
-      border-color: rgba(59,130,246,.55);
+      border-color: rgba(59,130,246,.40);
     }
-    .btn.primary:hover{
-      background: rgba(59,130,246,.28);
-      border-color: rgba(59,130,246,.75);
-    }
-    .btn.good{
+    .btn.green{
       background: rgba(34,197,94,.18);
-      border-color: rgba(34,197,94,.48);
-    }
-    .btn.good:hover{
-      background: rgba(34,197,94,.24);
-      border-color: rgba(34,197,94,.70);
-    }
-    .btn.phone{
-      background: rgba(6,182,212,.16);
-      border-color: rgba(6,182,212,.48);
-    }
-    .btn.phone:hover{
-      background: rgba(6,182,212,.22);
-      border-color: rgba(6,182,212,.70);
-    }
-    .btn.ghost{ background: transparent; }
-
-    .mini{
-      display:flex; gap:12px; flex-wrap:wrap;
-      margin-top: 12px;
-      color: var(--muted2);
-      font-size: 12px;
-    }
-    .mini span{
-      display:inline-flex; align-items:center; gap:8px;
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
+      border-color: rgba(34,197,94,.35);
     }
 
-    /* Right hero */
-    .hero-right{ padding: 18px; }
-    .statgrid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-    @media (max-width:520px){ .statgrid{ grid-template-columns:1fr; } }
-    .stat{
-      padding: 14px;
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.05);
+    .cardTitle{
+      font-weight:900;
+      margin:0 0 6px;
+      font-size: 16px;
     }
-    .stat b{ display:block; font-size: 18px; margin-bottom: 6px; }
-    .stat small{ display:block; color: var(--muted2); line-height: 1.35; }
-
-    /* Sections */
-    .section{ margin-top: 22px; }
-    .section h2{ margin: 0 0 12px; font-size: 22px; letter-spacing: -0.2px; }
-    .section .lead{ margin: 0 0 16px; color: var(--muted); line-height: 1.6; font-size: 14px; }
-
-    /* Services */
-    .cards3{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
+    .list{
+      margin: 8px 0 0;
+      padding-left: 16px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
     }
-    @media (max-width: 920px){ .cards3{ grid-template-columns: 1fr; } }
-    .miniCard{
-      padding: 16px;
-      border-radius: var(--r2);
-      border: 1px solid rgba(255,255,255,.11);
-      background: rgba(255,255,255,.05);
-      box-shadow: var(--shadow2);
-      position: relative;
-      overflow: hidden;
-    }
-    .miniCard::before{
-      content:""; position:absolute; inset:-2px; pointer-events:none;
-      background:
-        radial-gradient(420px 220px at 20% 0%, rgba(59,130,246,.12), transparent 60%),
-        radial-gradient(420px 220px at 90% 10%, rgba(34,197,94,.10), transparent 60%);
-      opacity:.7; filter: blur(18px);
-    }
-    .miniCard > *{ position:relative; }
-    .miniCard h3{ margin:0 0 6px; font-size: 16px; }
-
-    .price{
-      font-family: var(--mono);
-      color: rgba(255,255,255,.86);
-      font-size: 12px;
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      padding: 7px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.05);
-      margin: 6px 0 10px;
-    }
-    .miniList{
+    .stackLine{
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
       margin: 0;
-      padding-left: 18px;
-      color: rgba(255,255,255,.78);
-      font-size: 13px;
-      line-height: 1.55;
     }
-    .miniList li{ margin: 6px 0; }
 
-    /* Steps */
-    .steps{
+    /* ===== Sections ===== */
+    section{ margin-top: 18px; scroll-margin-top: 120px; }
+    .sectionHead{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap:12px;
+      margin: 18px 0 10px;
+    }
+    .sectionHead h2{
+      margin:0;
+      font-size: 22px;
+      letter-spacing:.2px;
+    }
+    .sectionHead .hint{
+      color: var(--muted2);
+      font-size: 13px;
+    }
+
+    .grid3{
       display:grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
+      gap: 12px;
     }
-    @media (max-width: 920px){ .steps{ grid-template-columns: 1fr; } }
-    .step{
+    .tile{
       padding: 16px;
-      border-radius: var(--r2);
-      border: 1px solid rgba(255,255,255,.11);
-      background: rgba(255,255,255,.05);
-      box-shadow: var(--shadow2);
+      min-height: 140px;
     }
-    .step .n{
-      font-family: var(--mono);
-      font-size: 12px;
-      color: rgba(255,255,255,.86);
-      display:inline-flex;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.05);
+    .tile .k{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px;
       margin-bottom: 10px;
     }
-    .step h3{ margin: 0 0 6px; font-size: 16px; }
-    .step p{ margin: 0; color: var(--muted); line-height: 1.6; font-size: 13.5px; }
+    .badge{
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.75);
+    }
+    .tile p{
+      margin:0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+    }
 
-    /* Projects */
-    .projects{ display:grid; gap: 14px; }
+    /* ===== Projects ===== */
+    .projects{
+      display:grid;
+      gap: 12px;
+    }
     .project{
       display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 14px;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 12px;
       padding: 16px;
-      border-radius: var(--r2);
-      border: 1px solid rgba(255,255,255,.11);
+      align-items:stretch;
+    }
+    .projTitle{
+      margin:0;
+      font-weight:900;
+      font-size: 17px;
+      letter-spacing:.2px;
+    }
+    .projDesc{
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+    .projBullets{
+      margin: 10px 0 0;
+      padding-left: 16px;
+      color: var(--muted);
+      line-height:1.6;
+      font-size: 14px;
+    }
+    .projLinks{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top: 12px;
+    }
+    .mini{
+      padding: 9px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.05);
-      box-shadow: var(--shadow2);
-      overflow:hidden;
-      position:relative;
+      text-decoration:none;
+      font-weight:800;
+      font-size: 13px;
+      color: rgba(255,255,255,.88);
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
     }
-    .project::before{
-      content:""; position:absolute; inset:-2px; pointer-events:none;
-      background:
-        radial-gradient(520px 260px at 15% 0%, rgba(59,130,246,.14), transparent 60%),
-        radial-gradient(520px 260px at 90% 10%, rgba(34,197,94,.10), transparent 60%),
-        radial-gradient(520px 260px at 55% 120%, rgba(168,85,247,.10), transparent 60%);
-      opacity:.75; filter: blur(18px);
-    }
-    .project > *{ position:relative; }
-    @media (max-width: 920px){ .project{ grid-template-columns: 1fr; } }
-    .proj-title{
-      display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
-      margin-bottom: 8px;
-    }
-    .proj-title h3{ margin:0; font-size: 18px; letter-spacing:-0.2px; }
-    .badge{
-      font-family: var(--mono);
-      font-size: 12px;
-      padding: 7px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.05);
-      color: rgba(255,255,255,.86);
-    }
-    .proj-desc{ margin: 0 0 10px; color: var(--muted); line-height: 1.55; font-size: 14px; }
-    .bullets{ margin: 0; padding-left: 18px; color: rgba(255,255,255,.78); line-height: 1.55; font-size: 13px; }
-    .bullets li{ margin: 6px 0; }
-    .proj-links{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 12px; }
-
+    .mini:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.07); }
     .preview{
-      border-radius: 20px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.18);
+      border-radius: 16px;
+      border: 1px dashed rgba(255,255,255,.18);
+      background: rgba(255,255,255,.03);
+      min-height: 190px;
+      display:flex; align-items:center; justify-content:center;
+      color: rgba(255,255,255,.55);
+      font-weight:800;
+      font-size: 13px;
       overflow:hidden;
-      min-height: 220px;
-      display:grid;
-      place-items:center;
       position:relative;
     }
     .preview img{
-      width:100%; height:100%;
-      object-fit: cover;
-      opacity: .95;
-      transform: scale(1.02);
-      transition: transform .25s ease, opacity .25s ease;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      opacity:.95;
     }
-    .project:hover .preview img{ transform: scale(1.06); opacity: 1; }
     .preview .ph{
       padding: 16px;
-      color: var(--muted2);
       text-align:center;
-      font-size: 13px;
-      line-height: 1.5;
-      max-width: 36ch;
+      line-height:1.4;
     }
 
-    /* Reviews */
+    /* ===== Steps ===== */
+    .steps{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .step{
+      padding: 16px;
+    }
+    .step .n{
+      width: 34px; height: 34px;
+      border-radius: 12px;
+      display:grid; place-items:center;
+      font-weight:900;
+      background: rgba(59,130,246,.18);
+      border: 1px solid rgba(59,130,246,.35);
+      margin-bottom: 10px;
+    }
+    .step h3{ margin:0 0 6px; font-size: 15px; }
+    .step p{ margin:0; color: var(--muted); font-size: 13.5px; line-height:1.55; }
+
+    /* ===== Reviews ===== */
     .reviews{
       display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
     }
-    @media (max-width: 920px){ .reviews{ grid-template-columns: 1fr; } }
     .review{
       padding: 16px;
-      border-radius: var(--r2);
-      border: 1px solid rgba(255,255,255,.11);
-      background: rgba(255,255,255,.05);
-      box-shadow: var(--shadow2);
-    }
-    .review p{
-      margin:0;
-      color: rgba(255,255,255,.82);
-      line-height: 1.6;
-      font-size: 13.5px;
     }
     .review .who{
-      margin-top: 12px;
-      color: var(--muted2);
-      font-size: 12.5px;
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      margin-bottom: 8px;
     }
-    .review .who b{ color: rgba(255,255,255,.88); }
+    .review .who strong{font-weight:900}
+    .review .stars{color: rgba(255,255,255,.75); font-size:12px}
+    .review p{ margin:0; color: var(--muted); line-height:1.6; font-size: 14px; }
 
-    /* Contacts */
+    /* ===== Contacts ===== */
     .contacts{
       display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 12px;
     }
-    @media (max-width: 920px){ .contacts{ grid-template-columns: 1fr; } }
-    .contact-card{ padding: 18px; }
-    .contact-card h3{ margin: 0 0 8px; font-size: 18px; }
-    .contact-card p{ margin: 0 0 12px; color: var(--muted); line-height: 1.6; font-size: 14px; }
-
-    /* Toast */
-    .toast{
-      position: fixed;
-      bottom: 18px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0,0,0,.55);
-      border: 1px solid rgba(255,255,255,.14);
-      color: rgba(255,255,255,.92);
+    .contactCard{ padding: 16px; }
+    .contactRow{
+      display:flex; align-items:center; justify-content:space-between;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      margin-top: 10px;
+    }
+    .contactRow .left{
+      display:flex; flex-direction:column; gap:3px;
+    }
+    .contactRow .label{ font-size:12px; color: var(--muted2); }
+    .contactRow .value{ font-weight:900; letter-spacing:.2px; }
+    .copyBtn{
+      border:0;
+      cursor:pointer;
       padding: 10px 12px;
       border-radius: 14px;
-      backdrop-filter: blur(12px);
-      box-shadow: var(--shadow2);
-      z-index: 99;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .2s ease, transform .2s ease;
-      font-size: 13px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.9);
+      font-weight:900;
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+      white-space:nowrap;
     }
-    .toast.show{ opacity: 1; transform: translateX(-50%) translateY(-4px); }
+    .copyBtn:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.07); }
 
-    /* Reveal */
-    .reveal{
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity .6s ease, transform .6s ease;
-      will-change: opacity, transform;
-    }
-    .reveal.on{ opacity: 1; transform: translateY(0); }
-
-    /* Language fade */
-    .lang-fade{
-      transition: opacity .18s ease, transform .18s ease;
-      will-change: opacity, transform;
-    }
-    .lang-fade.switching{
-      opacity: 0;
-      transform: translateY(2px);
-    }
-
-    /* Footer */
-    .footer{
-      margin-top: 26px;
-      padding: 16px 0 0;
-      color: var(--muted2);
+    /* ===== Footer ===== */
+    footer{
+      margin-top: 18px;
+      padding: 14px 16px;
+      color: rgba(255,255,255,.60);
       font-size: 12px;
-      text-align: center;
-      opacity: .9;
+      display:flex;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    /* ===== Smooth section fade for language ===== */
+    .i18n{
+      transition: opacity .22s ease, transform .22s ease;
+      will-change: opacity, transform;
+    }
+    .fadeOut{ opacity:0; transform: translateY(2px); }
+    .fadeIn{ opacity:1; transform: translateY(0px); }
+
+    /* ===== Desktop/Mobile Auto mode hooks ===== */
+    body.is-mobile .topbar .bar{ padding: 10px 10px; }
+    body.is-mobile h1{ font-size: 32px; }
+    body.is-mobile .hero{ grid-template-columns: 1fr; }
+    body.is-mobile .grid3{ grid-template-columns: 1fr; }
+    body.is-mobile .steps{ grid-template-columns: 1fr; }
+    body.is-mobile .reviews{ grid-template-columns: 1fr; }
+    body.is-mobile .contacts{ grid-template-columns: 1fr; }
+    body.is-mobile .project{ grid-template-columns: 1fr; }
+    body.is-mobile .btn{ width:100%; justify-content:center; }
+    body.is-mobile .brand{ min-width: unset; }
+    body.is-mobile .right{ min-width: unset; }
+    body.is-mobile .nav{ justify-content:flex-start; }
+
+    /* ===== Strong responsive (без JS тоже работает) ===== */
+    @media (max-width: 920px){
+      .hero{ grid-template-columns: 1fr; }
+      .grid3{ grid-template-columns: 1fr; }
+      .steps{ grid-template-columns: repeat(2, 1fr); }
+      .contacts{ grid-template-columns: 1fr; }
+      .project{ grid-template-columns: 1fr; }
+      h1{ font-size: 36px; }
+    }
+    @media (max-width: 720px){
+      :root{ --pad: 18px; --top: 12px; }
+      .topbar .bar{ border-radius: 22px; }
+      .steps{ grid-template-columns: 1fr; }
+      .reviews{ grid-template-columns: 1fr; }
+      .pill{ font-size: 12px; padding: 9px 10px; }
+      .lang button{ padding: 7px 9px; }
+      .deviceBadge{ display:none; }
+    }
+
+    /* ===== Small toast ===== */
+    .toast{
+      position:fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.35);
+      color: rgba(255,255,255,.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: var(--shadow2);
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .18s ease, transform .18s ease;
+      font-weight:800;
+      font-size: 13px;
+      z-index: 50;
+    }
+    .toast.show{
+      opacity:1;
+      transform: translateX(-50%) translateY(-2px);
     }
   </style>
 </head>
 
 <body>
-  <div class="bg-flow"></div>
-  <div class="aurora"></div>
-  <canvas id="particles"></canvas>
-  <div class="grid"></div>
-  <div class="noise"></div>
+  <div class="bg" aria-hidden="true"></div>
 
   <div class="wrap">
-    <!-- TOPBAR -->
+    <!-- Topbar -->
     <div class="topbar">
-      <div class="glass">
+      <div class="bar glass">
         <div class="brand">
           <div class="avatar" aria-hidden="true"></div>
-          <div class="name">
-            <strong>Ярослав</strong>
-            <span>@Moonsl1 • Python / Telegram</span>
+          <div>
+            <div class="name i18n" data-i18n="brandName">Ярослав</div>
+            <div class="sub i18n" data-i18n="brandSub">@Moonsl1 • Python / Telegram</div>
+            <div class="pillrow">
+              <span class="tag">python</span>
+              <span class="tag">telegram</span>
+              <span class="tag">aiogram</span>
+              <span class="tag">telethon</span>
+              <span class="tag">api</span>
+            </div>
           </div>
         </div>
 
         <nav class="nav" aria-label="Навігація">
-          <a class="pill primary" href="#services" data-i18n="nav.services">Послуги</a>
-          <a class="pill" href="#projects" data-i18n="nav.projects">Проєкти</a>
-          <a class="pill" href="#work" data-i18n="nav.work">Як працюю</a>
-          <a class="pill" href="#reviews" data-i18n="nav.reviews">Відгуки</a>
-          <a class="pill" href="#contacts" data-i18n="nav.contacts">Контакти</a>
+          <a class="pill" href="#services" data-nav="services"><span class="i18n" data-i18n="navServices">Послуги</span></a>
+          <a class="pill" href="#projects" data-nav="projects"><span class="i18n" data-i18n="navProjects">Проєкти</span></a>
+          <a class="pill" href="#process" data-nav="process"><span class="i18n" data-i18n="navProcess">Як працюю</span></a>
+          <a class="pill" href="#reviews" data-nav="reviews"><span class="i18n" data-i18n="navReviews">Відгуки</span></a>
+          <a class="pill" href="#contacts" data-nav="contacts"><span class="i18n" data-i18n="navContacts">Контакти</span></a>
         </nav>
 
-        <div class="lang" aria-label="Language switch">
-          <button type="button" data-lang-btn="uk" class="active">UA</button>
-          <button type="button" data-lang-btn="ru">RU</button>
-          <button type="button" data-lang-btn="en">EN</button>
+        <div class="right">
+          <div class="deviceBadge" id="deviceBadge">—</div>
+          <div class="lang" role="tablist" aria-label="Language switch">
+            <button id="btnUA" class="active" type="button">UA</button>
+            <button id="btnRU" type="button">RU</button>
+            <button id="btnEN" type="button">EN</button>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- HERO -->
-    <section class="hero">
-      <div class="card hero-left reveal">
-        <div class="kicker">
-          <span class="tag">python</span>
-          <span class="tag">telegram</span>
-          <span class="tag">aiogram</span>
-          <span class="tag">telethon</span>
-          <span class="tag">api</span>
-          <span class="tag">sqlite</span>
+    <!-- Hero -->
+    <div class="hero">
+      <div class="heroLeft glass">
+        <h1 class="i18n" data-i18n="heroTitle">Python розробник Telegram-ботів</h1>
+        <div class="subtitle i18n" data-i18n="heroSubtitle">
+          Роблю боти “під ключ”: заявки, меню, адмінка, статистика, моніторинг каналів/чатів, фільтри по ключових словах, інтеграції API та бази даних.
         </div>
 
-        <h1 class="lang-fade" data-i18n="hero.title">Telegram-боти на Python<br/>під вашу задачу</h1>
-        <p class="subtitle lang-fade" data-i18n="hero.subtitle">
-          Роблю ботів “під ключ”: заявки/меню/адмінка/статистика, моніторинг каналів і чатів,
-          фільтри/ключові слова/антиспам, парсинг і інтеграції (API, вебхуки).
-          Пишу чисто: логування, конфіг, структура, збереження даних.
-        </p>
+        <div class="heroActions">
+          <a class="btn primary" href="#projects">
+            <span class="i18n" data-i18n="btnSeeProjects">Дивитись проєкти</span>
+          </a>
 
-        <div class="metaRow lang-fade" aria-label="Мови та гео">
-          <span data-i18n="meta.geo">📍 Україна • працюю онлайн</span>
-          <span data-i18n="meta.langs">🗣️ UA / RU / EN</span>
-          <span data-i18n="meta.fast">⚡ швидка відповідь</span>
-        </div>
+          <!-- Telegram button -->
+          <a class="btn green" id="tgBtn" href="https://t.me/Moonsl1" target="_blank" rel="noopener">
+            <span class="i18n" data-i18n="btnTelegram">Написати в Telegram</span>
+          </a>
 
-        <div class="hero-actions">
-          <a class="btn primary lang-fade" href="#services" data-i18n="hero.btnServices">Подивитись послуги</a>
-          <a class="btn good lang-fade" href="https://t.me/Moonsl1" target="_blank" rel="noopener" data-i18n="hero.btnTg">Написати в Telegram</a>
-          <a class="btn phone lang-fade" id="callBtn" href="tel:+380XXXXXXXXX" data-i18n="hero.btnCall">Подзвонити</a>
-          <button class="btn ghost lang-fade" id="copyUser" type="button" data-i18n="hero.btnCopyUser">Скопіювати @Moonsl1</button>
-          <button class="btn ghost lang-fade" id="copyPhone" type="button" data-i18n="hero.btnCopyPhone">Скопіювати номер</button>
-        </div>
-
-        <div class="hero-actions" style="margin-top:10px">
-          <a class="btn lang-fade" id="q1" href="#" rel="noopener" data-i18n="quick.q1">⚡ Швидка заявка: Бот для заявок</a>
-          <a class="btn lang-fade" id="q2" href="#" rel="noopener" data-i18n="quick.q2">📡 Швидка заявка: Моніторинг</a>
-          <a class="btn lang-fade" id="q3" href="#" rel="noopener" data-i18n="quick.q3">🎬 Швидка заявка: Кіно-бот</a>
-        </div>
-
-        <div class="mini lang-fade">
-          <span data-i18n="mini.1">🛠️ боти 24/7</span>
-          <span data-i18n="mini.2">🔒 збереження даних</span>
-          <span data-i18n="mini.3">📊 статистика</span>
-          <span data-i18n="mini.4">🧼 порядок в UX</span>
+          <!-- Phone button (ВСТАВЬ свой номер) -->
+          <a class="btn" id="phoneBtn" href="tel:+380000000000">
+            <span class="i18n" data-i18n="btnCall">Подзвонити</span>
+          </a>
         </div>
       </div>
 
-      <aside class="card hero-right reveal">
-        <div class="statgrid lang-fade">
-          <div class="stat">
-            <b data-i18n="stats.1t">Боти під ключ</b>
-            <small data-i18n="stats.1d">меню, заявки, ролі, адмінка, статистика</small>
-          </div>
-          <div class="stat">
-            <b data-i18n="stats.2t">Моніторинг</b>
-            <small data-i18n="stats.2d">канали/чати, ключові слова, дедуп, антиспам</small>
-          </div>
-          <div class="stat">
-            <b data-i18n="stats.3t">Інтеграції</b>
-            <small data-i18n="stats.3d">API, вебхуки, парсинг, HTTP</small>
-          </div>
-          <div class="stat">
-            <b data-i18n="stats.4t">Зберігання</b>
-            <small data-i18n="stats.4d">SQLite/JSON, історія, логи, бекап</small>
-          </div>
-        </div>
-      </aside>
-    </section>
-
-    <!-- SERVICES -->
-    <section class="section" id="services">
-      <h2 class="reveal lang-fade" data-i18n="services.title">Послуги та ціни</h2>
-      <p class="lead reveal lang-fade" data-i18n="services.lead">
-        Ціни орієнтовні (“від”), щоб одразу було зрозуміло по бюджету. Точно — після короткого опису задачі.
-      </p>
-
-      <div class="cards3">
-        <div class="miniCard reveal">
-          <h3 class="lang-fade" data-i18n="services.s1t">🤖 Бот для заявок / клієнтів</h3>
-          <div class="price lang-fade" data-i18n="services.s1p">від 1500 грн</div>
-          <ul class="miniList lang-fade">
-            <li data-i18n="services.s1l1">кнопки/меню, сценарії</li>
-            <li data-i18n="services.s1l2">заявка → в групу/адміну</li>
-            <li data-i18n="services.s1l3">збереження заявок/логів</li>
+      <div class="heroRight glass">
+        <div>
+          <div class="cardTitle i18n" data-i18n="whatIDoTitle">Що роблю</div>
+          <ul class="list i18n" data-i18n="whatIDoList">
+            <li>Telegram-боти під ключ (заявки, меню, адмінка, статистика)</li>
+            <li>Моніторинг каналів/чатів + фільтри/ключові слова</li>
+            <li>Парсинг/обробка даних, інтеграції API</li>
           </ul>
-          <div class="hero-actions" style="margin-top:12px">
-            <a class="btn good lang-fade" href="#" id="s1" data-i18n="services.order">Замовити</a>
-          </div>
         </div>
 
-        <div class="miniCard reveal">
-          <h3 class="lang-fade" data-i18n="services.s2t">📡 Моніторинг каналів / оповіщення</h3>
-          <div class="price lang-fade" data-i18n="services.s2p">від 2000 грн</div>
-          <ul class="miniList lang-fade">
-            <li data-i18n="services.s2l1">ключові слова, фільтри</li>
-            <li data-i18n="services.s2l2">антидубль/антиспам</li>
-            <li data-i18n="services.s2l3">сводки або тригери</li>
-          </ul>
-          <div class="hero-actions" style="margin-top:12px">
-            <a class="btn good lang-fade" href="#" id="s2" data-i18n="services.order">Замовити</a>
+        <div>
+          <div class="cardTitle i18n" data-i18n="stackTitle">Стек</div>
+          <p class="stackLine i18n" data-i18n="stackLine1">Python, aiogram / python-telegram-bot, Telethon</p>
+          <p class="stackLine i18n" data-i18n="stackLine2">SQLite/JSON, Requests, Webhooks</p>
+          <p class="stackLine i18n" data-i18n="stackLine3">GitHub Pages (для портфоліо)</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Services -->
+    <section id="services">
+      <div class="sectionHead">
+        <h2 class="i18n" data-i18n="servicesTitle">Послуги</h2>
+        <div class="hint i18n" data-i18n="servicesHint">Пишу чисто, з логами та структурою. Можу вести проєкт до продакшну.</div>
+      </div>
+
+      <div class="grid3">
+        <div class="tile glass">
+          <div class="k">
+            <strong class="i18n" data-i18n="srv1Title">Telegram-бот “під ключ”</strong>
+            <span class="badge i18n" data-i18n="srvBadgeFast">швидко</span>
           </div>
+          <p class="i18n" data-i18n="srv1Text">Меню, заявки, форми, адмін-панель (команди), ролі, статистика, збереження даних.</p>
         </div>
 
-        <div class="miniCard reveal">
-          <h3 class="lang-fade" data-i18n="services.s3t">⚙️ Адмінка / статистика / база</h3>
-          <div class="price lang-fade" data-i18n="services.s3p">від 2500 грн</div>
-          <ul class="miniList lang-fade">
-            <li data-i18n="services.s3l1">ролі, права, налаштування</li>
-            <li data-i18n="services.s3l2">статистика, логи, експорт</li>
-            <li data-i18n="services.s3l3">зберігання: SQLite/JSON</li>
-          </ul>
-          <div class="hero-actions" style="margin-top:12px">
-            <a class="btn good lang-fade" href="#" id="s3" data-i18n="services.order">Замовити</a>
+        <div class="tile glass">
+          <div class="k">
+            <strong class="i18n" data-i18n="srv2Title">Моніторинг / оповіщення</strong>
+            <span class="badge i18n" data-i18n="srvBadge247">24/7</span>
           </div>
+          <p class="i18n" data-i18n="srv2Text">Читання каналів/чатів (Telethon), фільтри, антиспам, форматування повідомлень, кнопки.</p>
+        </div>
+
+        <div class="tile glass">
+          <div class="k">
+            <strong class="i18n" data-i18n="srv3Title">Інтеграції та дані</strong>
+            <span class="badge i18n" data-i18n="srvBadgeApi">API</span>
+          </div>
+          <p class="i18n" data-i18n="srv3Text">Requests/API, бази (SQLite/JSON), збереження статистики, резервні копії, деплой.</p>
         </div>
       </div>
     </section>
 
-    <!-- PROJECTS -->
-    <section class="section" id="projects">
-      <h2 class="reveal lang-fade" data-i18n="projects.title">Проєкти</h2>
-      <p class="lead reveal lang-fade" data-i18n="projects.lead">
-        Два приклади. Можна додати ще кейси — буде ще сильніше.
-      </p>
+    <!-- Projects -->
+    <section id="projects">
+      <div class="sectionHead">
+        <h2 class="i18n" data-i18n="projectsTitle">Проєкти</h2>
+        <div class="hint i18n" data-i18n="projectsHint">Скріншоти — опціонально. Можемо замінити на твої реальні.</div>
+      </div>
 
       <div class="projects">
-        <article class="project reveal">
+        <div class="project glass">
           <div>
-            <div class="proj-title">
-              <h3 class="lang-fade" data-i18n="projects.p1t">VIKING Monitoring — моніторинг Telegram-каналів</h3>
-              <span class="badge">Python • Telethon</span>
-            </div>
-
-            <p class="proj-desc lang-fade" data-i18n="projects.p1d">
+            <h3 class="projTitle i18n" data-i18n="p1Title">VIKING Monitoring — моніторинг Telegram-каналів</h3>
+            <p class="projDesc i18n" data-i18n="p1Desc">
               Читає пости з каналів, фільтрує по ключових словах і надсилає в групу волонтерів.
             </p>
-
-            <ul class="bullets lang-fade">
-              <li data-i18n="projects.p1l1">Фільтри / ключові слова / антиспам</li>
-              <li data-i18n="projects.p1l2">Форматування повідомлень + кнопки</li>
-              <li data-i18n="projects.p1l3">Логи та стабільна робота 24/7</li>
+            <ul class="projBullets i18n" data-i18n="p1Bullets">
+              <li>Фільтри / ключові слова / антиспам</li>
+              <li>Форматування повідомлень + кнопки</li>
+              <li>Логи та стабільна робота 24/7</li>
             </ul>
-
-            <div class="proj-links">
-              <a class="btn good lang-fade" href="https://t.me/Moonsl1" target="_blank" rel="noopener" data-i18n="projects.btnLikeThis">Хочу схожий</a>
-              <a class="btn phone lang-fade" id="callBtn2" href="tel:+380XXXXXXXXX" data-i18n="hero.btnCall">Подзвонити</a>
+            <div class="projLinks">
+              <!-- Якщо захочеш — вставиш посилання на репозиторій проекту -->
+              <a class="mini" href="#contacts"><span class="i18n" data-i18n="pLinkDiscuss">Обговорити</span></a>
+              <a class="mini" href="#contacts"><span class="i18n" data-i18n="pLinkOrder">Замовити схожий</span></a>
             </div>
           </div>
 
-          <div class="preview" aria-label="VIKING screenshot">
-            <div class="ph lang-fade" data-i18n="projects.addShot1">
-              Додай скріншот у <b>/assets/viking.png</b><br/>і він зʼявиться тут.
+          <div class="preview" aria-label="Project preview">
+            <div class="ph i18n" data-i18n="phScreenshot1">
+              Тут можна вставити твій реальний скріншот (img).<br/>Зараз плейсхолдер.
             </div>
           </div>
-        </article>
+        </div>
 
-        <article class="project reveal">
+        <div class="project glass">
           <div>
-            <div class="proj-title">
-              <h3 class="lang-fade" data-i18n="projects.p2t">Кіно-бот — пошук фільмів + статистика</h3>
-              <span class="badge">Python • aiogram</span>
-            </div>
-
-            <p class="proj-desc lang-fade" data-i18n="projects.p2d">
-              Пошук фільмів, картка фільму, адмін-меню та збереження статистики користування.
+            <h3 class="projTitle i18n" data-i18n="p2Title">Кіно-бот — пошук фільмів + статистика</h3>
+            <p class="projDesc i18n" data-i18n="p2Desc">
+              Пошук фільмів, картка фільму, адмін-меню та збереження статистики.
             </p>
-
-            <ul class="bullets lang-fade">
-              <li data-i18n="projects.p2l1">Пошук / видача картки фільму</li>
-              <li data-i18n="projects.p2l2">Збереження статистики в базі</li>
-              <li data-i18n="projects.p2l3">Адмінські команди, модерація</li>
+            <ul class="projBullets i18n" data-i18n="p2Bullets">
+              <li>Пошук / видача картки фільму</li>
+              <li>Збереження статистики в базі</li>
+              <li>Адмінські команди/модерація</li>
             </ul>
-
-            <div class="proj-links">
-              <a class="btn good lang-fade" href="https://t.me/Moonsl1" target="_blank" rel="noopener" data-i18n="projects.btnMakeThis">Зробити такого</a>
-              <a class="btn phone lang-fade" id="callBtn3" href="tel:+380XXXXXXXXX" data-i18n="hero.btnCall">Подзвонити</a>
+            <div class="projLinks">
+              <a class="mini" href="#contacts"><span class="i18n" data-i18n="pLinkDiscuss">Обговорити</span></a>
+              <a class="mini" href="#contacts"><span class="i18n" data-i18n="pLinkOrder">Замовити схожий</span></a>
             </div>
           </div>
 
-          <div class="preview" aria-label="Cinema screenshot">
-            <div class="ph lang-fade" data-i18n="projects.addShot2">
-              Додай скріншот у <b>/assets/cinema.png</b><br/>і буде красиво.
+          <div class="preview" aria-label="Project preview">
+            <div class="ph i18n" data-i18n="phScreenshot2">
+              Додай реальний скрін чат-бота/меню — буде топ.<br/>Зараз плейсхолдер.
             </div>
           </div>
-        </article>
+        </div>
       </div>
     </section>
 
-    <!-- HOW I WORK -->
-    <section class="section" id="work">
-      <h2 class="reveal lang-fade" data-i18n="work.title">Як я працюю</h2>
-      <p class="lead reveal lang-fade" data-i18n="work.lead">
-        Без “магії”: все прозоро, по кроках, щоб ти бачив результат.
-      </p>
+    <!-- Process -->
+    <section id="process">
+      <div class="sectionHead">
+        <h2 class="i18n" data-i18n="processTitle">Як працюю</h2>
+        <div class="hint i18n" data-i18n="processHint">План + прозорі етапи, без хаосу.</div>
+      </div>
 
       <div class="steps">
-        <div class="step reveal">
+        <div class="step glass">
           <div class="n">1</div>
-          <h3 class="lang-fade" data-i18n="work.s1t">Короткий бриф</h3>
-          <p class="lang-fade" data-i18n="work.s1d">Уточнюю задачу, сценарії, ролі, де бот працює та що відправляє.</p>
+          <h3 class="i18n" data-i18n="s1Title">Бриф</h3>
+          <p class="i18n" data-i18n="s1Text">Уточнюємо задачу, сценарії, ролі, адмінку, джерела даних.</p>
         </div>
-        <div class="step reveal">
+        <div class="step glass">
           <div class="n">2</div>
-          <h3 class="lang-fade" data-i18n="work.s2t">Прототип</h3>
-          <p class="lang-fade" data-i18n="work.s2d">Показую першу робочу версію, збираю правки, доводимо UX.</p>
+          <h3 class="i18n" data-i18n="s2Title">Прототип</h3>
+          <p class="i18n" data-i18n="s2Text">Швидко збираю MVP: меню, основні команди, збереження.</p>
         </div>
-        <div class="step reveal">
+        <div class="step glass">
           <div class="n">3</div>
-          <h3 class="lang-fade" data-i18n="work.s3t">Реліз + стабільність</h3>
-          <p class="lang-fade" data-i18n="work.s3d">Антиспам, логи, збереження даних, деплой та підтримка.</p>
+          <h3 class="i18n" data-i18n="s3Title">Доопрацювання</h3>
+          <p class="i18n" data-i18n="s3Text">Фільтри, логування, антиспам, покращення UX, стабільність.</p>
+        </div>
+        <div class="step glass">
+          <div class="n">4</div>
+          <h3 class="i18n" data-i18n="s4Title">Деплой</h3>
+          <p class="i18n" data-i18n="s4Text">Запуск 24/7 + інструкція, резервні копії, підтримка.</p>
         </div>
       </div>
     </section>
 
-    <!-- REVIEWS -->
-    <section class="section" id="reviews">
-      <h2 class="reveal lang-fade" data-i18n="reviews.title">Відгуки</h2>
-      <p class="lead reveal lang-fade" data-i18n="reviews.lead">
-        Замінити на реальні — буде максимум довіри.
-      </p>
+    <!-- Reviews -->
+    <section id="reviews">
+      <div class="sectionHead">
+        <h2 class="i18n" data-i18n="reviewsTitle">Відгуки</h2>
+        <div class="hint i18n" data-i18n="reviewsHint">Можеш замінити на реальні відгуки, коли будуть.</div>
+      </div>
 
       <div class="reviews">
-        <div class="review reveal">
-          <p class="lang-fade" data-i18n="reviews.r1">“Зробив моніторинг без спаму: фільтри чіткі, повідомлення акуратні, працює стабільно.”</p>
-          <div class="who"><b class="lang-fade" data-i18n="reviews.r1w1">Координатор</b> • <span class="lang-fade" data-i18n="reviews.r1w2">волонтерська група</span></div>
+        <div class="review glass">
+          <div class="who">
+            <strong class="i18n" data-i18n="r1Who">Замовник</strong>
+            <span class="stars">★★★★★</span>
+          </div>
+          <p class="i18n" data-i18n="r1Text">Зробив меню, заявки та адмінку. Все працює стабільно, швидко вніс правки.</p>
         </div>
-        <div class="review reveal">
-          <p class="lang-fade" data-i18n="reviews.r2">“Швидко зробив прототип, потім допиляв до нормальної системи. Комунікація проста.”</p>
-          <div class="who"><b class="lang-fade" data-i18n="reviews.r2w1">Адмін чату</b> • Telegram</div>
-        </div>
-        <div class="review reveal">
-          <p class="lang-fade" data-i18n="reviews.r3">“Код структурований, логи та збереження даних — без хаосу. Після релізу все ок.”</p>
-          <div class="who"><b class="lang-fade" data-i18n="reviews.r3w1">Замовник</b> • <span class="lang-fade" data-i18n="reviews.r3w2">автоматизація</span></div>
+
+        <div class="review glass">
+          <div class="who">
+            <strong class="i18n" data-i18n="r2Who">Команда</strong>
+            <span class="stars">★★★★★</span>
+          </div>
+          <p class="i18n" data-i18n="r2Text">Моніторинг каналів з фільтрами — дуже зручно. Повідомлення гарно оформлені.</p>
         </div>
       </div>
     </section>
 
-    <!-- CONTACTS -->
-    <section class="section" id="contacts">
-      <h2 class="reveal lang-fade" data-i18n="contacts.title">Контакти</h2>
-      <p class="lead reveal lang-fade" data-i18n="contacts.lead">
-        Telegram або телефон — натиснув кнопку → одразу дія.
-      </p>
+    <!-- Contacts -->
+    <section id="contacts">
+      <div class="sectionHead">
+        <h2 class="i18n" data-i18n="contactsTitle">Контакти</h2>
+        <div class="hint i18n" data-i18n="contactsHint">Натискай — відкриється Telegram / дзвінок. Є копіювання.</div>
+      </div>
 
       <div class="contacts">
-        <div class="card contact-card reveal">
-          <h3 class="lang-fade" data-i18n="contacts.tgTitle">Telegram</h3>
-          <p class="lang-fade" data-i18n="contacts.tgDesc">Пиши напряму: обговоримо задачу, терміни та бюджет.</p>
-          <div class="hero-actions">
-            <a class="btn good lang-fade" href="https://t.me/Moonsl1" target="_blank" rel="noopener" data-i18n="contacts.openTg">Відкрити Telegram</a>
-            <button class="btn lang-fade" id="copyLink" type="button" data-i18n="contacts.copyTg">Скопіювати посилання</button>
+        <div class="contactCard glass">
+          <div class="cardTitle i18n" data-i18n="contactMainTitle">Зв’язатися зі мною</div>
+
+          <div class="contactRow">
+            <div class="left">
+              <div class="label">Telegram</div>
+              <div class="value">@Moonsl1</div>
+            </div>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <a class="copyBtn" href="https://t.me/Moonsl1" target="_blank" rel="noopener">
+                <span class="i18n" data-i18n="openBtn">Відкрити</span>
+              </a>
+              <button class="copyBtn" type="button" data-copy="@Moonsl1">
+                <span class="i18n" data-i18n="copyBtn">Копіювати</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="contactRow">
+            <div class="left">
+              <div class="label i18n" data-i18n="phoneLabel">Телефон</div>
+              <div class="value" id="phoneText">+38 (0__) ___ __ __</div>
+            </div>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <a class="copyBtn" id="callNow" href="tel:+380000000000">
+                <span class="i18n" data-i18n="callBtn">Подзвонити</span>
+              </a>
+              <button class="copyBtn" type="button" id="copyPhone" data-copy="+380000000000">
+                <span class="i18n" data-i18n="copyBtn">Копіювати</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="subtitle i18n" data-i18n="contactNote" style="margin-top:10px;">
+            * Замінити номер дуже просто: знайди в коді <b>+380000000000</b> і постав свій.
           </div>
         </div>
 
-        <div class="card contact-card reveal">
-          <h3 class="lang-fade" data-i18n="contacts.phoneTitle">Телефон</h3>
-          <p class="lang-fade"><span id="phoneText">+380XXXXXXXXX</span> <span data-i18n="contacts.phoneNote">(дзвінок або копіювання)</span></p>
-          <div class="hero-actions">
-            <a class="btn phone lang-fade" id="callBtn4" href="tel:+380XXXXXXXXX" data-i18n="hero.btnCall">Подзвонити</a>
-            <button class="btn lang-fade" id="copyPhone2" type="button" data-i18n="contacts.copyPhone">Скопіювати номер</button>
+        <div class="contactCard glass">
+          <div class="cardTitle i18n" data-i18n="quickTitle">Швидко</div>
+          <p class="stackLine i18n" data-i18n="quickText">
+            Напиши, що саме треба: “бот заявок”, “моніторинг каналів”, “парсер”, “адмінка”, “статистика”.
+            Я відповім з планом і варіантами.
+          </p>
+
+          <div class="heroActions" style="margin-top:12px;">
+            <a class="btn green" href="https://t.me/Moonsl1" target="_blank" rel="noopener">
+              <span class="i18n" data-i18n="btnTelegram">Написати в Telegram</span>
+            </a>
+            <a class="btn" href="#projects">
+              <span class="i18n" data-i18n="btnSeeProjects">Дивитись проєкти</span>
+            </a>
           </div>
         </div>
-      </div>
-
-      <div class="footer">
-        © <span id="year"></span> Ярослав • @Moonsl1
       </div>
     </section>
+
+    <footer class="glass">
+      <span class="i18n" data-i18n="footerLeft">© <span id="y"></span> Ярослав — Python / Telegram</span>
+      <span class="i18n" data-i18n="footerRight">GitHub Pages • Авто-режим ПК/телефон • 3 мови</span>
+    </footer>
   </div>
 
-  <div class="toast" id="toast">Скопійовано ✅</div>
+  <div class="toast" id="toast">Copied</div>
 
   <script>
-    // ===== Set your phone here
-    const PHONE = "+380XXXXXXXXX"; // <-- ЗАМІНИ НА СВІЙ НОМЕР (формат +380...)
-    const telHref = "tel:" + PHONE;
+    // ===== Utils =====
+    const $ = (s, p=document)=>p.querySelector(s);
+    const $$ = (s, p=document)=>Array.from(p.querySelectorAll(s));
 
-    // ===== Year
-    document.getElementById('year').textContent = new Date().getFullYear();
+    // ===== Footer year =====
+    $("#y").textContent = new Date().getFullYear();
 
-    // Apply phone everywhere
-    ["callBtn","callBtn2","callBtn3","callBtn4"].forEach(id => {
-      const el = document.getElementById(id);
-      if(el) el.setAttribute("href", telHref);
+    // ===== Smooth scroll + active nav =====
+    function setActiveNav(id){
+      $$(".pill").forEach(a => a.classList.toggle("active", a.getAttribute("href")==="#"+id));
+    }
+
+    function onScroll(){
+      const ids = ["services","projects","process","reviews","contacts"];
+      let current = ids[0];
+      const offset = 140;
+      for (const id of ids){
+        const el = document.getElementById(id);
+        if(!el) continue;
+        const r = el.getBoundingClientRect();
+        if (r.top - offset <= 0) current = id;
+      }
+      setActiveNav(current);
+    }
+    window.addEventListener("scroll", onScroll, {passive:true});
+
+    // ===== Fix clicking anchors from other pages / keep on same index =====
+    $$(".pill").forEach(a=>{
+      a.addEventListener("click", (e)=>{
+        const href = a.getAttribute("href");
+        if(!href || !href.startsWith("#")) return;
+        const target = document.querySelector(href);
+        if(!target) return;
+
+        e.preventDefault();
+        target.scrollIntoView({behavior:"smooth", block:"start"});
+        history.replaceState(null, "", href);
+        setActiveNav(href.slice(1));
+      });
     });
-    const phoneTextEl = document.getElementById("phoneText");
-    if(phoneTextEl) phoneTextEl.textContent = PHONE;
 
-    // ===== Toast
-    const toast = document.getElementById('toast');
+    // ===== Auto mode (PC/Phone) =====
+    const deviceBadge = $("#deviceBadge");
+    function applyAutoMode(){
+      // “Авто” по ширине окна, а не по userAgent (это надежнее)
+      const w = window.innerWidth;
+      const isMobile = w <= 820;
+
+      document.body.classList.toggle("is-mobile", isMobile);
+      document.body.classList.toggle("is-desktop", !isMobile);
+
+      // Badge text
+      deviceBadge.textContent = isMobile ? "Auto: Phone UI" : "Auto: Desktop UI";
+    }
+    window.addEventListener("resize", applyAutoMode, {passive:true});
+    applyAutoMode();
+
+    // ===== i18n text pack =====
+    const T = {
+      uk: {
+        brandName: "Ярослав",
+        brandSub: "@Moonsl1 • Python / Telegram",
+        navServices: "Послуги",
+        navProjects: "Проєкти",
+        navProcess: "Як працюю",
+        navReviews: "Відгуки",
+        navContacts: "Контакти",
+
+        heroTitle: "Python розробник Telegram-ботів",
+        heroSubtitle: "Роблю боти “під ключ”: заявки, меню, адмінка, статистика, моніторинг каналів/чатів, фільтри по ключових словах, інтеграції API та бази даних.",
+        btnSeeProjects: "Дивитись проєкти",
+        btnTelegram: "Написати в Telegram",
+        btnCall: "Подзвонити",
+
+        whatIDoTitle: "Що роблю",
+        whatIDoList: `
+          <li>Telegram-боти під ключ (заявки, меню, адмінка, статистика)</li>
+          <li>Моніторинг каналів/чатів + фільтри/ключові слова</li>
+          <li>Парсинг/обробка даних, інтеграції API</li>
+        `,
+        stackTitle: "Стек",
+        stackLine1: "Python, aiogram / python-telegram-bot, Telethon",
+        stackLine2: "SQLite/JSON, Requests, Webhooks",
+        stackLine3: "GitHub Pages (для портфоліо)",
+
+        servicesTitle: "Послуги",
+        servicesHint: "Пишу чисто, з логами та структурою. Можу вести проєкт до продакшну.",
+        srv1Title: "Telegram-бот “під ключ”",
+        srv2Title: "Моніторинг / оповіщення",
+        srv3Title: "Інтеграції та дані",
+        srvBadgeFast: "швидко",
+        srvBadge247: "24/7",
+        srvBadgeApi: "API",
+        srv1Text: "Меню, заявки, форми, адмін-панель (команди), ролі, статистика, збереження даних.",
+        srv2Text: "Читання каналів/чатів (Telethon), фільтри, антиспам, форматування повідомлень, кнопки.",
+        srv3Text: "Requests/API, бази (SQLite/JSON), збереження статистики, резервні копії, деплой.",
+
+        projectsTitle: "Проєкти",
+        projectsHint: "Скріншоти — опціонально. Можемо замінити на твої реальні.",
+        p1Title: "VIKING Monitoring — моніторинг Telegram-каналів",
+        p1Desc: "Читає пости з каналів, фільтрує по ключових словах і надсилає в групу волонтерів.",
+        p1Bullets: `
+          <li>Фільтри / ключові слова / антиспам</li>
+          <li>Форматування повідомлень + кнопки</li>
+          <li>Логи та стабільна робота 24/7</li>
+        `,
+        p2Title: "Кіно-бот — пошук фільмів + статистика",
+        p2Desc: "Пошук фільмів, картка фільму, адмін-меню та збереження статистики.",
+        p2Bullets: `
+          <li>Пошук / видача картки фільму</li>
+          <li>Збереження статистики в базі</li>
+          <li>Адмінські команди/модерація</li>
+        `,
+        pLinkDiscuss: "Обговорити",
+        pLinkOrder: "Замовити схожий",
+        phScreenshot1: "Тут можна вставити твій реальний скріншот (img).<br/>Зараз плейсхолдер.",
+        phScreenshot2: "Додай реальний скрін чат-бота/меню — буде топ.<br/>Зараз плейсхолдер.",
+
+        processTitle: "Як працюю",
+        processHint: "План + прозорі етапи, без хаосу.",
+        s1Title: "Бриф",
+        s1Text: "Уточнюємо задачу, сценарії, ролі, адмінку, джерела даних.",
+        s2Title: "Прототип",
+        s2Text: "Швидко збираю MVP: меню, основні команди, збереження.",
+        s3Title: "Доопрацювання",
+        s3Text: "Фільтри, логування, антиспам, покращення UX, стабільність.",
+        s4Title: "Деплой",
+        s4Text: "Запуск 24/7 + інструкція, резервні копії, підтримка.",
+
+        reviewsTitle: "Відгуки",
+        reviewsHint: "Можеш замінити на реальні відгуки, коли будуть.",
+        r1Who: "Замовник",
+        r1Text: "Зробив меню, заявки та адмінку. Все працює стабільно, швидко вніс правки.",
+        r2Who: "Команда",
+        r2Text: "Моніторинг каналів з фільтрами — дуже зручно. Повідомлення гарно оформлені.",
+
+        contactsTitle: "Контакти",
+        contactsHint: "Натискай — відкриється Telegram / дзвінок. Є копіювання.",
+        contactMainTitle: "Зв’язатися зі мною",
+        openBtn: "Відкрити",
+        copyBtn: "Копіювати",
+        phoneLabel: "Телефон",
+        callBtn: "Подзвонити",
+        contactNote: "* Замінити номер дуже просто: знайди в коді <b>+380000000000</b> і постав свій.",
+        quickTitle: "Швидко",
+        quickText: "Напиши, що саме треба: “бот заявок”, “моніторинг каналів”, “парсер”, “адмінка”, “статистика”. Я відповім з планом і варіантами.",
+
+        footerLeft: "© <span id='y'></span> Ярослав — Python / Telegram",
+        footerRight: "GitHub Pages • Авто-режим ПК/телефон • 3 мови",
+      },
+
+      ru: {
+        brandName: "Ярослав",
+        brandSub: "@Moonsl1 • Python / Telegram",
+        navServices: "Услуги",
+        navProjects: "Проекты",
+        navProcess: "Как работаю",
+        navReviews: "Отзывы",
+        navContacts: "Контакты",
+
+        heroTitle: "Python разработчик Telegram-ботов",
+        heroSubtitle: "Делаю ботов “под ключ”: заявки, меню, админка, статистика, мониторинг каналов/чатов, фильтры по ключевым словам, интеграции API и базы данных.",
+        btnSeeProjects: "Смотреть проекты",
+        btnTelegram: "Написать в Telegram",
+        btnCall: "Позвонить",
+
+        whatIDoTitle: "Что делаю",
+        whatIDoList: `
+          <li>Telegram-боты под ключ (заявки, меню, админка, статистика)</li>
+          <li>Мониторинг каналов/чатов + фильтры/ключевые слова</li>
+          <li>Парсинг/обработка данных, интеграции API</li>
+        `,
+        stackTitle: "Стек",
+        stackLine1: "Python, aiogram / python-telegram-bot, Telethon",
+        stackLine2: "SQLite/JSON, Requests, Webhooks",
+        stackLine3: "GitHub Pages (для портфолио)",
+
+        servicesTitle: "Услуги",
+        servicesHint: "Пишу чисто, с логами и структурой. Могу довести проект до продакшена.",
+        srv1Title: "Telegram-бот “под ключ”",
+        srv2Title: "Мониторинг / уведомления",
+        srv3Title: "Интеграции и данные",
+        srvBadgeFast: "быстро",
+        srvBadge247: "24/7",
+        srvBadgeApi: "API",
+        srv1Text: "Меню, заявки, формы, админ-панель (команды), роли, статистика, хранение данных.",
+        srv2Text: "Чтение каналов/чатов (Telethon), фильтры, антиспам, оформление сообщений, кнопки.",
+        srv3Text: "Requests/API, базы (SQLite/JSON), статистика, бэкапы, деплой.",
+
+        projectsTitle: "Проекты",
+        projectsHint: "Скриншоты — опционально. Можно заменить на твои реальные.",
+        p1Title: "VIKING Monitoring — мониторинг Telegram-каналов",
+        p1Desc: "Читает посты из каналов, фильтрует по ключевым словам и отправляет в группу волонтеров.",
+        p1Bullets: `
+          <li>Фильтры / ключевые слова / антиспам</li>
+          <li>Оформление сообщений + кнопки</li>
+          <li>Логи и стабильная работа 24/7</li>
+        `,
+        p2Title: "Кино-бот — поиск фильмов + статистика",
+        p2Desc: "Поиск фильмов, карточка фильма, админ-меню и сохранение статистики.",
+        p2Bullets: `
+          <li>Поиск / выдача карточки фильма</li>
+          <li>Сохранение статистики в базе</li>
+          <li>Админские команды/модерация</li>
+        `,
+        pLinkDiscuss: "Обсудить",
+        pLinkOrder: "Заказать похожий",
+        phScreenshot1: "Тут можно вставить твой реальный скриншот (img).<br/>Сейчас плейсхолдер.",
+        phScreenshot2: "Добавь реальный скрин чат-бота/меню — будет топ.<br/>Сейчас плейсхолдер.",
+
+        processTitle: "Как работаю",
+        processHint: "План + прозрачные этапы, без хаоса.",
+        s1Title: "Бриф",
+        s1Text: "Уточняем задачу, сценарии, роли, админку, источники данных.",
+        s2Title: "Прототип",
+        s2Text: "Быстро собираю MVP: меню, основные команды, хранение.",
+        s3Title: "Доработка",
+        s3Text: "Фильтры, логирование, антиспам, улучшение UX, стабильность.",
+        s4Title: "Деплой",
+        s4Text: "Запуск 24/7 + инструкция, бэкапы, поддержка.",
+
+        reviewsTitle: "Отзывы",
+        reviewsHint: "Можно заменить на реальные отзывы, когда будут.",
+        r1Who: "Заказчик",
+        r1Text: "Сделал меню, заявки и админку. Все стабильно, быстро внес правки.",
+        r2Who: "Команда",
+        r2Text: "Мониторинг каналов с фильтрами — очень удобно. Сообщения красиво оформлены.",
+
+        contactsTitle: "Контакты",
+        contactsHint: "Нажимай — откроется Telegram / звонок. Есть копирование.",
+        contactMainTitle: "Связаться со мной",
+        openBtn: "Открыть",
+        copyBtn: "Копировать",
+        phoneLabel: "Телефон",
+        callBtn: "Позвонить",
+        contactNote: "* Поменять номер просто: найди в коде <b>+380000000000</b> и постав свой.",
+        quickTitle: "Быстро",
+        quickText: "Напиши, что нужно: “бот заявок”, “мониторинг каналов”, “парсер”, “админка”, “статистика”. Отвечу планом и вариантами.",
+
+        footerLeft: "© <span id='y'></span> Ярослав — Python / Telegram",
+        footerRight: "GitHub Pages • Авто-режим ПК/телефон • 3 языка",
+      },
+
+      en: {
+        brandName: "Yaroslav",
+        brandSub: "@Moonsl1 • Python / Telegram",
+        navServices: "Services",
+        navProjects: "Projects",
+        navProcess: "Process",
+        navReviews: "Reviews",
+        navContacts: "Contacts",
+
+        heroTitle: "Python Telegram Bot Developer",
+        heroSubtitle: "I build “turnkey” bots: requests/forms, menus, admin tools, stats, channel/chat monitoring, keyword filters, API + database integrations.",
+        btnSeeProjects: "View projects",
+        btnTelegram: "Message on Telegram",
+        btnCall: "Call",
+
+        whatIDoTitle: "What I do",
+        whatIDoList: `
+          <li>Turnkey Telegram bots (forms, menus, admin, analytics)</li>
+          <li>Channel/chat monitoring + filters/keywords</li>
+          <li>Parsing/data processing, API integrations</li>
+        `,
+        stackTitle: "Stack",
+        stackLine1: "Python, aiogram / python-telegram-bot, Telethon",
+        stackLine2: "SQLite/JSON, Requests, Webhooks",
+        stackLine3: "GitHub Pages (portfolio)",
+
+        servicesTitle: "Services",
+        servicesHint: "Clean code, logs, structure. I can bring a project to production.",
+        srv1Title: "Turnkey Telegram bot",
+        srv2Title: "Monitoring / alerts",
+        srv3Title: "Integrations & data",
+        srvBadgeFast: "fast",
+        srvBadge247: "24/7",
+        srvBadgeApi: "API",
+        srv1Text: "Menus, forms/requests, admin commands, roles, stats, data storage.",
+        srv2Text: "Reading channels/chats (Telethon), filters, anti-spam, formatting, buttons.",
+        srv3Text: "Requests/API, storage (SQLite/JSON), stats, backups, deployment.",
+
+        projectsTitle: "Projects",
+        projectsHint: "Screenshots are optional — replace with real ones anytime.",
+        p1Title: "VIKING Monitoring — Telegram channel monitoring",
+        p1Desc: "Reads posts, filters by keywords, forwards to a volunteers group.",
+        p1Bullets: `
+          <li>Filters / keywords / anti-spam</li>
+          <li>Message formatting + buttons</li>
+          <li>Logs and stable 24/7 operation</li>
+        `,
+        p2Title: "Cinema bot — movie search + analytics",
+        p2Desc: "Movie search, movie card, admin menu and stats storage.",
+        p2Bullets: `
+          <li>Search / movie card output</li>
+          <li>Stats stored in DB</li>
+          <li>Admin commands/moderation</li>
+        `,
+        pLinkDiscuss: "Discuss",
+        pLinkOrder: "Order similar",
+        phScreenshot1: "Place your real screenshot here (img).<br/>Currently placeholder.",
+        phScreenshot2: "Add a real bot UI/menu screenshot here.<br/>Currently placeholder.",
+
+        processTitle: "Process",
+        processHint: "Clear stages, no chaos.",
+        s1Title: "Brief",
+        s1Text: "We clarify flows, roles, admin tools, data sources.",
+        s2Title: "Prototype",
+        s2Text: "I build an MVP quickly: menu, commands, storage.",
+        s3Title: "Polish",
+        s3Text: "Filters, logging, anti-spam, UX improvements, stability.",
+        s4Title: "Deploy",
+        s4Text: "24/7 launch + docs, backups, support.",
+
+        reviewsTitle: "Reviews",
+        reviewsHint: "Replace with real reviews when you have them.",
+        r1Who: "Client",
+        r1Text: "Built menus, requests, admin tools. Stable and quick fixes.",
+        r2Who: "Team",
+        r2Text: "Monitoring with filters is very handy. Messages look great.",
+
+        contactsTitle: "Contacts",
+        contactsHint: "Tap — opens Telegram / call. Copy supported.",
+        contactMainTitle: "Get in touch",
+        openBtn: "Open",
+        copyBtn: "Copy",
+        phoneLabel: "Phone",
+        callBtn: "Call",
+        contactNote: "* To change your phone: find <b>+380000000000</b> in the code and replace it.",
+        quickTitle: "Quick",
+        quickText: "Tell me what you need: request bot, monitoring, parser, admin panel, analytics. I’ll reply with a plan.",
+
+        footerLeft: "© <span id='y'></span> Yaroslav — Python / Telegram",
+        footerRight: "GitHub Pages • Auto desktop/mobile • 3 languages",
+      }
+    };
+
+    // ===== i18n apply with smooth fade =====
+    const i18nEls = $$("[data-i18n]");
+    let lang = localStorage.getItem("lang") || "uk";
+
+    function setLangButtons(){
+      $("#btnUA").classList.toggle("active", lang==="uk");
+      $("#btnRU").classList.toggle("active", lang==="ru");
+      $("#btnEN").classList.toggle("active", lang==="en");
+    }
+
+    function applyLang(nextLang){
+      lang = nextLang;
+      localStorage.setItem("lang", lang);
+      document.documentElement.lang = (lang==="uk" ? "uk" : (lang==="ru" ? "ru" : "en"));
+
+      // fade out
+      i18nEls.forEach(el => el.classList.add("fadeOut"));
+      setTimeout(()=>{
+        i18nEls.forEach(el=>{
+          const k = el.getAttribute("data-i18n");
+          const val = T[lang][k];
+          if (val == null) return;
+          // If looks like HTML list, set as HTML
+          if (val.includes("<li") || val.includes("<br") || val.includes("<b") || val.includes("<span")) {
+            el.innerHTML = val;
+          } else {
+            el.textContent = val;
+          }
+        });
+
+        setLangButtons();
+        // fade in
+        i18nEls.forEach(el=>{
+          el.classList.remove("fadeOut");
+          el.classList.add("fadeIn");
+        });
+        setTimeout(()=> i18nEls.forEach(el=> el.classList.remove("fadeIn")), 250);
+      }, 160);
+    }
+
+    $("#btnUA").addEventListener("click", ()=>applyLang("uk"));
+    $("#btnRU").addEventListener("click", ()=>applyLang("ru"));
+    $("#btnEN").addEventListener("click", ()=>applyLang("en"));
+    applyLang(lang);
+
+    // ===== Copy helpers =====
+    const toast = $("#toast");
     let toastTimer = null;
     function showToast(text){
-      toast.textContent = text || "Copied ✅";
-      toast.classList.add('show');
+      toast.textContent = text;
+      toast.classList.add("show");
       clearTimeout(toastTimer);
-      toastTimer = setTimeout(()=>toast.classList.remove('show'), 1400);
+      toastTimer = setTimeout(()=>toast.classList.remove("show"), 1100);
     }
-
-    // ===== Copy actions
-    const tgUser = "@Moonsl1";
-    const tgLink = "https://t.me/Moonsl1";
-
-    document.getElementById('copyUser').addEventListener('click', async () => {
-      try{ await navigator.clipboard.writeText(tgUser); showToast(currentLang() === "en" ? "Username copied ✅" : "Нік скопійовано ✅"); }
-      catch(e){ showToast(currentLang() === "en" ? "Copy failed 😅" : "Не вдалось скопіювати 😅"); }
-    });
-
-    document.getElementById('copyLink').addEventListener('click', async () => {
-      try{ await navigator.clipboard.writeText(tgLink); showToast(currentLang() === "en" ? "Link copied ✅" : "Посилання скопійовано ✅"); }
-      catch(e){ showToast(currentLang() === "en" ? "Copy failed 😅" : "Не вдалось скопіювати 😅"); }
-    });
-
-    const copyPhoneHandlers = async () => {
-      try{ await navigator.clipboard.writeText(PHONE); showToast(currentLang() === "en" ? "Phone copied ✅" : "Номер скопійовано ✅"); }
-      catch(e){ showToast(currentLang() === "en" ? "Copy failed 😅" : "Не вдалось скопіювати 😅"); }
-    };
-    document.getElementById('copyPhone').addEventListener('click', copyPhoneHandlers);
-    document.getElementById('copyPhone2').addEventListener('click', copyPhoneHandlers);
-
-    // ===== Prefilled TG links (language-aware)
-    function tgPrefill(text){
-      return "https://t.me/Moonsl1?text=" + encodeURIComponent(text);
-    }
-
-    const quickLinks = {
-      uk: {
-        q1: "Привіт! Хочу бота для заявок. Опис: (сфера/що збирати/куди надсилати). Термін: ____. Бюджет: ____.",
-        q2: "Привіт! Хочу моніторинг Telegram-каналів/чатів. Джерела: ____. Ключові слова/фільтри: ____. Куди надсилати: ____.",
-        q3: "Привіт! Хочу кіно-бота. Потрібно: пошук/картки/статистика/адмінка. Деталі: ____.",
-        s1: "Привіт! Потрібен бот для заявок (кнопки/меню/заявка → адміну/групу). Опис задачі: ____.",
-        s2: "Привіт! Потрібен моніторинг з фільтрами та антиспамом. Канали/чати: ____. Фільтри: ____.",
-        s3: "Привіт! Потрібна адмінка/статистика/збереження даних для бота. Опис: ____."
-      },
-      ru: {
-        q1: "Привет! Хочу бота для заявок. Описание: (сфера/что собирать/куда отправлять). Срок: ____. Бюджет: ____.",
-        q2: "Привет! Нужен мониторинг Telegram-каналов/чатов. Источники: ____. Ключевые слова/фильтры: ____. Куда отправлять: ____.",
-        q3: "Привет! Хочу кино-бота. Нужно: поиск/карточки/статистика/админка. Детали: ____.",
-        s1: "Привет! Нужен бот для заявок (кнопки/меню/заявка → админу/в группу). Описание задачи: ____.",
-        s2: "Привет! Нужен мониторинг с фильтрами и антиспамом. Каналы/чаты: ____. Фильтры: ____.",
-        s3: "Привет! Нужна админка/статистика/хранение данных для бота. Описание: ____."
-      },
-      en: {
-        q1: "Hi! I need a lead/request bot. Details: (business/what to collect/where to send). Deadline: ____. Budget: ____.",
-        q2: "Hi! I need Telegram monitoring for channels/chats. Sources: ____. Keywords/filters: ____. Where to send alerts: ____.",
-        q3: "Hi! I want a movie bot. Features: search/cards/stats/admin panel. Details: ____.",
-        s1: "Hi! I need a lead/request bot (buttons/menu → send request to admin/group). Task details: ____.",
-        s2: "Hi! I need monitoring with filters + anti-spam. Channels/chats: ____. Filters: ____.",
-        s3: "Hi! I need admin panel / stats / data storage for my bot. Task details: ____."
+    async function copyText(text){
+      try{
+        await navigator.clipboard.writeText(text);
+        showToast(lang==="en" ? "Copied" : (lang==="ru" ? "Скопировано" : "Скопійовано"));
+      }catch{
+        // fallback
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+        showToast(lang==="en" ? "Copied" : (lang==="ru" ? "Скопировано" : "Скопійовано"));
       }
-    };
-
-    function applyQuickLinks(lang){
-      const q1 = document.getElementById("q1");
-      const q2 = document.getElementById("q2");
-      const q3 = document.getElementById("q3");
-      const s1 = document.getElementById("s1");
-      const s2 = document.getElementById("s2");
-      const s3 = document.getElementById("s3");
-
-      q1.href = tgPrefill(quickLinks[lang].q1); q1.target = "_blank";
-      q2.href = tgPrefill(quickLinks[lang].q2); q2.target = "_blank";
-      q3.href = tgPrefill(quickLinks[lang].q3); q3.target = "_blank";
-      s1.href = tgPrefill(quickLinks[lang].s1); s1.target = "_blank";
-      s2.href = tgPrefill(quickLinks[lang].s2); s2.target = "_blank";
-      s3.href = tgPrefill(quickLinks[lang].s3); s3.target = "_blank";
     }
-
-    // ===== i18n dictionary
-    const I18N = {
-      uk: {
-        "nav.services":"Послуги",
-        "nav.projects":"Проєкти",
-        "nav.work":"Як працюю",
-        "nav.reviews":"Відгуки",
-        "nav.contacts":"Контакти",
-
-        "hero.title":"Telegram-боти на Python<br/>під вашу задачу",
-        "hero.subtitle":"Роблю ботів “під ключ”: заявки/меню/адмінка/статистика, моніторинг каналів і чатів, фільтри/ключові слова/антиспам, парсинг і інтеграції (API, вебхуки). Пишу чисто: логування, конфіг, структура, збереження даних.",
-        "meta.geo":"📍 Україна • працюю онлайн",
-        "meta.langs":"🗣️ UA / RU / EN",
-        "meta.fast":"⚡ швидка відповідь",
-
-        "hero.btnServices":"Подивитись послуги",
-        "hero.btnTg":"Написати в Telegram",
-        "hero.btnCall":"Подзвонити",
-        "hero.btnCopyUser":"Скопіювати @Moonsl1",
-        "hero.btnCopyPhone":"Скопіювати номер",
-
-        "quick.q1":"⚡ Швидка заявка: Бот для заявок",
-        "quick.q2":"📡 Швидка заявка: Моніторинг",
-        "quick.q3":"🎬 Швидка заявка: Кіно-бот",
-
-        "mini.1":"🛠️ боти 24/7",
-        "mini.2":"🔒 збереження даних",
-        "mini.3":"📊 статистика",
-        "mini.4":"🧼 порядок в UX",
-
-        "stats.1t":"Боти під ключ",
-        "stats.1d":"меню, заявки, ролі, адмінка, статистика",
-        "stats.2t":"Моніторинг",
-        "stats.2d":"канали/чати, ключові слова, дедуп, антиспам",
-        "stats.3t":"Інтеграції",
-        "stats.3d":"API, вебхуки, парсинг, HTTP",
-        "stats.4t":"Зберігання",
-        "stats.4d":"SQLite/JSON, історія, логи, бекап",
-
-        "services.title":"Послуги та ціни",
-        "services.lead":"Ціни орієнтовні (“від”), щоб одразу було зрозуміло по бюджету. Точно — після короткого опису задачі.",
-        "services.s1t":"🤖 Бот для заявок / клієнтів",
-        "services.s1p":"від 1500 грн",
-        "services.s1l1":"кнопки/меню, сценарії",
-        "services.s1l2":"заявка → в групу/адміну",
-        "services.s1l3":"збереження заявок/логів",
-        "services.s2t":"📡 Моніторинг каналів / оповіщення",
-        "services.s2p":"від 2000 грн",
-        "services.s2l1":"ключові слова, фільтри",
-        "services.s2l2":"антидубль/антиспам",
-        "services.s2l3":"сводки або тригери",
-        "services.s3t":"⚙️ Адмінка / статистика / база",
-        "services.s3p":"від 2500 грн",
-        "services.s3l1":"ролі, права, налаштування",
-        "services.s3l2":"статистика, логи, експорт",
-        "services.s3l3":"зберігання: SQLite/JSON",
-        "services.order":"Замовити",
-
-        "projects.title":"Проєкти",
-        "projects.lead":"Два приклади. Можна додати ще кейси — буде ще сильніше.",
-        "projects.p1t":"VIKING Monitoring — моніторинг Telegram-каналів",
-        "projects.p1d":"Читає пости з каналів, фільтрує по ключових словах і надсилає в групу волонтерів.",
-        "projects.p1l1":"Фільтри / ключові слова / антиспам",
-        "projects.p1l2":"Форматування повідомлень + кнопки",
-        "projects.p1l3":"Логи та стабільна робота 24/7",
-        "projects.btnLikeThis":"Хочу схожий",
-        "projects.addShot1":"Додай скріншот у <b>/assets/viking.png</b><br/>і він зʼявиться тут.",
-
-        "projects.p2t":"Кіно-бот — пошук фільмів + статистика",
-        "projects.p2d":"Пошук фільмів, картка фільму, адмін-меню та збереження статистики користування.",
-        "projects.p2l1":"Пошук / видача картки фільму",
-        "projects.p2l2":"Збереження статистики в базі",
-        "projects.p2l3":"Адмінські команди, модерація",
-        "projects.btnMakeThis":"Зробити такого",
-        "projects.addShot2":"Додай скріншот у <b>/assets/cinema.png</b><br/>і буде красиво.",
-
-        "work.title":"Як я працюю",
-        "work.lead":"Без “магії”: все прозоро, по кроках, щоб ти бачив результат.",
-        "work.s1t":"Короткий бриф",
-        "work.s1d":"Уточнюю задачу, сценарії, ролі, де бот працює та що відправляє.",
-        "work.s2t":"Прототип",
-        "work.s2d":"Показую першу робочу версію, збираю правки, доводимо UX.",
-        "work.s3t":"Реліз + стабільність",
-        "work.s3d":"Антиспам, логи, збереження даних, деплой та підтримка.",
-
-        "reviews.title":"Відгуки",
-        "reviews.lead":"Замінити на реальні — буде максимум довіри.",
-        "reviews.r1":"“Зробив моніторинг без спаму: фільтри чіткі, повідомлення акуратні, працює стабільно.”",
-        "reviews.r1w1":"Координатор",
-        "reviews.r1w2":"волонтерська група",
-        "reviews.r2":"“Швидко зробив прототип, потім допиляв до нормальної системи. Комунікація проста.”",
-        "reviews.r2w1":"Адмін чату",
-        "reviews.r3":"“Код структурований, логи та збереження даних — без хаосу. Після релізу все ок.”",
-        "reviews.r3w1":"Замовник",
-        "reviews.r3w2":"автоматизація",
-
-        "contacts.title":"Контакти",
-        "contacts.lead":"Telegram або телефон — натиснув кнопку → одразу дія.",
-        "contacts.tgTitle":"Telegram",
-        "contacts.tgDesc":"Пиши напряму: обговоримо задачу, терміни та бюджет.",
-        "contacts.openTg":"Відкрити Telegram",
-        "contacts.copyTg":"Скопіювати посилання",
-        "contacts.phoneTitle":"Телефон",
-        "contacts.phoneNote":"(дзвінок або копіювання)",
-        "contacts.copyPhone":"Скопіювати номер",
-      },
-
-      ru: {
-        "nav.services":"Услуги",
-        "nav.projects":"Проекты",
-        "nav.work":"Как работаю",
-        "nav.reviews":"Отзывы",
-        "nav.contacts":"Контакты",
-
-        "hero.title":"Telegram-боты на Python<br/>под вашу задачу",
-        "hero.subtitle":"Делаю ботов “под ключ”: заявки/меню/админка/статистика, мониторинг каналов и чатов, фильтры/ключевые слова/антиспам, парсинг и интеграции (API, вебхуки). Пишу аккуратно: логирование, конфиг, структура, хранение данных.",
-        "meta.geo":"📍 Украина • работаю онлайн",
-        "meta.langs":"🗣️ UA / RU / EN",
-        "meta.fast":"⚡ быстрый ответ",
-
-        "hero.btnServices":"Смотреть услуги",
-        "hero.btnTg":"Написать в Telegram",
-        "hero.btnCall":"Позвонить",
-        "hero.btnCopyUser":"Скопировать @Moonsl1",
-        "hero.btnCopyPhone":"Скопировать номер",
-
-        "quick.q1":"⚡ Быстрая заявка: бот для заявок",
-        "quick.q2":"📡 Быстрая заявка: мониторинг",
-        "quick.q3":"🎬 Быстрая заявка: кино-бот",
-
-        "mini.1":"🛠️ боты 24/7",
-        "mini.2":"🔒 хранение данных",
-        "mini.3":"📊 статистика",
-        "mini.4":"🧼 порядок в UX",
-
-        "stats.1t":"Боты под ключ",
-        "stats.1d":"меню, заявки, роли, админка, статистика",
-        "stats.2t":"Мониторинг",
-        "stats.2d":"каналы/чаты, ключевые слова, дедуп, антиспам",
-        "stats.3t":"Интеграции",
-        "stats.3d":"API, вебхуки, парсинг, HTTP",
-        "stats.4t":"Хранение",
-        "stats.4d":"SQLite/JSON, история, логи, бэкап",
-
-        "services.title":"Услуги и цены",
-        "services.lead":"Цены ориентировочные (“от”), чтобы сразу понимать бюджет. Точно — после краткого описания задачи.",
-        "services.s1t":"🤖 Бот для заявок / клиентов",
-        "services.s1p":"от 1500 грн",
-        "services.s1l1":"кнопки/меню, сценарии",
-        "services.s1l2":"заявка → в группу/админу",
-        "services.s1l3":"хранение заявок/логов",
-        "services.s2t":"📡 Мониторинг каналов / уведомления",
-        "services.s2p":"от 2000 грн",
-        "services.s2l1":"ключевые слова, фильтры",
-        "services.s2l2":"антидубль/антиспам",
-        "services.s2l3":"сводки или триггеры",
-        "services.s3t":"⚙️ Админка / статистика / база",
-        "services.s3p":"от 2500 грн",
-        "services.s3l1":"роли, права, настройки",
-        "services.s3l2":"статистика, логи, экспорт",
-        "services.s3l3":"хранение: SQLite/JSON",
-        "services.order":"Заказать",
-
-        "projects.title":"Проекты",
-        "projects.lead":"Два примера. Можно добавить ещё кейсы — будет сильнее.",
-        "projects.p1t":"VIKING Monitoring — мониторинг Telegram-каналов",
-        "projects.p1d":"Читает посты из каналов, фильтрует по ключевым словам и отправляет в группу волонтёров.",
-        "projects.p1l1":"Фильтры / ключевые слова / антиспам",
-        "projects.p1l2":"Форматирование сообщений + кнопки",
-        "projects.p1l3":"Логи и стабильная работа 24/7",
-        "projects.btnLikeThis":"Хочу похожий",
-        "projects.addShot1":"Добавь скриншот в <b>/assets/viking.png</b><br/>и он появится тут.",
-
-        "projects.p2t":"Кино-бот — поиск фильмов + статистика",
-        "projects.p2d":"Поиск фильмов, карточка фильма, админ-меню и сохранение статистики использования.",
-        "projects.p2l1":"Поиск / выдача карточки фильма",
-        "projects.p2l2":"Сохранение статистики в базе",
-        "projects.p2l3":"Админ-команды, модерация",
-        "projects.btnMakeThis":"Сделать такого",
-        "projects.addShot2":"Добавь скриншот в <b>/assets/cinema.png</b><br/>и будет красиво.",
-
-        "work.title":"Как я работаю",
-        "work.lead":"Без “магии”: всё прозрачно по шагам, чтобы ты видел результат.",
-        "work.s1t":"Короткий бриф",
-        "work.s1d":"Уточняю задачу, сценарии, роли, где бот работает и что отправляет.",
-        "work.s2t":"Прототип",
-        "work.s2d":"Показываю первую рабочую версию, собираю правки, доводим UX.",
-        "work.s3t":"Релиз + стабильность",
-        "work.s3d":"Антиспам, логи, хранение данных, деплой и поддержка.",
-
-        "reviews.title":"Отзывы",
-        "reviews.lead":"Заменить на реальные — будет максимум доверия.",
-        "reviews.r1":"“Сделал мониторинг без спама: фильтры чёткие, сообщения аккуратные, работает стабильно.”",
-        "reviews.r1w1":"Координатор",
-        "reviews.r1w2":"волонтёрская группа",
-        "reviews.r2":"“Быстро сделал прототип, потом допилил до нормальной системы. Коммуникация простая.”",
-        "reviews.r2w1":"Админ чата",
-        "reviews.r3":"“Код структурированный, логи и хранение данных — без хаоса. После релиза всё ок.”",
-        "reviews.r3w1":"Заказчик",
-        "reviews.r3w2":"автоматизация",
-
-        "contacts.title":"Контакты",
-        "contacts.lead":"Telegram или телефон — нажал кнопку → сразу действие.",
-        "contacts.tgTitle":"Telegram",
-        "contacts.tgDesc":"Пиши напрямую: обсудим задачу, сроки и бюджет.",
-        "contacts.openTg":"Открыть Telegram",
-        "contacts.copyTg":"Скопировать ссылку",
-        "contacts.phoneTitle":"Телефон",
-        "contacts.phoneNote":"(звонок или копирование)",
-        "contacts.copyPhone":"Скопировать номер",
-      },
-
-      en: {
-        "nav.services":"Services",
-        "nav.projects":"Projects",
-        "nav.work":"Process",
-        "nav.reviews":"Reviews",
-        "nav.contacts":"Contacts",
-
-        "hero.title":"Python Telegram bots<br/>built for your task",
-        "hero.subtitle":"I build bots end-to-end: requests/leads, menus, admin tools & stats, channel/chat monitoring, keyword filters & anti-spam, parsing and API/webhook integrations. Clean structure, logs, and data storage.",
-        "meta.geo":"📍 Ukraine • remote work",
-        "meta.langs":"🗣️ UA / RU / EN",
-        "meta.fast":"⚡ fast response",
-
-        "hero.btnServices":"View services",
-        "hero.btnTg":"Message on Telegram",
-        "hero.btnCall":"Call",
-        "hero.btnCopyUser":"Copy @Moonsl1",
-        "hero.btnCopyPhone":"Copy phone",
-
-        "quick.q1":"⚡ Quick request: Lead/request bot",
-        "quick.q2":"📡 Quick request: Monitoring",
-        "quick.q3":"🎬 Quick request: Movie bot",
-
-        "mini.1":"🛠️ bots 24/7",
-        "mini.2":"🔒 data storage",
-        "mini.3":"📊 analytics",
-        "mini.4":"🧼 clean UX",
-
-        "stats.1t":"Turnkey bots",
-        "stats.1d":"menus, requests, roles, admin tools, stats",
-        "stats.2t":"Monitoring",
-        "stats.2d":"channels/chats, keywords, dedupe, anti-spam",
-        "stats.3t":"Integrations",
-        "stats.3d":"API, webhooks, parsing, HTTP",
-        "stats.4t":"Storage",
-        "stats.4d":"SQLite/JSON, history, logs, backups",
-
-        "services.title":"Services & pricing",
-        "services.lead":"Prices are estimates (“from”) to set expectations. Final price depends on the exact requirements.",
-        "services.s1t":"🤖 Lead / request bot",
-        "services.s1p":"from 1500 UAH",
-        "services.s1l1":"buttons/menu, flows",
-        "services.s1l2":"request → group/admin",
-        "services.s1l3":"store requests/logs",
-        "services.s2t":"📡 Monitoring & alerts",
-        "services.s2p":"from 2000 UAH",
-        "services.s2l1":"keywords, filters",
-        "services.s2l2":"dedupe / anti-spam",
-        "services.s2l3":"digests or triggers",
-        "services.s3t":"⚙️ Admin / stats / database",
-        "services.s3p":"from 2500 UAH",
-        "services.s3l1":"roles, permissions, settings",
-        "services.s3l2":"stats, logs, export",
-        "services.s3l3":"storage: SQLite/JSON",
-        "services.order":"Order",
-
-        "projects.title":"Projects",
-        "projects.lead":"Two examples. Add more cases to make it even stronger.",
-        "projects.p1t":"VIKING Monitoring — Telegram channel monitoring",
-        "projects.p1d":"Reads posts from channels, filters by keywords, and sends clean alerts to a team group.",
-        "projects.p1l1":"Filters / keywords / anti-spam",
-        "projects.p1l2":"Formatted messages + buttons",
-        "projects.p1l3":"Logs and stable 24/7 operation",
-        "projects.btnLikeThis":"I want something similar",
-        "projects.addShot1":"Add a screenshot to <b>/assets/viking.png</b><br/>and it will appear here.",
-
-        "projects.p2t":"Movie bot — search + stats",
-        "projects.p2d":"Movie search, movie card output, admin menu, and usage statistics stored in a database.",
-        "projects.p2l1":"Search / movie card output",
-        "projects.p2l2":"Usage stats stored in DB",
-        "projects.p2l3":"Admin commands, moderation",
-        "projects.btnMakeThis":"Build this bot",
-        "projects.addShot2":"Add a screenshot to <b>/assets/cinema.png</b><br/>and it will look great.",
-
-        "work.title":"How I work",
-        "work.lead":"No “magic”: clear steps and visible progress.",
-        "work.s1t":"Short brief",
-        "work.s1d":"We clarify requirements, flows, roles and where the bot will operate.",
-        "work.s2t":"Prototype",
-        "work.s2d":"I deliver a working first version quickly and iterate based on feedback.",
-        "work.s3t":"Release + stability",
-        "work.s3d":"Anti-spam, logs, data storage, deploy and support.",
-
-        "reviews.title":"Reviews",
-        "reviews.lead":"Replace these with real ones for maximum trust.",
-        "reviews.r1":"“Monitoring without spam: filters are precise, messages are clean, everything is stable.”",
-        "reviews.r1w1":"Coordinator",
-        "reviews.r1w2":"volunteer team",
-        "reviews.r2":"“Fast prototype, then polished into a solid system. Communication was easy.”",
-        "reviews.r2w1":"Chat admin",
-        "reviews.r3":"“Structured code, logs and data storage done properly. Smooth after release.”",
-        "reviews.r3w1":"Client",
-        "reviews.r3w2":"automation",
-
-        "contacts.title":"Contacts",
-        "contacts.lead":"Telegram or phone — one click and you’re in.",
-        "contacts.tgTitle":"Telegram",
-        "contacts.tgDesc":"Message me and we’ll discuss scope, deadline and budget.",
-        "contacts.openTg":"Open Telegram",
-        "contacts.copyTg":"Copy link",
-        "contacts.phoneTitle":"Phone",
-        "contacts.phoneNote":"(call or copy)",
-        "contacts.copyPhone":"Copy phone",
-      }
-    };
-
-    // ===== helpers
-    function currentLang(){
-      return document.documentElement.getAttribute("data-lang") || "uk";
-    }
-
-    function setLangButtons(lang){
-      document.querySelectorAll("[data-lang-btn]").forEach(b=>{
-        b.classList.toggle("active", b.getAttribute("data-lang-btn") === lang);
-      });
-    }
-
-    function fadeSwap(fn){
-      const nodes = document.querySelectorAll(".lang-fade");
-      nodes.forEach(n => n.classList.add("switching"));
-      setTimeout(() => {
-        fn();
-        requestAnimationFrame(() => {
-          nodes.forEach(n => n.classList.remove("switching"));
-        });
-      }, 140);
-    }
-
-    function applyI18n(lang){
-      const dict = I18N[lang] || I18N.uk;
-      document.documentElement.setAttribute("data-lang", lang);
-      document.documentElement.lang = lang === "uk" ? "uk" : (lang === "ru" ? "ru" : "en");
-
-      document.querySelectorAll("[data-i18n]").forEach(el=>{
-        const key = el.getAttribute("data-i18n");
-        const val = dict[key];
-        if(val == null) return;
-        el.innerHTML = val;
-      });
-
-      applyQuickLinks(lang);
-      setLangButtons(lang);
-      localStorage.setItem("site_lang", lang);
-    }
-
-    // ===== Language buttons
-    document.querySelectorAll("[data-lang-btn]").forEach(btn=>{
+    $$("[data-copy]").forEach(btn=>{
       btn.addEventListener("click", ()=>{
-        const lang = btn.getAttribute("data-lang-btn");
-        if(lang === currentLang()) return;
-        fadeSwap(()=>applyI18n(lang));
+        const t = btn.getAttribute("data-copy");
+        if(t) copyText(t);
       });
     });
 
-    // ===== Init language
-    const saved = localStorage.getItem("site_lang");
-    const initial = (saved && I18N[saved]) ? saved : "uk";
-    applyI18n(initial);
+    // ===== PHONE SETUP (замени тут номер один раз) =====
+    const REAL_PHONE = "+380000000000"; // <-- ВСТАВЬ СВОЙ НОМЕР (в формате +380...)
+    const PRETTY_PHONE = "+38 (0__) ___ __ __"; // <-- Можешь написать красиво, как хочешь
 
-    // ===== Quick links
-    function applyQuickLinks(lang){
-      // Prefilled TG links by language
-      const base = "https://t.me/Moonsl1?text=";
-      const q = quickLinks[lang] || quickLinks.uk;
+    $("#phoneText").textContent = PRETTY_PHONE;
+    $("#copyPhone").setAttribute("data-copy", REAL_PHONE);
+    $("#callNow").setAttribute("href", "tel:" + REAL_PHONE);
+    $("#phoneBtn").setAttribute("href", "tel:" + REAL_PHONE);
 
-      const q1 = document.getElementById("q1");
-      const q2 = document.getElementById("q2");
-      const q3 = document.getElementById("q3");
-      const s1 = document.getElementById("s1");
-      const s2 = document.getElementById("s2");
-      const s3 = document.getElementById("s3");
-
-      q1.href = base + encodeURIComponent(q.q1); q1.target="_blank";
-      q2.href = base + encodeURIComponent(q.q2); q2.target="_blank";
-      q3.href = base + encodeURIComponent(q.q3); q3.target="_blank";
-      s1.href = base + encodeURIComponent(q.s1); s1.target="_blank";
-      s2.href = base + encodeURIComponent(q.s2); s2.target="_blank";
-      s3.href = base + encodeURIComponent(q.s3); s3.target="_blank";
+    // ===== On load: if hash exists, scroll smooth =====
+    function scrollToHash(){
+      const h = location.hash;
+      if(!h || h.length < 2) return;
+      const target = document.querySelector(h);
+      if(!target) return;
+      setTimeout(()=> target.scrollIntoView({behavior:"smooth", block:"start"}), 80);
+      setActiveNav(h.slice(1));
     }
-
-    const quickLinks = {
-      uk: {
-        q1: "Привіт! Хочу бота для заявок. Опис: (сфера/що збирати/куди надсилати). Термін: ____. Бюджет: ____.",
-        q2: "Привіт! Хочу моніторинг Telegram-каналів/чатів. Джерела: ____. Ключові слова/фільтри: ____. Куди надсилати: ____.",
-        q3: "Привіт! Хочу кіно-бота. Потрібно: пошук/картки/статистика/адмінка. Деталі: ____.",
-        s1: "Привіт! Потрібен бот для заявок (кнопки/меню/заявка → адміну/групу). Опис задачі: ____.",
-        s2: "Привіт! Потрібен моніторинг з фільтрами та антиспамом. Канали/чати: ____. Фільтри: ____.",
-        s3: "Привіт! Потрібна адмінка/статистика/збереження даних для бота. Опис: ____."
-      },
-      ru: {
-        q1: "Привет! Хочу бота для заявок. Описание: (сфера/что собирать/куда отправлять). Срок: ____. Бюджет: ____.",
-        q2: "Привет! Нужен мониторинг Telegram-каналов/чатов. Источники: ____. Ключевые слова/фильтры: ____. Куда отправлять: ____.",
-        q3: "Привет! Хочу кино-бота. Нужно: поиск/карточки/статистика/админка. Детали: ____.",
-        s1: "Привет! Нужен бот для заявок (кнопки/меню/заявка → админу/в группу). Описание задачи: ____.",
-        s2: "Привет! Нужен мониторинг с фильтрами и антиспамом. Каналы/чаты: ____. Фильтры: ____.",
-        s3: "Привет! Нужна админка/статистика/хранение данных для бота. Описание: ____."
-      },
-      en: {
-        q1: "Hi! I need a lead/request bot. Details: (business/what to collect/where to send). Deadline: ____. Budget: ____.",
-        q2: "Hi! I need Telegram monitoring for channels/chats. Sources: ____. Keywords/filters: ____. Where to send alerts: ____.",
-        q3: "Hi! I want a movie bot. Features: search/cards/stats/admin panel. Details: ____.",
-        s1: "Hi! I need a lead/request bot (buttons/menu → send request to admin/group). Task details: ____.",
-        s2: "Hi! I need monitoring with filters + anti-spam. Channels/chats: ____. Filters: ____.",
-        s3: "Hi! I need admin panel / stats / data storage for my bot. Task details: ____."
-      }
-    };
-
-    // ===== Phone
-    const telHref = "tel:" + PHONE;
-    ["callBtn","callBtn2","callBtn3","callBtn4"].forEach(id => {
-      const el = document.getElementById(id);
-      if(el) el.setAttribute("href", telHref);
-    });
-    const phoneTextEl = document.getElementById("phoneText");
-    if(phoneTextEl) phoneTextEl.textContent = PHONE;
-
-    // ===== Reveal on scroll
-    const revealEls = Array.from(document.querySelectorAll('.reveal'));
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if(e.isIntersecting){
-          e.target.classList.add('on');
-          io.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.12 });
-    revealEls.forEach(el => io.observe(el));
-
-    // ===== Particles
-    const canvas = document.getElementById('particles');
-    const ctx = canvas.getContext('2d');
-
-    let W = 0, H = 0, DPR = Math.min(2, window.devicePixelRatio || 1);
-    function resize(){
-      W = window.innerWidth; H = window.innerHeight;
-      canvas.width = Math.floor(W * DPR);
-      canvas.height = Math.floor(H * DPR);
-      canvas.style.width = W + "px";
-      canvas.style.height = H + "px";
-      ctx.setTransform(DPR,0,0,DPR,0,0);
-    }
-    window.addEventListener('resize', resize, { passive: true });
-    resize();
-
-    const rnd = (a,b)=>a + Math.random()*(b-a);
-    let particleCount = Math.round(Math.min(120, Math.max(70, W / 16)));
-    let particles = [];
-
-    function makeParticles(){
-      particleCount = Math.round(Math.min(130, Math.max(70, W / 16)));
-      particles = Array.from({length: particleCount}, () => ({
-        x: rnd(0, W),
-        y: rnd(0, H),
-        r: rnd(0.8, 2.6),
-        vx: rnd(-0.18, 0.18),
-        vy: rnd(-0.12, 0.12),
-        a: rnd(0.10, 0.35)
-      }));
-    }
-    makeParticles();
-    window.addEventListener('resize', makeParticles, { passive:true });
-
-    function line(a,b,alpha){
-      ctx.globalAlpha = alpha;
-      ctx.beginPath();
-      ctx.moveTo(a.x, a.y);
-      ctx.lineTo(b.x, b.y);
-      ctx.stroke();
-    }
-
-    function tick(){
-      ctx.clearRect(0,0,W,H);
-
-      ctx.lineWidth = 1;
-      ctx.strokeStyle = "rgba(255,255,255,.10)";
-      ctx.fillStyle = "rgba(255,255,255,.6)";
-
-      for(const p of particles){
-        p.x += p.vx; p.y += p.vy;
-
-        if(p.x < -30) p.x = W + 30;
-        if(p.x > W + 30) p.x = -30;
-        if(p.y < -30) p.y = H + 30;
-        if(p.y > H + 30) p.y = -30;
-
-        ctx.globalAlpha = p.a;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-        ctx.fill();
-      }
-
-      ctx.globalAlpha = 1;
-      for(let i=0;i<particles.length;i++){
-        const a = particles[i];
-        for(let j=i+1;j<particles.length;j++){
-          const b = particles[j];
-          const dx = a.x - b.x;
-          const dy = a.y - b.y;
-          const d2 = dx*dx + dy*dy;
-          const max = 130*130;
-          if(d2 < max){
-            const alpha = (1 - d2/max) * 0.12;
-            line(a,b,alpha);
-          }
-        }
-      }
-
-      requestAnimationFrame(tick);
-    }
-    tick();
-
-    // ===== Copy
-    document.getElementById('copyUser').addEventListener('click', async () => {
-      try{ await navigator.clipboard.writeText(tgUser); showToast(currentLang() === "en" ? "Username copied ✅" : "Скопійовано ✅"); }
-      catch(e){ showToast(currentLang() === "en" ? "Copy failed 😅" : "Не вдалось 😅"); }
-    });
-    document.getElementById('copyLink').addEventListener('click', async () => {
-      try{ await navigator.clipboard.writeText(tgLink); showToast(currentLang() === "en" ? "Link copied ✅" : "Скопійовано ✅"); }
-      catch(e){ showToast(currentLang() === "en" ? "Copy failed 😅" : "Не вдалось 😅"); }
-    });
-    document.getElementById('copyPhone').addEventListener('click', async () => {
-      try{ await navigator.clipboard.writeText(PHONE); showToast(currentLang() === "en" ? "Phone copied ✅" : "Скопійовано ✅"); }
-      catch(e){ showToast(currentLang() === "en" ? "Copy failed 😅" : "Не вдалось 😅"); }
-    });
-    document.getElementById('copyPhone2').addEventListener('click', async () => {
-      try{ await navigator.clipboard.writeText(PHONE); showToast(currentLang() === "en" ? "Phone copied ✅" : "Скопійовано ✅"); }
-      catch(e){ showToast(currentLang() === "en" ? "Copy failed 😅" : "Не вдалось 😅"); }
+    window.addEventListener("load", ()=>{
+      onScroll();
+      scrollToHash();
     });
   </script>
 </body>
