@@ -2,128 +2,930 @@
 <html lang="uk">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Слава — Telegram-боти на Python</title>
-  <meta name="description" content="Портфоліо: Telegram-боти, автоматизація, парсинг, інтеграції. Python." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#070B12" />
+  <title>Ярослав — Python / Telegram-боти</title>
+  <meta name="description" content="Портфоліо: Python розробник, Telegram-боти, автоматизація, моніторинг каналів, інтеграції API." />
+
   <style>
-    :root{--bg:#0b1220;--card:#121b2e;--text:#e8eefc;--muted:#a7b4d6;--line:#22304f;--btn:#2f6bff}
-    *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#070b14,var(--bg));color:var(--text)}
-    .wrap{max-width:980px;margin:0 auto;padding:28px 18px}
-    h1{margin:0;font-size:40px} h2{margin:0 0 14px;font-size:26px} h3{margin:0 0 8px;font-size:20px}
-    .sub{margin:8px 0 12px;color:var(--muted)} .small{color:var(--muted);font-size:14px}
-    .top{display:flex;gap:16px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
-    .chips{display:flex;flex-wrap:wrap;gap:8px}
-    .chips span{border:1px solid var(--line);background:rgba(255,255,255,.02);padding:6px 10px;border-radius:999px;font-size:13px;color:var(--muted)}
-    .cta{display:flex;gap:10px}
-    .btn{display:inline-block;padding:10px 14px;border-radius:10px;background:var(--btn);color:#fff;text-decoration:none;font-weight:600}
-    .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
-    .hero{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
-    .card{border:1px solid var(--line);background:rgba(255,255,255,.03);border-radius:16px;padding:16px}
-    ul{margin:10px 0 0;padding-left:18px} li{margin:6px 0;color:var(--muted)}
-    #projects{margin-top:26px}
-    .proj{display:grid;grid-template-columns:1.25fr .75fr;gap:14px;align-items:stretch;padding:16px;margin:12px 0;border:1px solid var(--line);background:rgba(255,255,255,.03);border-radius:16px}
-    .proj__media{border:1px dashed var(--line);border-radius:14px;overflow:hidden;background:rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;min-height:180px}
-    .proj__media img{width:100%;height:100%;object-fit:cover;display:block}
-    .links{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
-    .link{color:#9fc1ff;text-decoration:none} .link:hover{text-decoration:underline}
-    .contact{display:grid;gap:8px;margin-top:8px}
-    .foot{opacity:.9;border-top:1px solid var(--line);margin-top:30px;padding-top:18px}
-    @media (max-width:820px){.hero{grid-template-columns:1fr}.proj{grid-template-columns:1fr}}
+    /* ========== RESET ========== */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body { margin: 0; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* ========== THEME ========== */
+    :root{
+      --bg0:#070b12;
+      --bg1:#0b1222;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.08);
+      --stroke: rgba(255,255,255,.10);
+      --stroke2: rgba(255,255,255,.16);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --muted2: rgba(255,255,255,.52);
+      --shadow: 0 20px 70px rgba(0,0,0,.55);
+      --shadow2: 0 12px 40px rgba(0,0,0,.45);
+
+      --a: #3b82f6; /* blue */
+      --b: #22c55e; /* green */
+      --c: #a855f7; /* purple */
+      --d: #06b6d4; /* cyan */
+      --r: 18px;
+      --r2: 26px;
+
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+
+    /* ========== BACKGROUND (MAX) ========== */
+    body{
+      font-family: var(--sans);
+      color: var(--text);
+      background: radial-gradient(1200px 700px at 15% 10%, rgba(59,130,246,.14), transparent 60%),
+                  radial-gradient(900px 600px at 85% 0%, rgba(34,197,94,.12), transparent 58%),
+                  radial-gradient(1000px 700px at 55% 85%, rgba(168,85,247,.12), transparent 60%),
+                  linear-gradient(180deg, var(--bg0), var(--bg1));
+    }
+
+    /* Smooth scrolling */
+    html{ scroll-behavior: smooth; }
+
+    /* Aurora animated layer */
+    .aurora{
+      position: fixed;
+      inset: -20%;
+      z-index: -3;
+      filter: blur(70px) saturate(130%);
+      opacity: .85;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(59,130,246,.35), transparent 45%),
+        radial-gradient(circle at 80% 25%, rgba(34,197,94,.28), transparent 45%),
+        radial-gradient(circle at 55% 80%, rgba(168,85,247,.28), transparent 45%),
+        radial-gradient(circle at 30% 70%, rgba(6,182,212,.22), transparent 45%);
+      animation: auroraMove 18s ease-in-out infinite;
+      transform: translate3d(0,0,0);
+    }
+    @keyframes auroraMove{
+      0%   { transform: translate(-2%, -1%) rotate(0deg) scale(1.02); }
+      33%  { transform: translate(2%, 1%) rotate(6deg) scale(1.05); }
+      66%  { transform: translate(-1%, 2%) rotate(-6deg) scale(1.04); }
+      100% { transform: translate(-2%, -1%) rotate(0deg) scale(1.02); }
+    }
+
+    /* Subtle animated gradient */
+    .bg-flow{
+      position: fixed;
+      inset: 0;
+      z-index: -4;
+      pointer-events: none;
+      background: linear-gradient(270deg, #070b12, #0a1023, #071a2c, #0a0f1f, #070b12);
+      background-size: 400% 400%;
+      opacity: .90;
+      animation: gradientMove 16s ease infinite;
+    }
+    @keyframes gradientMove{
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Grid overlay */
+    .grid{
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      opacity: .25;
+      background-image:
+        linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+      background-size: 70px 70px;
+      mask-image: radial-gradient(circle at 50% 20%, rgba(0,0,0,1), rgba(0,0,0,.2) 55%, rgba(0,0,0,0) 75%);
+    }
+
+    /* Noise overlay */
+    .noise{
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: .10;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+    }
+
+    /* Particles canvas */
+    #particles{
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      opacity: .55;
+    }
+
+    /* ========== LAYOUT ========== */
+    .wrap{
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 26px 0 70px;
+    }
+
+    .topbar{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      position: sticky;
+      top: 14px;
+      z-index: 10;
+      margin-top: 10px;
+    }
+
+    .topbar .glass{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: var(--shadow2);
+      backdrop-filter: blur(14px);
+    }
+
+    .brand{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 220px;
+    }
+
+    .avatar{
+      width: 38px; height: 38px;
+      border-radius: 12px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(59,130,246,.75), transparent 55%),
+        radial-gradient(circle at 70% 60%, rgba(168,85,247,.65), transparent 55%),
+        rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.16);
+      box-shadow: 0 10px 25px rgba(0,0,0,.35);
+    }
+
+    .brand .name{
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+    .brand .name strong{ font-size: 14px; letter-spacing: .2px; }
+    .brand .name span{ font-size: 12px; color: var(--muted2); }
+
+    .nav{
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .pill{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+      user-select: none;
+    }
+    .pill:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.22);
+      background: rgba(255,255,255,.08);
+    }
+    .pill.primary{
+      border-color: rgba(59,130,246,.45);
+      background: rgba(59,130,246,.18);
+    }
+    .pill.primary:hover{
+      border-color: rgba(59,130,246,.70);
+      background: rgba(59,130,246,.24);
+    }
+
+    .hero{
+      margin: 36px 0 26px;
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 18px;
+      align-items: start;
+    }
+    @media (max-width: 920px){
+      .hero{ grid-template-columns: 1fr; }
+      .brand{ min-width: 0; }
+    }
+
+    .card{
+      border-radius: var(--r2);
+      border: 1px solid rgba(255,255,255,.11);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+      box-shadow: var(--shadow2);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      inset: -2px;
+      background: radial-gradient(600px 200px at 20% 0%, rgba(59,130,246,.22), transparent 60%),
+                  radial-gradient(420px 220px at 80% 10%, rgba(34,197,94,.18), transparent 60%),
+                  radial-gradient(500px 260px at 50% 110%, rgba(168,85,247,.18), transparent 55%);
+      opacity: .65;
+      pointer-events: none;
+      filter: blur(20px);
+    }
+
+    .card > *{ position: relative; }
+
+    .hero-left{
+      padding: 22px 22px 18px;
+    }
+
+    .kicker{
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted2);
+      letter-spacing: .2px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .tag{
+      display: inline-flex;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+    }
+
+    h1{
+      margin: 0 0 8px;
+      font-size: 42px;
+      letter-spacing: -0.7px;
+    }
+    @media (max-width: 520px){
+      h1{ font-size: 34px; }
+    }
+
+    .subtitle{
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+      max-width: 62ch;
+    }
+
+    .hero-actions{
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .btn{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      cursor: pointer;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      user-select: none;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.08);
+      border-color: rgba(255,255,255,.22);
+    }
+    .btn.primary{
+      background: rgba(59,130,246,.22);
+      border-color: rgba(59,130,246,.55);
+    }
+    .btn.primary:hover{
+      background: rgba(59,130,246,.28);
+      border-color: rgba(59,130,246,.75);
+    }
+    .btn.good{
+      background: rgba(34,197,94,.18);
+      border-color: rgba(34,197,94,.48);
+    }
+    .btn.good:hover{
+      background: rgba(34,197,94,.24);
+      border-color: rgba(34,197,94,.70);
+    }
+    .btn.ghost{
+      background: transparent;
+    }
+
+    .mini{
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+      color: var(--muted2);
+      font-size: 12px;
+    }
+    .mini span{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+    }
+
+    .hero-right{
+      padding: 18px;
+    }
+
+    .statgrid{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 520px){
+      .statgrid{ grid-template-columns: 1fr; }
+    }
+
+    .stat{
+      padding: 14px 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+    }
+    .stat b{
+      display: block;
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+    .stat small{
+      color: var(--muted2);
+      line-height: 1.35;
+      display: block;
+    }
+
+    /* Sections */
+    .section{
+      margin-top: 22px;
+    }
+    .section h2{
+      margin: 0 0 12px;
+      font-size: 22px;
+      letter-spacing: -0.2px;
+    }
+    .section .lead{
+      margin: 0 0 16px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    /* Projects */
+    .projects{
+      display: grid;
+      gap: 14px;
+    }
+
+    .project{
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 14px;
+      padding: 16px;
+      border-radius: var(--r2);
+      border: 1px solid rgba(255,255,255,.11);
+      background: rgba(255,255,255,.05);
+      box-shadow: var(--shadow2);
+      overflow: hidden;
+      position: relative;
+    }
+    .project::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(520px 260px at 15% 0%, rgba(59,130,246,.16), transparent 60%),
+                  radial-gradient(520px 260px at 90% 10%, rgba(34,197,94,.12), transparent 60%),
+                  radial-gradient(520px 260px at 55% 120%, rgba(168,85,247,.12), transparent 60%);
+      opacity:.7;
+      filter: blur(18px);
+      pointer-events:none;
+    }
+    .project > *{ position: relative; }
+
+    @media (max-width: 920px){
+      .project{ grid-template-columns: 1fr; }
+    }
+
+    .proj-title{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .proj-title h3{
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: -0.2px;
+    }
+    .badge{
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.86);
+    }
+
+    .proj-desc{
+      margin: 0 0 10px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .bullets{
+      margin: 0;
+      padding-left: 18px;
+      color: rgba(255,255,255,.78);
+      line-height: 1.55;
+      font-size: 13px;
+    }
+    .bullets li{ margin: 6px 0; }
+
+    .proj-links{
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .preview{
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      overflow: hidden;
+      min-height: 220px;
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+
+    .preview img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: .95;
+      transform: scale(1.02);
+      transition: transform .25s ease, opacity .25s ease;
+    }
+    .project:hover .preview img{
+      transform: scale(1.06);
+      opacity: 1;
+    }
+
+    .preview .ph{
+      padding: 16px;
+      color: var(--muted2);
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.5;
+      max-width: 34ch;
+    }
+
+    /* Contacts section */
+    .contacts{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 920px){
+      .contacts{ grid-template-columns: 1fr; }
+    }
+
+    .contact-card{
+      padding: 18px;
+    }
+    .contact-card h3{
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+    .contact-card p{
+      margin: 0 0 12px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .footer{
+      margin-top: 26px;
+      padding: 16px 0 0;
+      color: var(--muted2);
+      font-size: 12px;
+      text-align: center;
+      opacity: .9;
+    }
+
+    /* Toast */
+    .toast{
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,.55);
+      border: 1px solid rgba(255,255,255,.14);
+      color: rgba(255,255,255,.92);
+      padding: 10px 12px;
+      border-radius: 14px;
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow2);
+      z-index: 99;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+      font-size: 13px;
+    }
+    .toast.show{
+      opacity: 1;
+      transform: translateX(-50%) translateY(-4px);
+    }
+
+    /* Reveal animation */
+    .reveal{
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.on{
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
 </head>
+
 <body>
-  <header class="wrap">
-    <div class="top">
-      <div>
-        <h1>Слава</h1>
-        <p class="sub">Python розробник • Telegram-боти • Автоматизація</p>
-        <div class="chips">
-          <span>python</span><span>telegram</span><span>aiogram</span><span>telethon</span><span>api</span>
+  <div class="bg-flow"></div>
+  <div class="aurora"></div>
+  <canvas id="particles"></canvas>
+  <div class="grid"></div>
+  <div class="noise"></div>
+
+  <div class="wrap">
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="glass">
+        <div class="brand">
+          <div class="avatar" aria-hidden="true"></div>
+          <div class="name">
+            <strong>Ярослав</strong>
+            <span>@Moonsl1 • Python / Telegram</span>
+          </div>
         </div>
-      </div>
-      <div class="cta">
-        <a class="btn" href="#projects">Проєкти</a>
-        <a class="btn ghost" href="#contact">Контакти</a>
+
+        <nav class="nav" aria-label="Навігація">
+          <a class="pill primary" href="#projects">Проєкти</a>
+          <a class="pill" href="#contacts">Контакти</a>
+          <a class="pill" href="https://t.me/Moonsl1" target="_blank" rel="noopener">Telegram</a>
+          <a class="pill" href="https://github.com/slavatop212-hub1" target="_blank" rel="noopener">GitHub</a>
+        </nav>
       </div>
     </div>
 
-    <div class="hero">
-      <div class="card">
-        <h2>Що роблю</h2>
-        <ul>
-          <li>Telegram-боти під ключ (заявки, меню, адмінка, статистика)</li>
-          <li>Моніторинг каналів/чатів + фільтри/ключові слова</li>
-          <li>Парсинг/обробка даних, інтеграції API</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h2>Стек</h2>
-        <p>Python, aiogram / python-telegram-bot, Telethon, SQLite/JSON, Requests, Webhooks, GitHub Pages.</p>
-        <p class="small">Пишу акуратно: логування, конфіг, структура проєкту, збереження даних.</p>
-      </div>
-    </div>
-  </header>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="card hero-left reveal">
+        <div class="kicker">
+          <span class="tag">python</span>
+          <span class="tag">telegram</span>
+          <span class="tag">aiogram</span>
+          <span class="tag">telethon</span>
+          <span class="tag">api</span>
+          <span class="tag">sqlite</span>
+        </div>
 
-  <main class="wrap">
-    <section id="projects">
-      <h2>Проєкти</h2>
+        <h1>Python розробник<br/>Telegram-ботів</h1>
+        <p class="subtitle">
+          Роблю ботів “під ключ”: заявки/меню/адмінка/статистика, моніторинг каналів і чатів,
+          фільтри/ключові слова/антиспам, парсинг і інтеграції (API, вебхуки, платежі).
+          Пишу чисто: логування, конфіг, структура, збереження даних.
+        </p>
 
-      <article class="proj">
-        <div>
-          <h3>VIKING Monitoring — моніторинг Telegram-каналів</h3>
-          <p class="small">Читає пости з каналів, фільтрує по ключових словах і надсилає в групу волонтерів.</p>
-          <ul>
-            <li>Фільтри / ключові слова / антиспам</li>
-            <li>Форматування повідомлень + кнопки</li>
-            <li>Логи та стабільна робота 24/7</li>
-          </ul>
-          <div class="links">
-            <a class="link" href="#">GitHub Repo</a>
-            <a class="link" href="#">Скріншот</a>
+        <div class="hero-actions">
+          <a class="btn primary" href="#projects">Дивитись проєкти</a>
+          <a class="btn good" href="https://t.me/Moonsl1" target="_blank" rel="noopener">Написати в Telegram</a>
+          <button class="btn ghost" id="copyUser" type="button">Скопіювати @Moonsl1</button>
+        </div>
+
+        <div class="mini">
+          <span>⚡ швидка відповідь</span>
+          <span>🛠️ боти 24/7</span>
+          <span>🔒 збереження даних</span>
+          <span>📊 статистика</span>
+        </div>
+      </div>
+
+      <aside class="card hero-right reveal">
+        <div class="statgrid">
+          <div class="stat">
+            <b>Telegram-боти</b>
+            <small>меню, заявки, ролі, адмінка, статистика</small>
+          </div>
+          <div class="stat">
+            <b>Моніторинг</b>
+            <small>канали/чати, ключові слова, антиспам</small>
+          </div>
+          <div class="stat">
+            <b>Інтеграції</b>
+            <small>API, вебхуки, парсинг, HTTP</small>
+          </div>
+          <div class="stat">
+            <b>Зберігання</b>
+            <small>SQLite/JSON, історія, логи, бекап</small>
           </div>
         </div>
-        <div class="proj__media">
-          <img src="assets/viking.png" alt="VIKING Monitoring screenshot">
-        </div>
-      </article>
-
-      <article class="proj">
-        <div>
-          <h3>Кіно-бот — пошук фільмів + статистика</h3>
-          <p class="small">Пошук фільмів, картка фільму, адмін-меню та збереження статистики.</p>
-          <ul>
-            <li>Пошук / видача картки фільму</li>
-            <li>Збереження статистики в базі</li>
-            <li>Адмінські команди</li>
-          </ul>
-          <div class="links">
-            <a class="link" href="#">GitHub Repo</a>
-            <a class="link" href="#">Скріншот</a>
-          </div>
-        </div>
-        <div class="proj__media">
-          <img src="assets/cinema.png" alt="Cinema bot screenshot">
-        </div>
-      </article>
+      </aside>
     </section>
 
-    <section id="contact">
-      <h2>Контакти</h2>
-      <div class="card">
-        <div class="contact">
-          <div><b>Telegram:</b> <span>@твій_нік</span></div>
-          <div><b>Email:</b> <span>твій@email.com</span></div>
-          <div><b>GitHub:</b> <span>github.com/slavatop212-hub1</span></div>
-        </div>
-        <p class="small">Замінити @твій_нік та email на свої.</p>
+    <!-- PROJECTS -->
+    <section class="section" id="projects">
+      <h2 class="reveal">Проєкти</h2>
+      <p class="lead reveal">
+        Нижче — приклади моїх робіт. Можу зробити так само або зібрати “під вас” з нуля.
+      </p>
+
+      <div class="projects">
+
+        <!-- VIKING -->
+        <article class="project reveal">
+          <div>
+            <div class="proj-title">
+              <h3>VIKING Monitoring — моніторинг Telegram-каналів</h3>
+              <span class="badge">Python • Telethon</span>
+            </div>
+
+            <p class="proj-desc">
+              Читає пости з каналів, фільтрує по ключових словах і надсилає в групу волонтерів.
+            </p>
+
+            <ul class="bullets">
+              <li>Фільтри / ключові слова / антиспам</li>
+              <li>Форматування повідомлень + кнопки</li>
+              <li>Логи та стабільна робота 24/7</li>
+            </ul>
+
+            <div class="proj-links">
+              <!-- Постав сюди свій репозиторій якщо є -->
+              <a class="btn" href="https://github.com/slavatop212-hub1" target="_blank" rel="noopener">GitHub</a>
+              <!-- Скриншот: поклади файл в папку assets і вкажи назву -->
+              <a class="btn" href="#contacts">Замовити схожий</a>
+            </div>
+          </div>
+
+          <div class="preview" aria-label="Скріншот VIKING Monitoring">
+            <!-- Якщо маєш скрін — поклади в /assets/viking.png і розкоментуй img -->
+            <!-- <img src="assets/viking.png" alt="VIKING Monitoring screenshot"> -->
+            <div class="ph">
+              Додай скріншот у <b>/assets/viking.png</b><br/>
+              і він зʼявиться тут автоматично.
+            </div>
+          </div>
+        </article>
+
+        <!-- CINEMA BOT -->
+        <article class="project reveal">
+          <div>
+            <div class="proj-title">
+              <h3>Кіно-бот — пошук фільмів + статистика</h3>
+              <span class="badge">Python • aiogram</span>
+            </div>
+
+            <p class="proj-desc">
+              Пошук фільмів, картка фільму, адмін-меню та збереження статистики користування.
+            </p>
+
+            <ul class="bullets">
+              <li>Пошук / видача картки фільму</li>
+              <li>Збереження статистики в базі</li>
+              <li>Адмінські команди, модерація контенту</li>
+            </ul>
+
+            <div class="proj-links">
+              <!-- Постав сюди свій репозиторій якщо є -->
+              <a class="btn" href="https://github.com/slavatop212-hub1" target="_blank" rel="noopener">GitHub</a>
+              <a class="btn" href="#contacts">Зробити такого</a>
+            </div>
+          </div>
+
+          <div class="preview" aria-label="Скріншот Кіно-бота">
+            <!-- Якщо маєш скрін — поклади в /assets/cinema.png і розкоментуй img -->
+            <!-- <img src="assets/cinema.png" alt="Cinema bot screenshot"> -->
+            <div class="ph">
+              Додай скріншот у <b>/assets/cinema.png</b><br/>
+              і буде мега-видно.
+            </div>
+          </div>
+        </article>
+
       </div>
     </section>
-  </main>
 
-  <footer class="wrap foot">
-    © <span id="y"></span> Слава
-  </footer>
+    <!-- CONTACTS -->
+    <section class="section" id="contacts">
+      <h2 class="reveal">Контакти</h2>
+      <p class="lead reveal">
+        Найпростіше — Telegram. Натиснув кнопку → одразу чат.
+      </p>
 
-  <script>document.getElementById("y").textContent=new Date().getFullYear()</script>
+      <div class="contacts">
+        <div class="card contact-card reveal">
+          <h3>Telegram</h3>
+          <p>Пиши напряму: обговоримо задачу, терміни та бюджет.</p>
+          <div class="hero-actions">
+            <a class="btn good" href="https://t.me/Moonsl1" target="_blank" rel="noopener">Відкрити Telegram</a>
+            <button class="btn" id="copyLink" type="button">Скопіювати посилання</button>
+          </div>
+        </div>
+
+        <div class="card contact-card reveal">
+          <h3>GitHub</h3>
+          <p>Мої репозиторії та код. Можу викласти демо/приклади під замовлення.</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="https://github.com/slavatop212-hub1" target="_blank" rel="noopener">Відкрити GitHub</a>
+            <a class="btn" href="#projects">До проєктів</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        © <span id="year"></span> Ярослав • @Moonsl1
+      </div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast">Скопійовано ✅</div>
+
+  <script>
+    // ===== Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ===== Toast
+    const toast = document.getElementById('toast');
+    let toastTimer = null;
+    function showToast(text){
+      toast.textContent = text || "Скопійовано ✅";
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=>toast.classList.remove('show'), 1400);
+    }
+
+    // ===== Copy actions
+    const tgUser = "@Moonsl1";
+    const tgLink = "https://t.me/Moonsl1";
+
+    document.getElementById('copyUser').addEventListener('click', async () => {
+      try{
+        await navigator.clipboard.writeText(tgUser);
+        showToast("Нік скопійовано ✅");
+      }catch(e){
+        showToast("Не вдалось скопіювати 😅");
+      }
+    });
+
+    document.getElementById('copyLink').addEventListener('click', async () => {
+      try{
+        await navigator.clipboard.writeText(tgLink);
+        showToast("Посилання скопійовано ✅");
+      }catch(e){
+        showToast("Не вдалось скопіювати 😅");
+      }
+    });
+
+    // ===== Reveal on scroll
+    const revealEls = Array.from(document.querySelectorAll('.reveal'));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if(e.isIntersecting){
+          e.target.classList.add('on');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => io.observe(el));
+
+    // ===== Particles (lightweight)
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+
+    let W = 0, H = 0, DPR = Math.min(2, window.devicePixelRatio || 1);
+    function resize(){
+      W = window.innerWidth; H = window.innerHeight;
+      canvas.width = Math.floor(W * DPR);
+      canvas.height = Math.floor(H * DPR);
+      canvas.style.width = W + "px";
+      canvas.style.height = H + "px";
+      ctx.setTransform(DPR,0,0,DPR,0,0);
+    }
+    window.addEventListener('resize', resize, { passive: true });
+    resize();
+
+    const rnd = (a,b)=>a + Math.random()*(b-a);
+
+    let particleCount = Math.round(Math.min(120, Math.max(70, W / 16)));
+    let particles = [];
+
+    function makeParticles(){
+      particleCount = Math.round(Math.min(130, Math.max(70, W / 16)));
+      particles = Array.from({length: particleCount}, () => ({
+        x: rnd(0, W),
+        y: rnd(0, H),
+        r: rnd(0.8, 2.6),
+        vx: rnd(-0.18, 0.18),
+        vy: rnd(-0.12, 0.12),
+        a: rnd(0.10, 0.35)
+      }));
+    }
+    makeParticles();
+    window.addEventListener('resize', makeParticles, { passive:true });
+
+    function line(a,b,alpha){
+      ctx.globalAlpha = alpha;
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.stroke();
+    }
+
+    let t = 0;
+    function tick(){
+      t += 1;
+
+      ctx.clearRect(0,0,W,H);
+
+      // draw particles
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = "rgba(255,255,255,.10)";
+      ctx.fillStyle = "rgba(255,255,255,.6)";
+
+      for(const p of particles){
+        p.x += p.vx; p.y += p.vy;
+
+        if(p.x < -30) p.x = W + 30;
+        if(p.x > W + 30) p.x = -30;
+        if(p.y < -30) p.y = H + 30;
+        if(p.y > H + 30) p.y = -30;
+
+        ctx.globalAlpha = p.a;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        ctx.fill();
+      }
+
+      // connect nearby
+      ctx.globalAlpha = 1;
+      for(let i=0;i<particles.length;i++){
+        const a = particles[i];
+        for(let j=i+1;j<particles.length;j++){
+          const b = particles[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const d2 = dx*dx + dy*dy;
+          const max = 130*130;
+          if(d2 < max){
+            const alpha = (1 - d2/max) * 0.12;
+            line(a,b,alpha);
+          }
+        }
+      }
+
+      requestAnimationFrame(tick);
+    }
+    tick();
+  </script>
 </body>
 </html>
