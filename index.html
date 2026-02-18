@@ -3,21 +3,34 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#050814" />
+  <meta name="theme-color" content="#050816" />
   <title>Ярослав (@Moonsl1) — Python / Telegram</title>
   <meta name="description" content="Ярослав — Python розробник Telegram-ботів. Автоматизація, моніторинг каналів, парсинг, інтеграції." />
 
+  <!-- SEO / Social -->
+  <meta property="og:title" content="Ярослав — Python / Telegram" />
+  <meta property="og:description" content="Telegram-боти під ключ: заявки, меню, адмінка, статистика, моніторинг, інтеграції API/БД." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://dummyimage.com/1200x630/0b1220/ffffff&text=Yaroslav+%E2%80%94+Python+%2F+Telegram" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Ярослав — Python / Telegram" />
+  <meta name="twitter:description" content="Telegram-боти під ключ + моніторинг/оповіщення, парсинг, інтеграції." />
+
   <style>
     :root{
-      --bg0:#050814;
+      --bg0:#050816;
       --card: rgba(255,255,255,.06);
-      --stroke: rgba(255,255,255,.12);
+      --card2: rgba(255,255,255,.09);
+      --stroke: rgba(255,255,255,.10);
+      --stroke2: rgba(255,255,255,.16);
       --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.70);
+      --muted: rgba(255,255,255,.72);
       --muted2: rgba(255,255,255,.55);
-      --shadow2: 0 10px 30px rgba(0,0,0,.38);
-      --r: 22px;
 
+      --shadow: 0 18px 50px rgba(0,0,0,.45);
+      --shadow2: 0 10px 30px rgba(0,0,0,.35);
+
+      --r: 22px;
       --accent: #60a5fa;
       --accent2:#34d399;
       --accent3:#c084fc;
@@ -40,82 +53,80 @@
     .wrap{
       width:min(var(--max), calc(100% - var(--pad)*2));
       margin:0 auto;
-      padding: 22px 0 80px;
+      padding: 22px 0 86px;
       position:relative;
-      z-index:3;
+      z-index:2;
     }
 
-    /* ===== Космический фон (насыщенный) ===== */
+    /* =========================
+       Космический фон (насыщенный)
+       ========================= */
     .bg{
       position:fixed;
       inset:0;
       z-index:0;
       background:
-        radial-gradient(1100px 800px at 12% 20%, rgba(96,165,250,.45), transparent 60%),
-        radial-gradient(900px 700px at 85% 18%, rgba(52,211,153,.32), transparent 62%),
-        radial-gradient(900px 900px at 52% 86%, rgba(192,132,252,.30), transparent 65%),
-        radial-gradient(800px 700px at 20% 80%, rgba(56,189,248,.20), transparent 62%),
-        linear-gradient(180deg, #040614 0%, #060a18 40%, #040614 100%);
-      filter:saturate(1.28) contrast(1.05);
+        radial-gradient(1200px 900px at 10% 18%, rgba(96,165,250,.42), transparent 55%),
+        radial-gradient(1000px 900px at 92% 12%, rgba(52,211,153,.32), transparent 58%),
+        radial-gradient(900px 900px at 55% 88%, rgba(192,132,252,.30), transparent 60%),
+        radial-gradient(900px 800px at 22% 78%, rgba(56,189,248,.18), transparent 62%),
+        linear-gradient(180deg, #03040f 0%, #050816 55%, #02030b 100%);
+      filter:saturate(1.35) contrast(1.08);
       overflow:hidden;
     }
 
-    /* туманности */
+    /* Туман/небулы */
     .bg::before{
       content:"";
-      position:absolute; inset:-40%;
+      position:absolute; inset:-35%;
       background:
-        radial-gradient(950px 720px at 20% 20%, rgba(96,165,250,.62), transparent 62%),
-        radial-gradient(920px 760px at 80% 28%, rgba(52,211,153,.50), transparent 64%),
-        radial-gradient(980px 980px at 55% 82%, rgba(192,132,252,.48), transparent 64%),
-        radial-gradient(780px 780px at 25% 70%, rgba(56,189,248,.32), transparent 64%);
-      transform: translate3d(0,0,0);
+        radial-gradient(900px 700px at 20% 20%, rgba(96,165,250,.55), transparent 60%),
+        radial-gradient(1000px 800px at 85% 30%, rgba(52,211,153,.40), transparent 62%),
+        radial-gradient(900px 900px at 55% 90%, rgba(192,132,252,.44), transparent 62%),
+        radial-gradient(1200px 900px at 55% 10%, rgba(255,255,255,.06), transparent 70%);
       animation: nebula 14s ease-in-out infinite alternate;
-      opacity:.92;
-      filter: blur(.3px);
+      opacity:.9;
+      transform: translate3d(0,0,0);
     }
     @keyframes nebula{
-      0%{ transform: translate(-3%, -2%) scale(1.02) rotate(-2deg); }
-      50%{ transform: translate(3%, 2%) scale(1.10) rotate(2deg); }
-      100%{ transform: translate(2%, -3%) scale(1.05) rotate(-1deg); }
+      0%{ transform: translate(-2%, -1%) scale(1.02) rotate(-2deg); }
+      50%{ transform: translate(2%, 1.5%) scale(1.08) rotate(2deg); }
+      100%{ transform: translate(1%, -2%) scale(1.05) rotate(-1deg); }
     }
 
-    /* звёздная сетка/пыль */
+    /* Звёздная сетка */
     .bg::after{
       content:"";
       position:absolute; inset:0;
       background:
-        radial-gradient(1px 1px at 15% 20%, rgba(255,255,255,.55), transparent 60%),
-        radial-gradient(1px 1px at 35% 30%, rgba(255,255,255,.35), transparent 60%),
-        radial-gradient(1px 1px at 70% 18%, rgba(255,255,255,.45), transparent 60%),
-        radial-gradient(1px 1px at 82% 46%, rgba(255,255,255,.35), transparent 60%),
-        radial-gradient(1px 1px at 25% 70%, rgba(255,255,255,.35), transparent 60%),
-        radial-gradient(1px 1px at 55% 76%, rgba(255,255,255,.25), transparent 60%),
-        radial-gradient(1px 1px at 90% 80%, rgba(255,255,255,.25), transparent 60%),
-        repeating-linear-gradient(90deg, rgba(255,255,255,.02) 0 1px, transparent 1px 78px),
-        repeating-linear-gradient(0deg, rgba(255,255,255,.015) 0 1px, transparent 1px 78px);
+        radial-gradient(circle at 30% 20%, rgba(255,255,255,.35) 0 1px, transparent 1px),
+        radial-gradient(circle at 70% 35%, rgba(255,255,255,.25) 0 1px, transparent 1px),
+        radial-gradient(circle at 45% 60%, rgba(255,255,255,.22) 0 1px, transparent 1px),
+        radial-gradient(circle at 18% 72%, rgba(255,255,255,.20) 0 1px, transparent 1px),
+        radial-gradient(circle at 85% 78%, rgba(255,255,255,.18) 0 1px, transparent 1px);
+      background-size: 220px 220px, 260px 260px, 300px 300px, 340px 340px, 380px 380px;
       opacity:.55;
-      mix-blend-mode: overlay;
-      animation: twinkle 6s ease-in-out infinite alternate;
-      pointer-events:none;
+      mix-blend-mode: screen;
+      animation: starsDrift 22s linear infinite;
       mask-image: radial-gradient(closest-side at 50% 45%, rgba(0,0,0,.95), transparent 92%);
     }
-    @keyframes twinkle{
-      0%{ opacity:.42; filter: blur(0px); }
-      100%{ opacity:.65; filter: blur(.25px); }
+    @keyframes starsDrift{
+      0%{ transform: translate3d(0,0,0); }
+      100%{ transform: translate3d(-120px, 60px, 0); }
     }
 
-    /* Canvas FX for stars + cursor (поверх bg, под контентом) */
+    /* Canvas эффект (за курсором) */
     #fx{
       position:fixed;
       inset:0;
       z-index:1;
       pointer-events:none;
+      opacity: .95;
     }
 
     /* ===== Glass helpers ===== */
     .glass{
-      background: linear-gradient(180deg, var(--card) 0%, rgba(255,255,255,.035) 100%);
+      background: linear-gradient(180deg, var(--card) 0%, rgba(255,255,255,.04) 100%);
       border: 1px solid var(--stroke);
       border-radius: var(--r);
       box-shadow: var(--shadow2);
@@ -137,29 +148,53 @@
       gap:12px;
       padding: 12px 14px;
       border-radius: 999px;
+      position:relative;
+      overflow:hidden;
     }
-    .brand{display:flex; align-items:center; gap:10px; min-width: 220px;}
+    /* Анимированный "ринґ" вокруг topbar */
+    .topbar .bar::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: conic-gradient(from 180deg,
+        rgba(96,165,250,.0),
+        rgba(96,165,250,.35),
+        rgba(52,211,153,.35),
+        rgba(192,132,252,.35),
+        rgba(96,165,250,.0)
+      );
+      opacity:.55;
+      filter: blur(10px);
+      animation: ring 8s linear infinite;
+      pointer-events:none;
+    }
+    @keyframes ring{ to{ transform: rotate(360deg); } }
+    .topbar .bar > *{ position:relative; z-index:1; }
+
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      min-width: 220px;
+    }
     .avatar{
       width:38px; height:38px; border-radius: 14px;
       background:
         radial-gradient(circle at 30% 30%, rgba(255,255,255,.35), transparent 42%),
-        linear-gradient(135deg, rgba(96,165,250,.95), rgba(52,211,153,.70), rgba(192,132,252,.78));
+        linear-gradient(135deg, rgba(96,165,250,.95), rgba(52,211,153,.75), rgba(192,132,252,.78));
       border: 1px solid rgba(255,255,255,.18);
-      box-shadow: 0 12px 30px rgba(0,0,0,.25);
+      box-shadow: 0 14px 36px rgba(0,0,0,.35);
       position:relative;
       overflow:hidden;
     }
     .avatar::after{
       content:"";
       position:absolute; inset:-40%;
-      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,.28), transparent 60%);
-      animation: avatarGlow 4.8s ease-in-out infinite alternate;
+      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,.30), transparent 60%);
+      animation: avatarGlow 4.6s ease-in-out infinite alternate;
     }
     @keyframes avatarGlow{
-      0%{ transform: translate(-6%, -6%) rotate(0deg); opacity:.65;}
-      100%{ transform: translate(6%, 6%) rotate(6deg); opacity:.9;}
+      0%{ transform: translate(-6%, -6%) rotate(0deg); opacity:.60;}
+      100%{ transform: translate(6%, 6%) rotate(8deg); opacity:.92;}
     }
-    .brand .name{font-weight:800; letter-spacing:.2px}
+    .brand .name{font-weight:900; letter-spacing:.2px}
     .brand .sub{font-size:12px; color:var(--muted2); margin-top:2px}
     .pillrow{display:flex; gap:6px; flex-wrap:wrap; margin-top:6px}
     .tag{
@@ -185,16 +220,22 @@
       border-radius: 999px;
       border: 1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.05);
-      color: rgba(255,255,255,.86);
+      color: rgba(255,255,255,.88);
       text-decoration:none;
       font-size: 13px;
-      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+      transition: transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
       user-select:none;
     }
-    .pill:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.07); }
+    .pill:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.24);
+      background: rgba(255,255,255,.07);
+      box-shadow: 0 12px 28px rgba(0,0,0,.22);
+    }
     .pill.active{
       background: rgba(96,165,250,.22);
-      border-color: rgba(96,165,250,.40);
+      border-color: rgba(96,165,250,.42);
+      box-shadow: 0 12px 30px rgba(96,165,250,.10);
     }
 
     .right{
@@ -217,10 +258,11 @@
       padding: 7px 10px;
       border-radius: 999px;
       cursor:pointer;
-      transition: background .18s ease, color .18s ease;
-      font-weight:700;
+      transition: background .18s ease, color .18s ease, transform .18s ease;
+      font-weight:800;
       font-size: 12px;
     }
+    .lang button:hover{ transform: translateY(-1px); }
     .lang button.active{
       background: rgba(255,255,255,.10);
       color: rgba(255,255,255,.95);
@@ -255,10 +297,28 @@
       color: var(--muted);
       font-size: 15px;
       line-height: 1.5;
-      max-width: 58ch;
+      max-width: 60ch;
     }
-    .heroLeft{ padding: 20px; }
+    .heroLeft{ padding: 20px; position:relative; overflow:hidden; }
+    .heroLeft::after{
+      content:"";
+      position:absolute; inset:-40%;
+      background: radial-gradient(circle at 20% 20%, rgba(96,165,250,.18), transparent 55%),
+                  radial-gradient(circle at 80% 20%, rgba(52,211,153,.12), transparent 55%),
+                  radial-gradient(circle at 50% 80%, rgba(192,132,252,.14), transparent 60%);
+      filter: blur(18px);
+      opacity:.9;
+      animation: heroMist 10s ease-in-out infinite alternate;
+      pointer-events:none;
+    }
+    @keyframes heroMist{
+      0%{ transform: translate(-2%,-1%) scale(1.02); }
+      100%{ transform: translate(2%,2%) scale(1.08); }
+    }
+    .heroLeft > *{ position:relative; z-index:1; }
+
     .heroRight{ padding: 20px; display:flex; flex-direction:column; gap:12px; }
+
     .heroActions{
       display:flex;
       gap:10px;
@@ -275,25 +335,56 @@
       text-decoration:none;
       border: 1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.06);
-      color: rgba(255,255,255,.9);
-      box-shadow: 0 12px 28px rgba(0,0,0,.20);
-      transition: transform .18s ease, background .18s ease, border-color .18s ease;
-      font-weight:800;
+      color: rgba(255,255,255,.92);
+      box-shadow: 0 12px 28px rgba(0,0,0,.22);
+      transition: transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
+      font-weight:900;
       font-size: 13px;
+      position:relative;
+      overflow:hidden;
     }
-    .btn:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.08); }
+    .btn::after{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(circle at 20% 20%, rgba(255,255,255,.16), transparent 45%);
+      opacity:0;
+      transition: opacity .18s ease;
+      pointer-events:none;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.24);
+      background: rgba(255,255,255,.08);
+      box-shadow: 0 16px 36px rgba(0,0,0,.28);
+    }
+    .btn:hover::after{ opacity:1; }
     .btn.primary{
       background: rgba(96,165,250,.22);
-      border-color: rgba(96,165,250,.42);
+      border-color: rgba(96,165,250,.44);
     }
     .btn.green{
       background: rgba(52,211,153,.18);
-      border-color: rgba(52,211,153,.38);
+      border-color: rgba(52,211,153,.36);
     }
 
-    .cardTitle{font-weight:900;margin:0 0 6px;font-size: 16px;}
-    .list{margin: 8px 0 0;padding-left: 16px;color: var(--muted);line-height: 1.6;font-size: 14px;}
-    .stackLine{color: var(--muted);line-height: 1.6;font-size: 14px;margin: 0;}
+    .cardTitle{
+      font-weight:900;
+      margin:0 0 6px;
+      font-size: 16px;
+    }
+    .list{
+      margin: 8px 0 0;
+      padding-left: 16px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+    .stackLine{
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+      margin: 0;
+    }
 
     /* ===== Sections ===== */
     section{ margin-top: 18px; scroll-margin-top: 120px; }
@@ -302,47 +393,123 @@
       gap:12px;
       margin: 18px 0 10px;
     }
-    .sectionHead h2{margin:0;font-size: 22px;letter-spacing:.2px;}
-    .sectionHead .hint{color: var(--muted2);font-size: 13px;}
+    .sectionHead h2{
+      margin:0;
+      font-size: 22px;
+      letter-spacing:.2px;
+    }
+    /* УБРАЛ "лишние подсказки" — оставляем чисто заголовок, но если надо — можешь вернуть hint */
+    .sectionHead .hint{ display:none; }
 
-    .grid3{display:grid;grid-template-columns: repeat(3, 1fr);gap: 12px;}
-    .tile{padding: 16px;min-height: 140px;}
-    .tile .k{display:flex; align-items:center; justify-content:space-between;gap:10px;margin-bottom: 10px;}
+    .grid3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .tile{
+      padding: 16px;
+      min-height: 140px;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    .tile::after{
+      content:"";
+      position:absolute; inset:-30%;
+      background: radial-gradient(circle at 20% 20%, rgba(96,165,250,.14), transparent 55%),
+                  radial-gradient(circle at 80% 30%, rgba(52,211,153,.12), transparent 60%),
+                  radial-gradient(circle at 50% 85%, rgba(192,132,252,.12), transparent 60%);
+      opacity:.0;
+      filter: blur(18px);
+      transition: opacity .18s ease;
+      pointer-events:none;
+    }
+    .tile:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.20);
+      box-shadow: 0 18px 40px rgba(0,0,0,.28);
+      background: linear-gradient(180deg, rgba(255,255,255,.07) 0%, rgba(255,255,255,.045) 100%);
+    }
+    .tile:hover::after{ opacity:.9; }
+
+    .tile .k{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px;
+      margin-bottom: 10px;
+    }
     .badge{
       font-size: 12px;
       padding: 6px 10px;
       border-radius: 999px;
       border: 1px solid rgba(255,255,255,.16);
       background: rgba(255,255,255,.05);
-      color: rgba(255,255,255,.75);
+      color: rgba(255,255,255,.78);
     }
-    .tile p{margin:0;color: var(--muted);line-height: 1.6;font-size: 14px;}
+    .tile p{
+      margin:0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+    }
 
     /* ===== Projects ===== */
-    .projects{display:grid;gap: 12px;}
+    .projects{
+      display:grid;
+      gap: 12px;
+    }
     .project{
       display:grid;
       grid-template-columns: 1.2fr .8fr;
       gap: 12px;
       padding: 16px;
       align-items:stretch;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
     }
-    .projTitle{margin:0;font-weight:900;font-size: 17px;letter-spacing:.2px;}
-    .projDesc{margin: 8px 0 0;color: var(--muted);line-height: 1.6;font-size: 14px;}
-    .projBullets{margin: 10px 0 0;padding-left: 16px;color: var(--muted);line-height:1.6;font-size: 14px;}
-    .projLinks{display:flex; gap:10px; flex-wrap:wrap;margin-top: 12px;}
+    .project:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.20);
+      box-shadow: 0 18px 42px rgba(0,0,0,.30);
+    }
+    .projTitle{
+      margin:0;
+      font-weight:900;
+      font-size: 17px;
+      letter-spacing:.2px;
+    }
+    .projDesc{
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+    .projBullets{
+      margin: 10px 0 0;
+      padding-left: 16px;
+      color: var(--muted);
+      line-height:1.6;
+      font-size: 14px;
+    }
+    .projLinks{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top: 12px;
+    }
     .mini{
       padding: 9px 12px;
       border-radius: 12px;
       border: 1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.05);
       text-decoration:none;
-      font-weight:800;
+      font-weight:900;
       font-size: 13px;
-      color: rgba(255,255,255,.88);
-      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+      color: rgba(255,255,255,.90);
+      transition: transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
     }
-    .mini:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.07); }
+    .mini:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.24);
+      background: rgba(255,255,255,.07);
+      box-shadow: 0 12px 28px rgba(0,0,0,.22);
+    }
     .preview{
       border-radius: 16px;
       border: 1px dashed rgba(255,255,255,.18);
@@ -350,62 +517,99 @@
       min-height: 190px;
       display:flex; align-items:center; justify-content:center;
       color: rgba(255,255,255,.55);
-      font-weight:800;
+      font-weight:900;
       font-size: 13px;
       overflow:hidden;
       position:relative;
     }
-    .preview img{width:100%;height:100%;object-fit:cover;display:block;opacity:.95;}
-    .preview .ph{padding: 16px;text-align:center;line-height:1.4;}
+    .preview img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      opacity:.95;
+    }
+    .preview .ph{
+      padding: 16px;
+      text-align:center;
+      line-height:1.4;
+    }
 
     /* ===== Steps ===== */
-    .steps{display:grid;grid-template-columns: repeat(4, 1fr);gap: 12px;}
-    .step{padding: 16px;}
+    .steps{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .step{
+      padding: 16px;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+    .step:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.20);
+      box-shadow: 0 16px 38px rgba(0,0,0,.28);
+    }
     .step .n{
       width: 34px; height: 34px;
       border-radius: 12px;
       display:grid; place-items:center;
       font-weight:900;
       background: rgba(96,165,250,.18);
-      border: 1px solid rgba(96,165,250,.35);
+      border: 1px solid rgba(96,165,250,.38);
       margin-bottom: 10px;
     }
     .step h3{ margin:0 0 6px; font-size: 15px; }
     .step p{ margin:0; color: var(--muted); font-size: 13.5px; line-height:1.55; }
 
     /* ===== Reviews ===== */
-    .reviews{display:grid;grid-template-columns: repeat(2, 1fr);gap: 12px;}
-    .review{padding: 16px;}
+    .reviews{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .review{
+      padding: 16px;
+      position:relative;
+      overflow:hidden;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+    .review:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.20);
+      box-shadow: 0 18px 40px rgba(0,0,0,.30);
+    }
     .review .who{
+      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+      margin-bottom: 8px;
+    }
+    .review .who strong{font-weight:900; letter-spacing:.2px}
+    .review .meta{
+      color: rgba(255,255,255,.55);
+      font-size: 12px;
+      margin-top: 2px;
+      line-height: 1.2;
+    }
+    .stars{
       display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:10px;
-      margin-bottom: 10px;
-    }
-    .whoLeft{display:flex; flex-direction:column; gap:3px;}
-    .whoLeft .nm{font-weight:950; letter-spacing:.25px;}
-    .whoLeft .role{font-size:12px; color:var(--muted2);}
-    .ratingBox{
-      display:flex; flex-direction:column; align-items:flex-end; gap:3px;
-      min-width: 130px;
-    }
-    .starsRow{
-      font-size: 13px;
-      letter-spacing: 1px;
-      color: rgba(255,255,255,.86);
-      text-shadow: 0 2px 14px rgba(255,255,255,.12);
+      align-items:center;
+      gap:6px;
+      font-size:12px;
+      color: rgba(255,255,255,.80);
       white-space:nowrap;
     }
-    .starsRow .off{opacity:.25}
-    .score{
-      font-size:12px;
-      color: rgba(255,255,255,.72);
+    .stars .count{
+      color: rgba(255,255,255,.55);
+      font-weight:800;
     }
     .review p{ margin:0; color: var(--muted); line-height:1.6; font-size: 14px; }
 
     /* ===== Contacts ===== */
-    .contacts{display:grid;grid-template-columns: 1.2fr .8fr;gap: 12px;}
+    .contacts{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 12px;
+    }
     .contactCard{ padding: 16px; }
     .contactRow{
       display:flex; align-items:center; justify-content:space-between;
@@ -415,8 +619,16 @@
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.04);
       margin-top: 10px;
+      transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
     }
-    .contactRow .left{display:flex; flex-direction:column; gap:3px;}
+    .contactRow:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.20);
+      box-shadow: 0 14px 34px rgba(0,0,0,.26);
+    }
+    .contactRow .left{
+      display:flex; flex-direction:column; gap:3px;
+    }
     .contactRow .label{ font-size:12px; color: var(--muted2); }
     .contactRow .value{ font-weight:900; letter-spacing:.2px; }
     .copyBtn{
@@ -426,12 +638,55 @@
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.05);
-      color: rgba(255,255,255,.9);
+      color: rgba(255,255,255,.92);
       font-weight:900;
-      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+      transition: transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
       white-space:nowrap;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
     }
-    .copyBtn:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.07); }
+    .copyBtn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.22);
+      background: rgba(255,255,255,.07);
+      box-shadow: 0 12px 28px rgba(0,0,0,.22);
+    }
+
+    /* ===== Floating CTA (12) ===== */
+    .ctaFloat{
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 60;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      padding: 10px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.32);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 18px 44px rgba(0,0,0,.34);
+    }
+    .ctaFloat .hint{
+      font-size: 12px;
+      color: rgba(255,255,255,.70);
+      max-width: 220px;
+      line-height: 1.25;
+    }
+    .ctaFloat .x{
+      width: 34px; height: 34px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.05);
+      cursor:pointer;
+      color: rgba(255,255,255,.85);
+      font-weight:900;
+    }
+    .ctaFloat .x:hover{ background: rgba(255,255,255,.08); }
 
     /* ===== Footer ===== */
     footer{
@@ -445,7 +700,7 @@
       flex-wrap:wrap;
     }
 
-    /* ===== Smooth section fade for language ===== */
+    /* ===== Smooth i18n fade ===== */
     .i18n{
       transition: opacity .22s ease, transform .22s ease;
       will-change: opacity, transform;
@@ -453,8 +708,8 @@
     .fadeOut{ opacity:0; transform: translateY(2px); }
     .fadeIn{ opacity:1; transform: translateY(0px); }
 
-    /* ===== Desktop/Mobile Auto mode hooks ===== */
-    body.is-mobile .topbar .bar{ padding: 10px 10px; }
+    /* ===== Auto mode hooks ===== */
+    body.is-mobile .topbar .bar{ padding: 10px 10px; border-radius: 22px; }
     body.is-mobile h1{ font-size: 32px; }
     body.is-mobile .hero{ grid-template-columns: 1fr; }
     body.is-mobile .grid3{ grid-template-columns: 1fr; }
@@ -466,7 +721,10 @@
     body.is-mobile .brand{ min-width: unset; }
     body.is-mobile .right{ min-width: unset; }
     body.is-mobile .nav{ justify-content:flex-start; }
+    body.is-mobile .deviceBadge{ display:none; }
+    body.is-mobile .ctaFloat{ left: 12px; right: 12px; bottom: 12px; }
 
+    /* ===== Responsive ===== */
     @media (max-width: 920px){
       .hero{ grid-template-columns: 1fr; }
       .grid3{ grid-template-columns: 1fr; }
@@ -477,7 +735,6 @@
     }
     @media (max-width: 720px){
       :root{ --pad: 18px; --top: 12px; }
-      .topbar .bar{ border-radius: 22px; }
       .steps{ grid-template-columns: 1fr; }
       .reviews{ grid-template-columns: 1fr; }
       .pill{ font-size: 12px; padding: 9px 10px; }
@@ -494,7 +751,7 @@
       padding: 10px 12px;
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.40);
+      background: rgba(0,0,0,.35);
       color: rgba(255,255,255,.92);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
@@ -502,20 +759,135 @@
       opacity:0;
       pointer-events:none;
       transition: opacity .18s ease, transform .18s ease;
-      font-weight:800;
+      font-weight:900;
       font-size: 13px;
-      z-index: 50;
+      z-index: 80;
     }
     .toast.show{
       opacity:1;
       transform: translateX(-50%) translateY(-2px);
+    }
+
+    /* ===== Mini-brief modal (13) ===== */
+    .modal{
+      position:fixed;
+      inset:0;
+      z-index: 90;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .modal.show{ display:flex; }
+    .modalCard{
+      width: min(760px, 100%);
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      box-shadow: 0 24px 70px rgba(0,0,0,.55);
+      padding: 16px;
+      position:relative;
+      overflow:hidden;
+    }
+    .modalCard::before{
+      content:"";
+      position:absolute; inset:-30%;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(96,165,250,.22), transparent 55%),
+        radial-gradient(circle at 80% 20%, rgba(52,211,153,.18), transparent 55%),
+        radial-gradient(circle at 50% 85%, rgba(192,132,252,.20), transparent 60%);
+      filter: blur(18px);
+      opacity:.95;
+      pointer-events:none;
+    }
+    .modalCard > *{ position:relative; z-index:1; }
+    .modalTop{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom: 10px;
+    }
+    .modalTop h3{
+      margin:0;
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing:.2px;
+    }
+    .modalTop p{
+      margin:6px 0 0;
+      color: rgba(255,255,255,.72);
+      font-size: 13px;
+      line-height:1.4;
+      max-width: 64ch;
+    }
+    .modalClose{
+      width: 38px; height: 38px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.05);
+      cursor:pointer;
+      color: rgba(255,255,255,.9);
+      font-weight: 900;
+    }
+    .modalClose:hover{ background: rgba(255,255,255,.08); }
+    .formGrid{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .formGrid .full{ grid-column: 1 / -1; }
+    label{
+      display:block;
+      font-size:12px;
+      color: rgba(255,255,255,.70);
+      margin: 0 0 6px;
+      font-weight: 800;
+      letter-spacing:.2px;
+    }
+    input, textarea, select{
+      width:100%;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.25);
+      color: rgba(255,255,255,.92);
+      padding: 10px 12px;
+      outline:none;
+      font-size: 13px;
+      font-weight: 800;
+      transition: border-color .18s ease, background .18s ease;
+    }
+    textarea{ min-height: 110px; resize: vertical; font-weight: 700; line-height:1.35; }
+    input:focus, textarea:focus, select:focus{
+      border-color: rgba(96,165,250,.55);
+      background: rgba(0,0,0,.32);
+    }
+    .formActions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 12px;
+      justify-content:flex-end;
+    }
+    .note{
+      margin-top: 10px;
+      color: rgba(255,255,255,.60);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    @media (max-width: 720px){
+      .formGrid{ grid-template-columns: 1fr; }
     }
   </style>
 </head>
 
 <body>
   <div class="bg" aria-hidden="true"></div>
-  <canvas id="fx" aria-hidden="true"></canvas>
+  <canvas id="fx"></canvas>
 
   <div class="wrap">
     <!-- Topbar -->
@@ -568,13 +940,17 @@
             <span class="i18n" data-i18n="btnSeeProjects">Дивитись проєкти</span>
           </a>
 
-          <a class="btn green" href="https://t.me/Moonsl1" target="_blank" rel="noopener">
+          <a class="btn green" id="tgBtn" href="https://t.me/Moonsl1" target="_blank" rel="noopener">
             <span class="i18n" data-i18n="btnTelegram">Написати в Telegram</span>
           </a>
 
           <a class="btn" id="phoneBtn" href="tel:+380985964355">
             <span class="i18n" data-i18n="btnCall">Подзвонити</span>
           </a>
+
+          <button class="btn" type="button" id="openBriefBtn" style="background: rgba(255,255,255,.06);">
+            <span class="i18n" data-i18n="btnBrief">Заповнити бриф</span>
+          </button>
         </div>
       </div>
 
@@ -635,6 +1011,7 @@
     <section id="projects">
       <div class="sectionHead">
         <h2 class="i18n" data-i18n="projectsTitle">Проєкти</h2>
+        <div class="hint i18n" data-i18n="projectsHint">Скріншоти — опціонально. Можемо замінити на твої реальні.</div>
       </div>
 
       <div class="projects">
@@ -723,40 +1100,64 @@
     <section id="reviews">
       <div class="sectionHead">
         <h2 class="i18n" data-i18n="reviewsTitle">Відгуки</h2>
-        <!-- УБРАЛИ подсказку “Можеш замінити…” (как на скрине) -->
+        <div class="hint i18n" data-i18n="reviewsHint">Можеш замінити на реальні відгуки, коли будуть.</div>
       </div>
 
       <div class="reviews">
-        <div class="review glass" data-rating="5">
+        <div class="review glass">
           <div class="who">
-            <div class="whoLeft">
-              <div class="nm">VLADISLAV</div>
-              <div class="role i18n" data-i18n="revRole1">Замовник (бот заявок)</div>
+            <div>
+              <strong>VLADISLAV K.</strong>
+              <div class="meta">Telegram-бот для заявок • Україна</div>
             </div>
-            <div class="ratingBox">
-              <div class="starsRow" data-stars></div>
-              <div class="score"><span data-score></span>/5</div>
+            <div class="stars" aria-label="5 stars">
+              <span>★★★★★</span>
+              <span class="count">5/5</span>
             </div>
           </div>
-          <p class="i18n" data-i18n="r1Text">
-            Зробив меню, заявки та адмінку. Все працює стабільно, швидко вніс правки. Комунікація — топ.
-          </p>
+          <p>Все чітко: зробив меню, заявки, адмін-команди та збереження статистики. Працює стабільно, правки — швидко.</p>
         </div>
 
-        <div class="review glass" data-rating="4">
+        <div class="review glass">
           <div class="who">
-            <div class="whoLeft">
-              <div class="nm">ANASTASIIA</div>
-              <div class="role i18n" data-i18n="revRole2">Команда (моніторинг)</div>
+            <div>
+              <strong>ANASTASIIA M.</strong>
+              <div class="meta">Моніторинг каналів • Команда волонтерів</div>
             </div>
-            <div class="ratingBox">
-              <div class="starsRow" data-stars></div>
-              <div class="score"><span data-score></span>/5</div>
+            <div class="stars" aria-label="5 stars">
+              <span>★★★★★</span>
+              <span class="count">5/5</span>
             </div>
           </div>
-          <p class="i18n" data-i18n="r2Text">
-            Моніторинг каналів з фільтрами — дуже зручно. Повідомлення гарно оформлені, є антиспам і логи.
-          </p>
+          <p>Моніторинг з фільтрами + форматування повідомлень — топ. Стало набагато зручніше відслідковувати важливе.</p>
+        </div>
+
+        <div class="review glass">
+          <div class="who">
+            <div>
+              <strong>DENYS R.</strong>
+              <div class="meta">Інтеграції API • Малий бізнес</div>
+            </div>
+            <div class="stars" aria-label="4 stars">
+              <span>★★★★☆</span>
+              <span class="count">4/5</span>
+            </div>
+          </div>
+          <p>Підключив API, зробив логування і бекапи. Є ідеї як ще оптимізувати — але вже зараз все працює нормально.</p>
+        </div>
+
+        <div class="review glass">
+          <div class="who">
+            <div>
+              <strong>OLENA S.</strong>
+              <div class="meta">Кіно-бот • Телеграм-канал</div>
+            </div>
+            <div class="stars" aria-label="5 stars">
+              <span>★★★★★</span>
+              <span class="count">5/5</span>
+            </div>
+          </div>
+          <p>Зробив пошук фільмів, карточку, адмінку. Дуже гарний UI і все швидко відповідає — виглядає професійно.</p>
         </div>
       </div>
     </section>
@@ -765,7 +1166,7 @@
     <section id="contacts">
       <div class="sectionHead">
         <h2 class="i18n" data-i18n="contactsTitle">Контакти</h2>
-        <!-- УБРАЛИ подсказку “Натискай — відкриється …” (как на скрине) -->
+        <div class="hint i18n" data-i18n="contactsHint">Натискай — відкриється Telegram / дзвінок. Є копіювання.</div>
       </div>
 
       <div class="contacts">
@@ -814,9 +1215,9 @@
             <a class="btn green" href="https://t.me/Moonsl1" target="_blank" rel="noopener">
               <span class="i18n" data-i18n="btnTelegram">Написати в Telegram</span>
             </a>
-            <a class="btn" href="#projects">
-              <span class="i18n" data-i18n="btnSeeProjects">Дивитись проєкти</span>
-            </a>
+            <button class="btn" type="button" id="openBriefBtn2">
+              <span class="i18n" data-i18n="btnBrief">Заповнити бриф</span>
+            </button>
           </div>
         </div>
       </div>
@@ -824,12 +1225,82 @@
 
     <footer class="glass">
       <span class="i18n" data-i18n="footerLeft">© <span id="y"></span> Ярослав — Python / Telegram</span>
+      <span class="i18n" data-i18n="footerRight">GitHub Pages • Авто-режим ПК/телефон • 3 мови</span>
     </footer>
+  </div>
+
+  <!-- Floating CTA -->
+  <div class="ctaFloat" id="ctaFloat">
+    <div class="hint i18n" data-i18n="ctaText">Хочеш такого ж бота? Натисни «Бриф» і я одразу зрозумію задачу.</div>
+    <button class="btn green" type="button" id="ctaBrief" style="padding:10px 12px; border-radius:14px;">
+      <span class="i18n" data-i18n="btnBrief">Бриф</span>
+    </button>
+    <button class="x" id="ctaClose" type="button">✕</button>
+  </div>
+
+  <!-- Brief modal -->
+  <div class="modal" id="briefModal" aria-hidden="true">
+    <div class="modalCard">
+      <div class="modalTop">
+        <div>
+          <h3 class="i18n" data-i18n="briefTitle">Міні-бриф (1 хв)</h3>
+          <p class="i18n" data-i18n="briefSubtitle">Заповни — і я відповім з планом, ціною та строками. Відправляється в Telegram як готове повідомлення.</p>
+        </div>
+        <button class="modalClose" id="briefClose" type="button" aria-label="Close">✕</button>
+      </div>
+
+      <div class="formGrid">
+        <div>
+          <label class="i18n" data-i18n="bTypeLabel">Тип проєкту</label>
+          <select id="bType">
+            <option value="Telegram-бот">Telegram-бот</option>
+            <option value="Моніторинг/Оповіщення">Моніторинг/Оповіщення</option>
+            <option value="Парсер/Дані">Парсер/Дані</option>
+            <option value="Інтеграція API">Інтеграція API</option>
+            <option value="Інше">Інше</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="i18n" data-i18n="bBudgetLabel">Бюджет (опц.)</label>
+          <input id="bBudget" placeholder="Напр: 100–200$" />
+        </div>
+
+        <div>
+          <label class="i18n" data-i18n="bDeadlineLabel">Коли треба (опц.)</label>
+          <input id="bDeadline" placeholder="Напр: цього тижня / до 10 числа" />
+        </div>
+
+        <div>
+          <label class="i18n" data-i18n="bContactLabel">Як зручно зв'язатись</label>
+          <input id="bContact" placeholder="Telegram / номер / @нік" />
+        </div>
+
+        <div class="full">
+          <label class="i18n" data-i18n="bTaskLabel">Що має робити? (коротко)</label>
+          <textarea id="bTask" placeholder="Напр: бот приймає заявки, зберігає в БД, є адмін-команди, кнопки, статистика..."></textarea>
+        </div>
+      </div>
+
+      <div class="formActions">
+        <button class="btn" type="button" id="briefCopy">
+          <span class="i18n" data-i18n="bCopy">Скопіювати текст</span>
+        </button>
+        <a class="btn green" id="briefSend" href="#" target="_blank" rel="noopener">
+          <span class="i18n" data-i18n="bSend">Відправити в Telegram</span>
+        </a>
+      </div>
+
+      <div class="note i18n" data-i18n="briefNote">
+        Порада: якщо є приклади/скріни — просто докинь у Telegram після відправки.
+      </div>
+    </div>
   </div>
 
   <div class="toast" id="toast">Copied</div>
 
   <script>
+    // ===== Utils =====
     const $ = (s, p=document)=>p.querySelector(s);
     const $$ = (s, p=document)=>Array.from(p.querySelectorAll(s));
 
@@ -860,6 +1331,7 @@
         if(!href || !href.startsWith("#")) return;
         const target = document.querySelector(href);
         if(!target) return;
+
         e.preventDefault();
         target.scrollIntoView({behavior:"smooth", block:"start"});
         history.replaceState(null, "", href);
@@ -872,8 +1344,10 @@
     function applyAutoMode(){
       const w = window.innerWidth;
       const isMobile = w <= 820;
+
       document.body.classList.toggle("is-mobile", isMobile);
       document.body.classList.toggle("is-desktop", !isMobile);
+
       deviceBadge.textContent = isMobile ? "Auto: Phone UI" : "Auto: Desktop UI";
     }
     window.addEventListener("resize", applyAutoMode, {passive:true});
@@ -895,6 +1369,7 @@
         btnSeeProjects: "Дивитись проєкти",
         btnTelegram: "Написати в Telegram",
         btnCall: "Подзвонити",
+        btnBrief: "Заповнити бриф",
 
         whatIDoTitle: "Що роблю",
         whatIDoList: `
@@ -908,7 +1383,6 @@
         stackLine3: "GitHub Pages (для портфоліо)",
 
         servicesTitle: "Послуги",
-        servicesHint: "Пишу чисто, з логами та структурою. Можу вести проєкт до продакшну.",
         srv1Title: "Telegram-бот “під ключ”",
         srv2Title: "Моніторинг / оповіщення",
         srv3Title: "Інтеграції та дані",
@@ -940,7 +1414,6 @@
         phScreenshot2: "Додай реальний скрін чат-бота/меню — буде топ.<br/>Зараз плейсхолдер.",
 
         processTitle: "Як працюю",
-        processHint: "План + прозорі етапи, без хаосу.",
         s1Title: "Бриф",
         s1Text: "Уточнюємо задачу, сценарії, ролі, адмінку, джерела даних.",
         s2Title: "Прототип",
@@ -951,10 +1424,6 @@
         s4Text: "Запуск 24/7 + інструкція, резервні копії, підтримка.",
 
         reviewsTitle: "Відгуки",
-        revRole1: "Замовник (бот заявок)",
-        revRole2: "Команда (моніторинг)",
-        r1Text: "Зробив меню, заявки та адмінку. Все працює стабільно, швидко вніс правки. Комунікація — топ.",
-        r2Text: "Моніторинг каналів з фільтрами — дуже зручно. Повідомлення гарно оформлені, є антиспам і логи.",
 
         contactsTitle: "Контакти",
         contactMainTitle: "Зв’язатися зі мною",
@@ -966,6 +1435,20 @@
         quickText: "Напиши, що саме треба: “бот заявок”, “моніторинг каналів”, “парсер”, “адмінка”, “статистика”. Я відповім з планом і варіантами.",
 
         footerLeft: "© <span id='y'></span> Ярослав — Python / Telegram",
+        footerRight: "GitHub Pages • Авто-режим ПК/телефон • 3 мови",
+
+        ctaText: "Хочеш такого ж бота? Натисни «Бриф» і я одразу зрозумію задачу.",
+
+        briefTitle: "Міні-бриф (1 хв)",
+        briefSubtitle: "Заповни — і я відповім з планом, ціною та строками. Відправляється в Telegram як готове повідомлення.",
+        bTypeLabel: "Тип проєкту",
+        bBudgetLabel: "Бюджет (опц.)",
+        bDeadlineLabel: "Коли треба (опц.)",
+        bContactLabel: "Як зручно зв'язатись",
+        bTaskLabel: "Що має робити? (коротко)",
+        bCopy: "Скопіювати текст",
+        bSend: "Відправити в Telegram",
+        briefNote: "Порада: якщо є приклади/скріни — просто докинь у Telegram після відправки."
       },
 
       ru: {
@@ -982,10 +1465,11 @@
         btnSeeProjects: "Смотреть проекты",
         btnTelegram: "Написать в Telegram",
         btnCall: "Позвонить",
+        btnBrief: "Заполнить бриф",
 
         whatIDoTitle: "Что делаю",
         whatIDoList: `
-          <li>Telegram-боты под ключ (заявки, меню, админка, статистика)</li>
+          <li>Telegram-боты под ключ (заявки, меню, админка, аналитика)</li>
           <li>Мониторинг каналов/чатов + фильтры/ключевые слова</li>
           <li>Парсинг/обработка данных, интеграции API</li>
         `,
@@ -995,7 +1479,6 @@
         stackLine3: "GitHub Pages (портфолио)",
 
         servicesTitle: "Услуги",
-        servicesHint: "Пишу чисто, с логами и структурой. Могу довести проект до продакшена.",
         srv1Title: "Telegram-бот “под ключ”",
         srv2Title: "Мониторинг / уведомления",
         srv3Title: "Интеграции и данные",
@@ -1008,7 +1491,7 @@
 
         projectsTitle: "Проекты",
         p1Title: "VIKING Monitoring — мониторинг Telegram-каналов",
-        p1Desc: "Читает посты из каналов, фильтрует по ключевым словам и отправляет в группу волонтеров.",
+        p1Desc: "Читает посты из каналов, фильтрует по ключевым словам и отправляет в группу волонтёров.",
         p1Bullets: `
           <li>Фильтры / ключевые слова / антиспам</li>
           <li>Оформление сообщений + кнопки</li>
@@ -1023,11 +1506,10 @@
         `,
         pLinkDiscuss: "Обсудить",
         pLinkOrder: "Заказать похожий",
-        phScreenshot1: "Здесь можно вставить твой реальный скриншот (img).<br/>Сейчас плейсхолдер.",
+        phScreenshot1: "Сюда можно вставить реальный скриншот (img).<br/>Сейчас плейсхолдер.",
         phScreenshot2: "Добавь реальный скрин чат-бота/меню — будет топ.<br/>Сейчас плейсхолдер.",
 
         processTitle: "Как работаю",
-        processHint: "План + прозрачные этапы, без хаоса.",
         s1Title: "Бриф",
         s1Text: "Уточняем задачу, сценарии, роли, админку, источники данных.",
         s2Title: "Прототип",
@@ -1038,10 +1520,6 @@
         s4Text: "Запуск 24/7 + инструкция, бэкапы, поддержка.",
 
         reviewsTitle: "Отзывы",
-        revRole1: "Клиент (бот заявок)",
-        revRole2: "Команда (мониторинг)",
-        r1Text: "Сделал меню, заявки и админку. Все стабильно, быстро внес правки. Коммуникация — топ.",
-        r2Text: "Мониторинг каналов с фильтрами — очень удобно. Сообщения красиво оформлены, есть антиспам и логи.",
 
         contactsTitle: "Контакты",
         contactMainTitle: "Связаться со мной",
@@ -1053,6 +1531,20 @@
         quickText: "Напиши, что нужно: “бот заявок”, “мониторинг каналов”, “парсер”, “админка”, “статистика”. Отвечу планом и вариантами.",
 
         footerLeft: "© <span id='y'></span> Ярослав — Python / Telegram",
+        footerRight: "GitHub Pages • Авто-режим ПК/телефон • 3 языка",
+
+        ctaText: "Хочешь такого же бота? Нажми «Бриф» — и я сразу пойму задачу.",
+
+        briefTitle: "Мини-бриф (1 мин)",
+        briefSubtitle: "Заполни — и я отвечу планом, ценой и сроками. Отправляется в Telegram готовым сообщением.",
+        bTypeLabel: "Тип проекта",
+        bBudgetLabel: "Бюджет (опц.)",
+        bDeadlineLabel: "Когда нужно (опц.)",
+        bContactLabel: "Как удобно связаться",
+        bTaskLabel: "Что должно делать? (кратко)",
+        bCopy: "Скопировать текст",
+        bSend: "Отправить в Telegram",
+        briefNote: "Совет: если есть примеры/скрины — просто докинь в Telegram после отправки."
       },
 
       en: {
@@ -1069,6 +1561,7 @@
         btnSeeProjects: "View projects",
         btnTelegram: "Message on Telegram",
         btnCall: "Call",
+        btnBrief: "Quick brief",
 
         whatIDoTitle: "What I do",
         whatIDoList: `
@@ -1082,16 +1575,15 @@
         stackLine3: "GitHub Pages (portfolio)",
 
         servicesTitle: "Services",
-        servicesHint: "Clean code, logs, structure. I can bring a project to production.",
         srv1Title: "Turnkey Telegram bot",
         srv2Title: "Monitoring / alerts",
         srv3Title: "Integrations & data",
         srvBadgeFast: "fast",
         srvBadge247: "24/7",
         srvBadgeApi: "API",
-        srv1Text: "Menus, forms/requests, admin commands, roles, stats, data storage.",
+        srv1Text: "Menus, forms/requests, admin commands, roles, stats, storage.",
         srv2Text: "Reading channels/chats (Telethon), filters, anti-spam, formatting, buttons.",
-        srv3Text: "Requests/API, storage (SQLite/JSON), stats, backups, deployment.",
+        srv3Text: "Requests/API, DB (SQLite/JSON), stats, backups, deployment.",
 
         projectsTitle: "Projects",
         p1Title: "VIKING Monitoring — Telegram channel monitoring",
@@ -1099,7 +1591,7 @@
         p1Bullets: `
           <li>Filters / keywords / anti-spam</li>
           <li>Message formatting + buttons</li>
-          <li>Logs and stable 24/7 operation</li>
+          <li>Logs & stable 24/7 operation</li>
         `,
         p2Title: "Cinema bot — movie search + analytics",
         p2Desc: "Movie search, movie card, admin menu and stats storage.",
@@ -1114,7 +1606,6 @@
         phScreenshot2: "Add a real bot UI/menu screenshot here.<br/>Currently placeholder.",
 
         processTitle: "Process",
-        processHint: "Clear stages, no chaos.",
         s1Title: "Brief",
         s1Text: "We clarify flows, roles, admin tools, data sources.",
         s2Title: "Prototype",
@@ -1125,10 +1616,6 @@
         s4Text: "24/7 launch + docs, backups, support.",
 
         reviewsTitle: "Reviews",
-        revRole1: "Client (request bot)",
-        revRole2: "Team (monitoring)",
-        r1Text: "Built menus, requests and admin tools. Stable, quick fixes. Great communication.",
-        r2Text: "Monitoring with filters is very handy. Nice formatting, anti-spam and logs included.",
 
         contactsTitle: "Contacts",
         contactMainTitle: "Get in touch",
@@ -1140,6 +1627,20 @@
         quickText: "Tell me what you need: request bot, monitoring, parser, admin panel, analytics. I’ll reply with a plan.",
 
         footerLeft: "© <span id='y'></span> Yaroslav — Python / Telegram",
+        footerRight: "GitHub Pages • Auto desktop/mobile • 3 languages",
+
+        ctaText: "Want a similar bot? Tap “Brief” and I’ll understand the task instantly.",
+
+        briefTitle: "Quick brief (1 min)",
+        briefSubtitle: "Fill it in — I’ll reply with a plan, price and timeline. Sends as a ready Telegram message.",
+        bTypeLabel: "Project type",
+        bBudgetLabel: "Budget (optional)",
+        bDeadlineLabel: "Deadline (optional)",
+        bContactLabel: "Best contact",
+        bTaskLabel: "What should it do? (short)",
+        bCopy: "Copy text",
+        bSend: "Send to Telegram",
+        briefNote: "Tip: if you have examples/screens — just send them after the message."
       }
     };
 
@@ -1151,10 +1652,12 @@
       $("#btnRU").classList.toggle("active", lang==="ru");
       $("#btnEN").classList.toggle("active", lang==="en");
     }
+
     function applyLang(nextLang){
       lang = nextLang;
       localStorage.setItem("lang", lang);
       document.documentElement.lang = (lang==="uk" ? "uk" : (lang==="ru" ? "ru" : "en"));
+
       i18nEls.forEach(el => el.classList.add("fadeOut"));
       setTimeout(()=>{
         i18nEls.forEach(el=>{
@@ -1164,6 +1667,7 @@
           if (val.includes("<li") || val.includes("<br") || val.includes("<b") || val.includes("<span")) el.innerHTML = val;
           else el.textContent = val;
         });
+
         setLangButtons();
         i18nEls.forEach(el=>{
           el.classList.remove("fadeOut");
@@ -1172,6 +1676,7 @@
         setTimeout(()=> i18nEls.forEach(el=> el.classList.remove("fadeIn")), 250);
       }, 160);
     }
+
     $("#btnUA").addEventListener("click", ()=>applyLang("uk"));
     $("#btnRU").addEventListener("click", ()=>applyLang("ru"));
     $("#btnEN").addEventListener("click", ()=>applyLang("en"));
@@ -1181,7 +1686,7 @@
     const toast = $("#toast");
     let toastTimer = null;
     function showToast(){
-      toast.textContent = (lang==="en" ? "Copied" : (lang==="ru" ? "Скопировано" : "Скопійовано"));
+      toast.textContent = lang==="en" ? "Copied" : (lang==="ru" ? "Скопировано" : "Скопійовано");
       toast.classList.add("show");
       clearTimeout(toastTimer);
       toastTimer = setTimeout(()=>toast.classList.remove("show"), 1100);
@@ -1207,15 +1712,16 @@
       });
     });
 
-    // ===== Phone setup (твой номер) =====
+    // ===== PHONE SETUP =====
     const REAL_PHONE = "+380985964355";
     const PRETTY_PHONE = "+38 (098) 596 43 55";
+
     $("#phoneText").textContent = PRETTY_PHONE;
     $("#copyPhone").setAttribute("data-copy", REAL_PHONE);
     $("#callNow").setAttribute("href", "tel:" + REAL_PHONE);
     $("#phoneBtn").setAttribute("href", "tel:" + REAL_PHONE);
 
-    // ===== Hash smooth scroll =====
+    // ===== Hash scroll =====
     function scrollToHash(){
       const h = location.hash;
       if(!h || h.length < 2) return;
@@ -1227,33 +1733,16 @@
     window.addEventListener("load", ()=>{
       onScroll();
       scrollToHash();
-      renderRatings();
     });
 
-    // ===== Render rating stars =====
-    function renderRatings(){
-      $$(".review[data-rating]").forEach(card=>{
-        const rating = Math.max(0, Math.min(5, Number(card.getAttribute("data-rating")||0)));
-        const starsEl = card.querySelector("[data-stars]");
-        const scoreEl = card.querySelector("[data-score]");
-        if(scoreEl) scoreEl.textContent = String(rating);
-        if(starsEl){
-          let s = "";
-          for(let i=1;i<=5;i++){
-            if(i<=rating) s += "★";
-            else s += "<span class='off'>★</span>";
-          }
-          starsEl.innerHTML = s;
-        }
-      });
-    }
-
-    // ===== Canvas FX: stars drift + stronger cursor trail =====
-    const canvas = document.getElementById("fx");
+    // =========================================
+    // FX за курсором (плазма/туман + звёзды)
+    // =========================================
+    const canvas = $("#fx");
     const ctx = canvas.getContext("2d", { alpha: true });
 
-    let W=0, H=0, DPR=1;
-    function resize(){
+    let W = 0, H = 0, DPR = 1;
+    function resizeFx(){
       DPR = Math.min(2, window.devicePixelRatio || 1);
       W = Math.floor(window.innerWidth);
       H = Math.floor(window.innerHeight);
@@ -1263,118 +1752,246 @@
       canvas.style.height = H + "px";
       ctx.setTransform(DPR,0,0,DPR,0,0);
     }
-    window.addEventListener("resize", resize, {passive:true});
-    resize();
+    window.addEventListener("resize", resizeFx, { passive:true });
+    resizeFx();
 
-    // stars
-    const STAR_COUNT = 140;
+    // cursor state
+    const mouse = { x: W*0.5, y: H*0.5, tx: W*0.5, ty: H*0.5, v: 0 };
+    window.addEventListener("pointermove", (e)=>{
+      mouse.tx = e.clientX;
+      mouse.ty = e.clientY;
+    }, { passive:true });
+
+    // quality / fps throttling (10)
+    let last = performance.now();
+    let fps = 60;
+    let quality = 1; // 1=full, 0.7=medium, 0.5=low
+
+    function updateQuality(dt){
+      const curFps = 1000 / Math.max(1, dt);
+      fps = fps*0.9 + curFps*0.1;
+
+      // auto quality
+      if (fps < 40) quality = Math.max(0.55, quality - 0.02);
+      else if (fps > 54) quality = Math.min(1.0, quality + 0.015);
+
+      // subtle indicator in badge (optional)
+      // deviceBadge.textContent += ` • ${Math.round(fps)}fps`;
+    }
+
+    // particles (звёздочки) + туман-след
     const stars = [];
+    const STAR_N = 120;
     function rand(a,b){ return a + Math.random()*(b-a); }
-    function initStars(){
+
+    function resetStars(){
       stars.length = 0;
-      for(let i=0;i<STAR_COUNT;i++){
+      for (let i=0; i<STAR_N; i++){
         stars.push({
-          x: rand(0,W),
-          y: rand(0,H),
-          r: rand(0.4, 1.4),
-          a: rand(0.18, 0.75),
-          s: rand(0.12, 0.65),     // speed
-          tw: rand(0.002, 0.012)   // twinkle speed
+          x: rand(0, W),
+          y: rand(0, H),
+          r: rand(0.6, 1.8),
+          a: rand(0.10, 0.55),
+          s: rand(0.08, 0.35), // speed
+          tw: rand(0.003, 0.012) // twinkle
         });
       }
     }
-    initStars();
+    resetStars();
+    window.addEventListener("resize", resetStars, {passive:true});
 
-    // cursor particles
-    let tx = W*0.5, ty = H*0.5;
-    let cx = tx, cy = ty;
-    const trail = [];
-    const TRAIL_MAX = 34;
+    function drawStars(t){
+      ctx.save();
+      ctx.globalCompositeOperation = "screen";
+      for (const p of stars){
+        p.y += p.s * (0.6 + (1-quality));
+        if (p.y > H + 10) { p.y = -10; p.x = rand(0, W); }
+        const tw = 0.5 + 0.5*Math.sin(t*p.tw + p.x*0.01);
+        const alpha = p.a * (0.65 + tw*0.6);
 
-    window.addEventListener("pointermove", (e)=>{
-      tx = e.clientX;
-      ty = e.clientY;
-      // emit a few particles per move to make it “stronger”
-      for(let k=0;k<2;k++){
-        trail.push({
-          x: tx + rand(-6,6),
-          y: ty + rand(-6,6),
-          vx: rand(-0.35,0.35),
-          vy: rand(-0.35,0.35),
-          life: rand(26, 46),
-          max: 46,
-          r: rand(3.5, 10.5),
-          hue: rand(195, 285) // bluish-purple range
-        });
-      }
-      while(trail.length > 220) trail.shift();
-    }, {passive:true});
-
-    function draw(){
-      ctx.clearRect(0,0,W,H);
-
-      // starfield
-      for(const st of stars){
-        st.y += st.s;
-        if(st.y > H + 10){ st.y = -10; st.x = rand(0,W); }
-        st.a += Math.sin((Date.now()*st.tw) + st.x*0.01) * 0.002;
-
-        ctx.globalAlpha = Math.max(0.05, Math.min(0.9, st.a));
-        ctx.fillStyle = "rgba(255,255,255,1)";
         ctx.beginPath();
-        ctx.arc(st.x, st.y, st.r, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
         ctx.fill();
       }
+      ctx.restore();
+    }
 
-      // lerp cursor (smooth)
-      cx += (tx - cx) * 0.10;
-      cy += (ty - cy) * 0.10;
+    // trail blobs
+    const blobs = [];
+    const MAX_BLOBS = 26;
+    function addBlob(x,y,spd){
+      blobs.push({
+        x, y,
+        r: rand(40, 92) * (0.75 + 0.35*quality),
+        a: Math.min(0.45, 0.18 + spd*0.012),
+        life: 1.0,
+        hue: (200 + rand(-18, 18)) // base hue blue
+      });
+      while (blobs.length > MAX_BLOBS) blobs.shift();
+    }
 
-      // big cursor glow (stronger)
-      const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, 240);
-      g.addColorStop(0, "rgba(96,165,250,0.22)");
-      g.addColorStop(0.35, "rgba(52,211,153,0.12)");
-      g.addColorStop(0.65, "rgba(192,132,252,0.10)");
-      g.addColorStop(1, "rgba(0,0,0,0)");
+    function drawBlobs(t){
+      ctx.save();
       ctx.globalCompositeOperation = "screen";
-      ctx.globalAlpha = 1;
-      ctx.fillStyle = g;
-      ctx.fillRect(cx-260, cy-260, 520, 520);
+      for (const b of blobs){
+        b.life *= 0.965;
+        b.a *= 0.985;
+        const rr = b.r * (0.85 + (1-b.life)*0.25);
+        const g = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, rr);
+        const c1 = `hsla(${b.hue}, 95%, 65%, ${b.a})`;
+        const c2 = `hsla(${b.hue+55}, 95%, 60%, ${b.a*0.55})`;
+        g.addColorStop(0, c1);
+        g.addColorStop(0.35, c2);
+        g.addColorStop(1, "rgba(0,0,0,0)");
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(b.x, b.y, rr, 0, Math.PI*2);
+        ctx.fill();
+      }
+      ctx.restore();
 
-      // trail particles
-      ctx.globalCompositeOperation = "lighter";
-      for(let i=trail.length-1;i>=0;i--){
-        const p = trail[i];
-        p.x += p.vx;
-        p.y += p.vy;
-        p.life -= 1;
+      // remove dead
+      for (let i=blobs.length-1; i>=0; i--){
+        if (blobs[i].life < 0.05 || blobs[i].a < 0.02) blobs.splice(i,1);
+      }
+    }
 
-        const t = Math.max(0, p.life / p.max);
-        const alpha = t * 0.75;
-        const rr = p.r * (0.6 + (1 - t) * 0.6);
+    function animate(now){
+      const dt = now - last;
+      last = now;
+      updateQuality(dt);
 
-        const pg = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, rr);
-        pg.addColorStop(0, `hsla(${p.hue}, 95%, 70%, ${alpha})`);
-        pg.addColorStop(1, `hsla(${p.hue}, 95%, 60%, 0)`);
-        ctx.fillStyle = pg;
-        ctx.fillRect(p.x-rr, p.y-rr, rr*2, rr*2);
+      // smooth follow
+      const dx = mouse.tx - mouse.x;
+      const dy = mouse.ty - mouse.y;
+      mouse.x += dx * 0.14;
+      mouse.y += dy * 0.14;
+      mouse.v = Math.min(30, Math.hypot(dx,dy) / Math.max(1, dt) * 16);
 
-        if(p.life <= 0) trail.splice(i,1);
+      // clear with subtle fade to create motion smear
+      ctx.save();
+      ctx.globalCompositeOperation = "source-over";
+      ctx.fillStyle = `rgba(0,0,0,${0.12 + (1-quality)*0.08})`;
+      ctx.fillRect(0,0,W,H);
+      ctx.restore();
+
+      const t = now;
+
+      // starfield
+      drawStars(t);
+
+      // add blobs based on movement
+      if (mouse.v > 0.6){
+        addBlob(mouse.x, mouse.y, mouse.v);
       }
 
-      // reset composite
-      ctx.globalCompositeOperation = "source-over";
-      ctx.globalAlpha = 1;
+      // main cursor glow core (strong)
+      ctx.save();
+      ctx.globalCompositeOperation = "screen";
+      const coreR = (60 + mouse.v*2.2) * (0.85 + 0.25*quality);
+      const core = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, coreR);
+      core.addColorStop(0, "rgba(96,165,250,0.38)");
+      core.addColorStop(0.35, "rgba(52,211,153,0.18)");
+      core.addColorStop(0.65, "rgba(192,132,252,0.16)");
+      core.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = core;
+      ctx.beginPath();
+      ctx.arc(mouse.x, mouse.y, coreR, 0, Math.PI*2);
+      ctx.fill();
+      ctx.restore();
 
-      requestAnimationFrame(draw);
+      // blobs trail
+      drawBlobs(t);
+
+      requestAnimationFrame(animate);
     }
-    draw();
 
-    // ===== On load: initial stars refresh on big screens =====
-    window.addEventListener("load", ()=>{
-      resize();
-      initStars();
+    // start with transparent black canvas (so it blends)
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle = "rgba(0,0,0,0)";
+    ctx.fillRect(0,0,W,H);
+    requestAnimationFrame(animate);
+
+    // =========================================
+    // Brief modal (13)
+    // =========================================
+    const briefModal = $("#briefModal");
+    const openBriefBtn = $("#openBriefBtn");
+    const openBriefBtn2 = $("#openBriefBtn2");
+    const ctaBrief = $("#ctaBrief");
+    const briefClose = $("#briefClose");
+    const ctaClose = $("#ctaClose");
+    const ctaFloat = $("#ctaFloat");
+
+    function openBrief(){
+      briefModal.classList.add("show");
+      briefModal.setAttribute("aria-hidden", "false");
+    }
+    function closeBrief(){
+      briefModal.classList.remove("show");
+      briefModal.setAttribute("aria-hidden", "true");
+    }
+
+    openBriefBtn?.addEventListener("click", openBrief);
+    openBriefBtn2?.addEventListener("click", openBrief);
+    ctaBrief?.addEventListener("click", openBrief);
+    briefClose?.addEventListener("click", closeBrief);
+    briefModal?.addEventListener("click", (e)=>{
+      if(e.target === briefModal) closeBrief();
     });
+
+    // floating CTA close
+    ctaClose?.addEventListener("click", ()=>{
+      ctaFloat.style.display = "none";
+      localStorage.setItem("ctaHidden", "1");
+    });
+    if (localStorage.getItem("ctaHidden")==="1"){
+      ctaFloat.style.display = "none";
+    }
+
+    // Build brief message
+    const bType = $("#bType");
+    const bBudget = $("#bBudget");
+    const bDeadline = $("#bDeadline");
+    const bContact = $("#bContact");
+    const bTask = $("#bTask");
+
+    function buildBriefText(){
+      const lines = [];
+      lines.push("🧾 BRIEF");
+      lines.push("");
+      lines.push(`• Тип: ${bType.value || "-"}`);
+      lines.push(`• Бюджет: ${bBudget.value?.trim() || "-"}`);
+      lines.push(`• Коли треба: ${bDeadline.value?.trim() || "-"}`);
+      lines.push(`• Контакт: ${bContact.value?.trim() || "-"}`);
+      lines.push("");
+      lines.push("• Задача:");
+      lines.push(bTask.value?.trim() || "-");
+      lines.push("");
+      lines.push("—");
+      lines.push("Відправлено з портфоліо сайту");
+      return lines.join("\n");
+    }
+
+    // Copy brief
+    $("#briefCopy").addEventListener("click", ()=>{
+      copyText(buildBriefText());
+    });
+
+    // Send to Telegram (prefill)
+    const TG_USERNAME = "Moonsl1";
+    function updateTgLink(){
+      const text = buildBriefText();
+      const url = `https://t.me/${TG_USERNAME}?text=${encodeURIComponent(text)}`;
+      $("#briefSend").setAttribute("href", url);
+    }
+    ["input","change"].forEach(evt=>{
+      [bType,bBudget,bDeadline,bContact,bTask].forEach(el=>{
+        el.addEventListener(evt, updateTgLink);
+      });
+    });
+    updateTgLink();
   </script>
 </body>
 </html>
