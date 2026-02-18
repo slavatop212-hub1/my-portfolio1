@@ -5,28 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#070B12" />
   <title>Ярослав — Python / Telegram-боти</title>
-  <meta name="description" content="Портфоліо: Python розробник, Telegram-боти, автоматизація, моніторинг каналів, інтеграції API." />
+  <meta name="description" content="Портфоліо: Telegram-боти на Python, автоматизація, моніторинг, інтеграції API. Ярослав @Moonsl1 (Україна)." />
 
   <style>
+    /* ===== Reset ===== */
     *, *::before, *::after { box-sizing: border-box; }
     html, body { height: 100%; }
     body { margin: 0; overflow-x: hidden; }
     a { color: inherit; text-decoration: none; }
     button { font: inherit; }
     img { max-width: 100%; display: block; }
+    html{ scroll-behavior: smooth; }
 
+    /* ===== Theme ===== */
     :root{
       --bg0:#070b12;
       --bg1:#0b1222;
       --text: rgba(255,255,255,.92);
       --muted: rgba(255,255,255,.68);
       --muted2: rgba(255,255,255,.52);
+      --shadow: 0 20px 70px rgba(0,0,0,.55);
       --shadow2: 0 12px 40px rgba(0,0,0,.45);
-      --a: #3b82f6;
-      --b: #22c55e;
-      --c: #a855f7;
-      --d: #06b6d4;
+
+      --blue:#3b82f6;
+      --green:#22c55e;
+      --purple:#a855f7;
+      --cyan:#06b6d4;
+
+      --r: 18px;
       --r2: 26px;
+
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
     }
@@ -39,12 +47,25 @@
                   radial-gradient(1000px 700px at 55% 85%, rgba(168,85,247,.12), transparent 60%),
                   linear-gradient(180deg, var(--bg0), var(--bg1));
     }
-    html{ scroll-behavior: smooth; }
+
+    /* ===== Background MAX ===== */
+    .bg-flow{
+      position: fixed; inset: 0; z-index: -6; pointer-events: none;
+      background: linear-gradient(270deg, #070b12, #0a1023, #071a2c, #0a0f1f, #070b12);
+      background-size: 400% 400%;
+      opacity: .92;
+      animation: gradientMove 16s ease infinite;
+    }
+    @keyframes gradientMove{
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
 
     .aurora{
-      position: fixed; inset: -20%; z-index: -3;
-      filter: blur(70px) saturate(130%);
-      opacity: .85; pointer-events: none;
+      position: fixed; inset: -20%; z-index: -5; pointer-events: none;
+      filter: blur(70px) saturate(135%);
+      opacity: .85;
       background:
         radial-gradient(circle at 20% 20%, rgba(59,130,246,.35), transparent 45%),
         radial-gradient(circle at 80% 25%, rgba(34,197,94,.28), transparent 45%),
@@ -60,21 +81,13 @@
       100% { transform: translate(-2%, -1%) rotate(0deg) scale(1.02); }
     }
 
-    .bg-flow{
-      position: fixed; inset: 0; z-index: -4; pointer-events: none;
-      background: linear-gradient(270deg, #070b12, #0a1023, #071a2c, #0a0f1f, #070b12);
-      background-size: 400% 400%;
-      opacity: .90;
-      animation: gradientMove 16s ease infinite;
-    }
-    @keyframes gradientMove{
-      0%   { background-position: 0% 50%; }
-      50%  { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    #particles{
+      position: fixed; inset: 0; z-index: -4;
+      pointer-events: none; opacity: .55;
     }
 
     .grid{
-      position: fixed; inset: 0; z-index: -2; pointer-events: none;
+      position: fixed; inset: 0; z-index: -3; pointer-events: none;
       opacity: .25;
       background-image:
         linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
@@ -84,40 +97,28 @@
     }
 
     .noise{
-      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      position: fixed; inset: 0; z-index: -2; pointer-events: none;
       opacity: .10;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
       mix-blend-mode: overlay;
     }
 
-    #particles{
-      position: fixed; inset: 0; z-index: -2;
-      pointer-events: none; opacity: .55;
-    }
-
+    /* ===== Layout ===== */
     .wrap{
       width: min(1120px, calc(100% - 40px));
       margin: 0 auto;
       padding: 26px 0 70px;
     }
 
+    /* Topbar */
     .topbar{
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
       position: sticky;
       top: 14px;
-      z-index: 10;
+      z-index: 20;
       margin-top: 10px;
     }
-
     .topbar .glass{
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
+      display: flex; align-items: center; justify-content: space-between; gap: 14px;
       padding: 12px 14px;
       border-radius: 999px;
       background: rgba(255,255,255,.06);
@@ -136,15 +137,16 @@
       border: 1px solid rgba(255,255,255,.16);
       box-shadow: 0 10px 25px rgba(0,0,0,.35);
     }
-    .brand .name{ display: flex; flex-direction: column; line-height: 1.1; }
-    .brand .name strong{ font-size: 14px; letter-spacing: .2px; }
-    .brand .name span{ font-size: 12px; color: var(--muted2); }
+    .name{ display:flex; flex-direction:column; line-height:1.12; }
+    .name strong{ font-size: 14px; letter-spacing: .2px; }
+    .name span{ font-size: 12px; color: var(--muted2); }
 
-    .nav{ display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .nav{ display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
 
     .pill{
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 10px 12px; border-radius: 999px;
+      display: inline-flex; align-items:center; gap:8px;
+      padding: 10px 12px;
+      border-radius: 999px;
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.06);
       transition: transform .15s ease, border-color .15s ease, background .15s ease;
@@ -155,18 +157,16 @@
       border-color: rgba(255,255,255,.22);
       background: rgba(255,255,255,.08);
     }
-    .pill.primary{ border-color: rgba(59,130,246,.45); background: rgba(59,130,246,.18); }
-    .pill.primary:hover{ border-color: rgba(59,130,246,.70); background: rgba(59,130,246,.24); }
-
-    .hero{
-      margin: 36px 0 26px;
-      display: grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 18px;
-      align-items: start;
+    .pill.primary{
+      border-color: rgba(59,130,246,.45);
+      background: rgba(59,130,246,.18);
     }
-    @media (max-width: 920px){ .hero{ grid-template-columns: 1fr; } .brand{ min-width: 0; } }
+    .pill.primary:hover{
+      border-color: rgba(59,130,246,.70);
+      background: rgba(59,130,246,.24);
+    }
 
+    /* Cards */
     .card{
       border-radius: var(--r2);
       border: 1px solid rgba(255,255,255,.11);
@@ -177,31 +177,43 @@
       position: relative;
     }
     .card::before{
-      content:""; position:absolute; inset: -2px;
-      background: radial-gradient(600px 200px at 20% 0%, rgba(59,130,246,.22), transparent 60%),
-                  radial-gradient(420px 220px at 80% 10%, rgba(34,197,94,.18), transparent 60%),
-                  radial-gradient(500px 260px at 50% 110%, rgba(168,85,247,.18), transparent 55%);
-      opacity: .65; pointer-events: none; filter: blur(20px);
+      content:""; position:absolute; inset:-2px; pointer-events:none;
+      background:
+        radial-gradient(600px 200px at 20% 0%, rgba(59,130,246,.22), transparent 60%),
+        radial-gradient(420px 220px at 80% 10%, rgba(34,197,94,.18), transparent 60%),
+        radial-gradient(500px 260px at 50% 110%, rgba(168,85,247,.18), transparent 55%);
+      opacity: .65; filter: blur(20px);
     }
-    .card > *{ position: relative; }
+    .card > *{ position:relative; }
+
+    /* Hero */
+    .hero{
+      margin: 36px 0 26px;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 18px;
+      align-items:start;
+    }
+    @media (max-width: 920px){ .hero{ grid-template-columns: 1fr; } .brand{ min-width:0; } }
 
     .hero-left{ padding: 22px 22px 18px; }
     .kicker{
       font-family: var(--mono);
       font-size: 12px;
       color: var(--muted2);
-      display: flex; gap: 10px; flex-wrap: wrap;
+      display:flex; gap:10px; flex-wrap:wrap;
       margin-bottom: 10px;
     }
     .tag{
-      display: inline-flex; padding: 6px 10px;
+      display:inline-flex;
+      padding: 6px 10px;
       border-radius: 999px;
       border: 1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.05);
     }
 
     h1{ margin: 0 0 8px; font-size: 42px; letter-spacing: -0.7px; }
-    @media (max-width: 520px){ h1{ font-size: 34px; } }
+    @media (max-width:520px){ h1{ font-size:34px; } }
 
     .subtitle{
       margin: 0 0 14px;
@@ -211,60 +223,160 @@
       max-width: 62ch;
     }
 
-    .hero-actions{ display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
-
+    .hero-actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
     .btn{
-      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-      padding: 12px 14px; border-radius: 14px;
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding: 12px 14px;
+      border-radius: 14px;
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.06);
-      cursor: pointer;
+      cursor:pointer;
       transition: transform .15s ease, background .15s ease, border-color .15s ease;
-      user-select: none;
+      user-select:none;
     }
-    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.22); }
-    .btn.primary{ background: rgba(59,130,246,.22); border-color: rgba(59,130,246,.55); }
-    .btn.primary:hover{ background: rgba(59,130,246,.28); border-color: rgba(59,130,246,.75); }
-    .btn.good{ background: rgba(34,197,94,.18); border-color: rgba(34,197,94,.48); }
-    .btn.good:hover{ background: rgba(34,197,94,.24); border-color: rgba(34,197,94,.70); }
-    .btn.phone{ background: rgba(6,182,212,.16); border-color: rgba(6,182,212,.48); }
-    .btn.phone:hover{ background: rgba(6,182,212,.22); border-color: rgba(6,182,212,.70); }
+    .btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.08);
+      border-color: rgba(255,255,255,.22);
+    }
+    .btn.primary{
+      background: rgba(59,130,246,.22);
+      border-color: rgba(59,130,246,.55);
+    }
+    .btn.primary:hover{
+      background: rgba(59,130,246,.28);
+      border-color: rgba(59,130,246,.75);
+    }
+    .btn.good{
+      background: rgba(34,197,94,.18);
+      border-color: rgba(34,197,94,.48);
+    }
+    .btn.good:hover{
+      background: rgba(34,197,94,.24);
+      border-color: rgba(34,197,94,.70);
+    }
+    .btn.phone{
+      background: rgba(6,182,212,.16);
+      border-color: rgba(6,182,212,.48);
+    }
+    .btn.phone:hover{
+      background: rgba(6,182,212,.22);
+      border-color: rgba(6,182,212,.70);
+    }
     .btn.ghost{ background: transparent; }
 
+    /* mini row */
     .mini{
-      display: flex; gap: 12px; flex-wrap: wrap;
+      display:flex; gap:12px; flex-wrap:wrap;
       margin-top: 12px;
       color: var(--muted2);
       font-size: 12px;
     }
     .mini span{
-      display: inline-flex; align-items: center; gap: 8px;
+      display:inline-flex; align-items:center; gap:8px;
       padding: 8px 10px;
       border-radius: 999px;
       border: 1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.04);
     }
 
+    /* Right hero small blocks */
     .hero-right{ padding: 18px; }
-    .statgrid{ display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    @media (max-width: 520px){ .statgrid{ grid-template-columns: 1fr; } }
+    .statgrid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    @media (max-width:520px){ .statgrid{ grid-template-columns:1fr; } }
     .stat{
-      padding: 14px 14px;
+      padding: 14px;
       border-radius: 18px;
       border: 1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.05);
     }
-    .stat b{ display: block; font-size: 18px; margin-bottom: 6px; }
-    .stat small{ color: var(--muted2); line-height: 1.35; display: block; }
+    .stat b{ display:block; font-size: 18px; margin-bottom: 6px; }
+    .stat small{ display:block; color: var(--muted2); line-height: 1.35; }
 
+    /* Sections */
     .section{ margin-top: 22px; }
     .section h2{ margin: 0 0 12px; font-size: 22px; letter-spacing: -0.2px; }
     .section .lead{ margin: 0 0 16px; color: var(--muted); line-height: 1.6; font-size: 14px; }
 
-    .projects{ display: grid; gap: 14px; }
+    /* Services */
+    .cards3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 920px){ .cards3{ grid-template-columns: 1fr; } }
+    .miniCard{
+      padding: 16px;
+      border-radius: var(--r2);
+      border: 1px solid rgba(255,255,255,.11);
+      background: rgba(255,255,255,.05);
+      box-shadow: var(--shadow2);
+      position: relative;
+      overflow: hidden;
+    }
+    .miniCard::before{
+      content:""; position:absolute; inset:-2px; pointer-events:none;
+      background:
+        radial-gradient(420px 220px at 20% 0%, rgba(59,130,246,.12), transparent 60%),
+        radial-gradient(420px 220px at 90% 10%, rgba(34,197,94,.10), transparent 60%);
+      opacity:.7; filter: blur(18px);
+    }
+    .miniCard > *{ position:relative; }
+    .miniCard h3{ margin:0 0 6px; font-size: 16px; }
+    .price{
+      font-family: var(--mono);
+      color: rgba(255,255,255,.86);
+      font-size: 12px;
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      margin: 6px 0 10px;
+    }
+    .miniList{
+      margin: 0;
+      padding-left: 18px;
+      color: rgba(255,255,255,.78);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    .miniList li{ margin: 6px 0; }
 
+    /* How I work */
+    .steps{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 920px){ .steps{ grid-template-columns: 1fr; } }
+    .step{
+      padding: 16px;
+      border-radius: var(--r2);
+      border: 1px solid rgba(255,255,255,.11);
+      background: rgba(255,255,255,.05);
+      box-shadow: var(--shadow2);
+    }
+    .step .n{
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(255,255,255,.86);
+      display:inline-flex;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      margin-bottom: 10px;
+    }
+    .step h3{ margin: 0 0 6px; font-size: 16px; }
+    .step p{ margin: 0; color: var(--muted); line-height: 1.6; font-size: 13.5px; }
+
+    /* Projects */
+    .projects{ display:grid; gap: 14px; }
     .project{
-      display: grid;
+      display:grid;
       grid-template-columns: 1.1fr .9fr;
       gap: 14px;
       padding: 16px;
@@ -272,21 +384,24 @@
       border: 1px solid rgba(255,255,255,.11);
       background: rgba(255,255,255,.05);
       box-shadow: var(--shadow2);
-      overflow: hidden;
-      position: relative;
+      overflow:hidden;
+      position:relative;
     }
     .project::before{
-      content:""; position:absolute; inset:-2px;
-      background: radial-gradient(520px 260px at 15% 0%, rgba(59,130,246,.16), transparent 60%),
-                  radial-gradient(520px 260px at 90% 10%, rgba(34,197,94,.12), transparent 60%),
-                  radial-gradient(520px 260px at 55% 120%, rgba(168,85,247,.12), transparent 60%);
-      opacity:.7; filter: blur(18px); pointer-events:none;
+      content:""; position:absolute; inset:-2px; pointer-events:none;
+      background:
+        radial-gradient(520px 260px at 15% 0%, rgba(59,130,246,.14), transparent 60%),
+        radial-gradient(520px 260px at 90% 10%, rgba(34,197,94,.10), transparent 60%),
+        radial-gradient(520px 260px at 55% 120%, rgba(168,85,247,.10), transparent 60%);
+      opacity:.75; filter: blur(18px);
     }
-    .project > *{ position: relative; }
+    .project > *{ position:relative; }
     @media (max-width: 920px){ .project{ grid-template-columns: 1fr; } }
-
-    .proj-title{ display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
-    .proj-title h3{ margin: 0; font-size: 18px; letter-spacing: -0.2px; }
+    .proj-title{
+      display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
+      margin-bottom: 8px;
+    }
+    .proj-title h3{ margin:0; font-size: 18px; letter-spacing:-0.2px; }
     .badge{
       font-family: var(--mono);
       font-size: 12px;
@@ -299,21 +414,20 @@
     .proj-desc{ margin: 0 0 10px; color: var(--muted); line-height: 1.55; font-size: 14px; }
     .bullets{ margin: 0; padding-left: 18px; color: rgba(255,255,255,.78); line-height: 1.55; font-size: 13px; }
     .bullets li{ margin: 6px 0; }
-    .proj-links{ display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+    .proj-links{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 12px; }
 
     .preview{
       border-radius: 20px;
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(0,0,0,.18);
-      overflow: hidden;
+      overflow:hidden;
       min-height: 220px;
-      display: grid;
-      place-items: center;
-      position: relative;
+      display:grid;
+      place-items:center;
+      position:relative;
     }
     .preview img{
-      width: 100%;
-      height: 100%;
+      width:100%; height:100%;
       object-fit: cover;
       opacity: .95;
       transform: scale(1.02);
@@ -321,30 +435,68 @@
     }
     .project:hover .preview img{ transform: scale(1.06); opacity: 1; }
     .preview .ph{
-      padding: 16px; color: var(--muted2);
-      text-align: center; font-size: 13px; line-height: 1.5; max-width: 34ch;
+      padding: 16px;
+      color: var(--muted2);
+      text-align:center;
+      font-size: 13px;
+      line-height: 1.5;
+      max-width: 34ch;
     }
 
+    /* Reviews */
+    .reviews{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 920px){ .reviews{ grid-template-columns: 1fr; } }
+    .review{
+      padding: 16px;
+      border-radius: var(--r2);
+      border: 1px solid rgba(255,255,255,.11);
+      background: rgba(255,255,255,.05);
+      box-shadow: var(--shadow2);
+    }
+    .review p{
+      margin:0;
+      color: rgba(255,255,255,.82);
+      line-height: 1.6;
+      font-size: 13.5px;
+    }
+    .review .who{
+      margin-top: 12px;
+      color: var(--muted2);
+      font-size: 12.5px;
+    }
+    .review .who b{ color: rgba(255,255,255,.88); }
+
+    /* Contacts */
     .contacts{
-      display: grid;
+      display:grid;
       grid-template-columns: 1fr 1fr;
       gap: 14px;
     }
     @media (max-width: 920px){ .contacts{ grid-template-columns: 1fr; } }
-
     .contact-card{ padding: 18px; }
     .contact-card h3{ margin: 0 0 8px; font-size: 18px; }
     .contact-card p{ margin: 0 0 12px; color: var(--muted); line-height: 1.6; font-size: 14px; }
 
-    .footer{
-      margin-top: 26px;
-      padding: 16px 0 0;
+    /* Badges line (langs/geo) */
+    .metaRow{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top: 10px;
       color: var(--muted2);
       font-size: 12px;
-      text-align: center;
-      opacity: .9;
+    }
+    .metaRow span{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
     }
 
+    /* Toast */
     .toast{
       position: fixed;
       bottom: 18px;
@@ -365,12 +517,23 @@
     }
     .toast.show{ opacity: 1; transform: translateX(-50%) translateY(-4px); }
 
+    /* Reveal */
     .reveal{
       opacity: 0;
       transform: translateY(10px);
       transition: opacity .6s ease, transform .6s ease;
     }
     .reveal.on{ opacity: 1; transform: translateY(0); }
+
+    /* Footer */
+    .footer{
+      margin-top: 26px;
+      padding: 16px 0 0;
+      color: var(--muted2);
+      font-size: 12px;
+      text-align: center;
+      opacity: .9;
+    }
   </style>
 </head>
 
@@ -382,6 +545,7 @@
   <div class="noise"></div>
 
   <div class="wrap">
+    <!-- TOPBAR -->
     <div class="topbar">
       <div class="glass">
         <div class="brand">
@@ -392,16 +556,17 @@
           </div>
         </div>
 
-        <!-- УБРАЛ GitHub из меню -->
         <nav class="nav" aria-label="Навігація">
-          <a class="pill primary" href="#projects">Проєкти</a>
+          <a class="pill primary" href="#services">Послуги</a>
+          <a class="pill" href="#projects">Проєкти</a>
+          <a class="pill" href="#work">Як працюю</a>
+          <a class="pill" href="#reviews">Відгуки</a>
           <a class="pill" href="#contacts">Контакти</a>
-          <a class="pill" href="https://t.me/Moonsl1" target="_blank" rel="noopener">Telegram</a>
-          <a class="pill" href="#contacts">Телефон</a>
         </nav>
       </div>
     </div>
 
+    <!-- HERO -->
     <section class="hero">
       <div class="card hero-left reveal">
         <div class="kicker">
@@ -413,41 +578,52 @@
           <span class="tag">sqlite</span>
         </div>
 
-        <h1>Python розробник<br/>Telegram-ботів</h1>
+        <h1>Telegram-боти на Python<br/>під вашу задачу</h1>
         <p class="subtitle">
           Роблю ботів “під ключ”: заявки/меню/адмінка/статистика, моніторинг каналів і чатів,
-          фільтри/ключові слова/антиспам, парсинг і інтеграції (API, вебхуки, платежі).
+          фільтри/ключові слова/антиспам, парсинг і інтеграції (API, вебхуки).
           Пишу чисто: логування, конфіг, структура, збереження даних.
         </p>
 
+        <!-- 7) Languages + geo -->
+        <div class="metaRow" aria-label="Мови та гео">
+          <span>📍 Україна • працюю онлайн</span>
+          <span>🗣️ UA / RU / EN</span>
+          <span>⚡ швидка відповідь</span>
+        </div>
+
         <div class="hero-actions">
-          <a class="btn primary" href="#projects">Дивитись проєкти</a>
+          <a class="btn primary" href="#services">Подивитись послуги</a>
           <a class="btn good" href="https://t.me/Moonsl1" target="_blank" rel="noopener">Написати в Telegram</a>
-
-          <!-- ТЕЛЕФОН: поставь свой номер ниже в JS -->
           <a class="btn phone" id="callBtn" href="tel:+380XXXXXXXXX">Подзвонити</a>
-
           <button class="btn ghost" id="copyUser" type="button">Скопіювати @Moonsl1</button>
           <button class="btn ghost" id="copyPhone" type="button">Скопіювати номер</button>
         </div>
 
+        <!-- 8) Quick request buttons -->
+        <div class="hero-actions" style="margin-top:10px">
+          <a class="btn" id="q1" href="#" rel="noopener">⚡ Швидка заявка: Бот для заявок</a>
+          <a class="btn" id="q2" href="#" rel="noopener">📡 Швидка заявка: Моніторинг</a>
+          <a class="btn" id="q3" href="#" rel="noopener">🎬 Швидка заявка: Кіно-бот</a>
+        </div>
+
         <div class="mini">
-          <span>⚡ швидка відповідь</span>
           <span>🛠️ боти 24/7</span>
           <span>🔒 збереження даних</span>
           <span>📊 статистика</span>
+          <span>🧼 порядок в UX</span>
         </div>
       </div>
 
       <aside class="card hero-right reveal">
         <div class="statgrid">
           <div class="stat">
-            <b>Telegram-боти</b>
+            <b>Боти під ключ</b>
             <small>меню, заявки, ролі, адмінка, статистика</small>
           </div>
           <div class="stat">
             <b>Моніторинг</b>
-            <small>канали/чати, ключові слова, антиспам</small>
+            <small>канали/чати, ключові слова, дедуп, антиспам</small>
           </div>
           <div class="stat">
             <b>Інтеграції</b>
@@ -461,14 +637,63 @@
       </aside>
     </section>
 
+    <!-- 1) SERVICES -->
+    <section class="section" id="services">
+      <h2 class="reveal">Послуги та ціни</h2>
+      <p class="lead reveal">
+        Ціни орієнтовні (“від”), щоб одразу було зрозуміло по бюджету. Точно — після короткого опису задачі.
+      </p>
+
+      <div class="cards3">
+        <div class="miniCard reveal">
+          <h3>🤖 Бот для заявок / клієнтів</h3>
+          <div class="price">від 1500 грн</div>
+          <ul class="miniList">
+            <li>кнопки/меню, сценарії</li>
+            <li>заявка → в групу/адміну</li>
+            <li>збереження заявок/логів</li>
+          </ul>
+          <div class="hero-actions" style="margin-top:12px">
+            <a class="btn good" href="#" id="s1">Замовити</a>
+          </div>
+        </div>
+
+        <div class="miniCard reveal">
+          <h3>📡 Моніторинг каналів / оповіщення</h3>
+          <div class="price">від 2000 грн</div>
+          <ul class="miniList">
+            <li>ключові слова, фільтри</li>
+            <li>антидубль/антиспам</li>
+            <li>сводки або тригери</li>
+          </ul>
+          <div class="hero-actions" style="margin-top:12px">
+            <a class="btn good" href="#" id="s2">Замовити</a>
+          </div>
+        </div>
+
+        <div class="miniCard reveal">
+          <h3>⚙️ Адмінка / статистика / база</h3>
+          <div class="price">від 2500 грн</div>
+          <ul class="miniList">
+            <li>ролі, права, налаштування</li>
+            <li>статистика, логи, експорт</li>
+            <li>зберігання: SQLite/JSON</li>
+          </ul>
+          <div class="hero-actions" style="margin-top:12px">
+            <a class="btn good" href="#" id="s3">Замовити</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
     <section class="section" id="projects">
       <h2 class="reveal">Проєкти</h2>
       <p class="lead reveal">
-        Нижче — приклади моїх робіт. Можу зробити так само або зібрати “під вас” з нуля.
+        Два приклади. Можна додати ще кейси — буде ще сильніше.
       </p>
 
       <div class="projects">
-
         <article class="project reveal">
           <div>
             <div class="proj-title">
@@ -486,9 +711,8 @@
               <li>Логи та стабільна робота 24/7</li>
             </ul>
 
-            <!-- УБРАЛ GitHub кнопки из проектов -->
             <div class="proj-links">
-              <a class="btn good" href="https://t.me/Moonsl1" target="_blank" rel="noopener">Замовити схожий</a>
+              <a class="btn good" href="https://t.me/Moonsl1" target="_blank" rel="noopener">Хочу такий моніторинг</a>
               <a class="btn phone" id="callBtn2" href="tel:+380XXXXXXXXX">Подзвонити</a>
             </div>
           </div>
@@ -496,8 +720,7 @@
           <div class="preview" aria-label="Скріншот VIKING Monitoring">
             <!-- <img src="assets/viking.png" alt="VIKING Monitoring screenshot"> -->
             <div class="ph">
-              Додай скріншот у <b>/assets/viking.png</b><br/>
-              і він зʼявиться тут автоматично.
+              Додай скріншот у <b>/assets/viking.png</b><br/>і він зʼявиться тут.
             </div>
           </div>
         </article>
@@ -516,11 +739,11 @@
             <ul class="bullets">
               <li>Пошук / видача картки фільму</li>
               <li>Збереження статистики в базі</li>
-              <li>Адмінські команди, модерація контенту</li>
+              <li>Адмінські команди, модерація</li>
             </ul>
 
             <div class="proj-links">
-              <a class="btn good" href="https://t.me/Moonsl1" target="_blank" rel="noopener">Зробити такого</a>
+              <a class="btn good" href="https://t.me/Moonsl1" target="_blank" rel="noopener">Хочу кіно-бота</a>
               <a class="btn phone" id="callBtn3" href="tel:+380XXXXXXXXX">Подзвонити</a>
             </div>
           </div>
@@ -528,15 +751,63 @@
           <div class="preview" aria-label="Скріншот Кіно-бота">
             <!-- <img src="assets/cinema.png" alt="Cinema bot screenshot"> -->
             <div class="ph">
-              Додай скріншот у <b>/assets/cinema.png</b><br/>
-              і буде мега-видно.
+              Додай скріншот у <b>/assets/cinema.png</b><br/>і буде красиво.
             </div>
           </div>
         </article>
-
       </div>
     </section>
 
+    <!-- 2) HOW I WORK -->
+    <section class="section" id="work">
+      <h2 class="reveal">Як я працюю</h2>
+      <p class="lead reveal">
+        Без “магії”: все прозоро, по кроках, щоб ти бачив результат.
+      </p>
+
+      <div class="steps">
+        <div class="step reveal">
+          <div class="n">1 • Бриф</div>
+          <h3>Коротко уточнюю задачу</h3>
+          <p>Що має робити бот, де буде працювати, які ролі/права, які повідомлення та кнопки.</p>
+        </div>
+        <div class="step reveal">
+          <div class="n">2 • Прототип</div>
+          <h3>Показую першу робочу версію</h3>
+          <p>Швидко роблю мінімально робочу версію, щоб ти “помацав” і дав правки.</p>
+        </div>
+        <div class="step reveal">
+          <div class="n">3 • Прод / підтримка</div>
+          <h3>Доводжу до стабільності</h3>
+          <p>Антиспам, логи, збереження даних, чиста структура. За потреби — підтримка і розвиток.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6) REVIEWS -->
+    <section class="section" id="reviews">
+      <h2 class="reveal">Відгуки</h2>
+      <p class="lead reveal">
+        Можеш замінити ці тексти на реальні (це дуже підніме довіру).
+      </p>
+
+      <div class="reviews">
+        <div class="review reveal">
+          <p>“Зробив моніторинг без спаму: фільтри чіткі, повідомлення акуратні, працює стабільно.”</p>
+          <div class="who"><b>Координатор</b> • волонтерська група</div>
+        </div>
+        <div class="review reveal">
+          <p>“Швидко зробив прототип, потім допиляв до нормальної системи. Комунікація проста.”</p>
+          <div class="who"><b>Адмін чату</b> • Telegram</div>
+        </div>
+        <div class="review reveal">
+          <p>“Код структурований, логи та збереження даних — без хаосу. Після релізу все ок.”</p>
+          <div class="who"><b>Замовник</b> • автоматизація</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACTS -->
     <section class="section" id="contacts">
       <h2 class="reveal">Контакти</h2>
       <p class="lead reveal">
@@ -555,7 +826,7 @@
 
         <div class="card contact-card reveal">
           <h3>Телефон</h3>
-          <p><span id="phoneText">+380XXXXXXXXX</span> (натискай щоб подзвонити або скопіювати)</p>
+          <p><span id="phoneText">+380XXXXXXXXX</span> (дзвінок або копіювання)</p>
           <div class="hero-actions">
             <a class="btn phone" id="callBtn4" href="tel:+380XXXXXXXXX">Подзвонити</a>
             <button class="btn" id="copyPhone2" type="button">Скопіювати номер</button>
@@ -572,17 +843,15 @@
   <div class="toast" id="toast">Скопійовано ✅</div>
 
   <script>
+    // ===== Year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // ====== ВСТАВЬ СЮДА СВОЙ НОМЕР ======
-    // Формат: +380XXXXXXXXX
-    const PHONE = "+380ВАШ_НОМЕР";   // <-- ЗАМЕНИ
-    // ====================================
+    // ===== IMPORTANT: Set your phone here
+    const PHONE = "+380XXXXXXXXX"; // <-- ЗАМІНИ НА СВІЙ НОМЕР (формат +380...)
+    const telHref = "tel:" + PHONE;
 
     // Apply phone everywhere
-    const telHref = "tel:" + PHONE;
-    const ids = ["callBtn","callBtn2","callBtn3","callBtn4"];
-    ids.forEach(id => {
+    ["callBtn","callBtn2","callBtn3","callBtn4"].forEach(id => {
       const el = document.getElementById(id);
       if(el) el.setAttribute("href", telHref);
     });
@@ -620,6 +889,32 @@
     document.getElementById('copyPhone').addEventListener('click', copyPhoneHandlers);
     document.getElementById('copyPhone2').addEventListener('click', copyPhoneHandlers);
 
+    // ===== 8) Quick request links (prefilled Telegram text)
+    function tgPrefill(text){
+      return "https://t.me/Moonsl1?text=" + encodeURIComponent(text);
+    }
+
+    const msg1 = "Привіт! Хочу бота для заявок. Опис: (яка сфера/що має збирати/куди надсилати). Термін: ____. Бюджет: ____.";
+    const msg2 = "Привіт! Хочу моніторинг Telegram-каналів/чатів. Джерела: ____. Ключові слова/фільтри: ____. Куди надсилати: ____.";
+    const msg3 = "Привіт! Хочу кіно-бота. Потрібно: пошук/картки/статистика/адмінка. Деталі: ____.";
+    const msgS1 = "Привіт! Потрібен бот для заявок (кнопки/меню/заявка → адміну/групу). Опис задачі: ____.";
+    const msgS2 = "Привіт! Потрібен моніторинг з фільтрами та антиспамом. Канали/чати: ____. Фільтри: ____.";
+    const msgS3 = "Привіт! Потрібна адмінка/статистика/збереження даних для бота. Опис: ____.";
+
+    const q1 = document.getElementById("q1");
+    const q2 = document.getElementById("q2");
+    const q3 = document.getElementById("q3");
+    const s1 = document.getElementById("s1");
+    const s2 = document.getElementById("s2");
+    const s3 = document.getElementById("s3");
+
+    q1.href = tgPrefill(msg1); q1.target = "_blank";
+    q2.href = tgPrefill(msg2); q2.target = "_blank";
+    q3.href = tgPrefill(msg3); q3.target = "_blank";
+    s1.href = tgPrefill(msgS1); s1.target = "_blank";
+    s2.href = tgPrefill(msgS2); s2.target = "_blank";
+    s3.href = tgPrefill(msgS3); s3.target = "_blank";
+
     // ===== Reveal on scroll
     const revealEls = Array.from(document.querySelectorAll('.reveal'));
     const io = new IntersectionObserver((entries) => {
@@ -632,7 +927,7 @@
     }, { threshold: 0.12 });
     revealEls.forEach(el => io.observe(el));
 
-    // ===== Particles
+    // ===== Particles (lightweight)
     const canvas = document.getElementById('particles');
     const ctx = canvas.getContext('2d');
 
@@ -649,6 +944,7 @@
     resize();
 
     const rnd = (a,b)=>a + Math.random()*(b-a);
+
     let particleCount = Math.round(Math.min(120, Math.max(70, W / 16)));
     let particles = [];
 
