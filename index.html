@@ -437,10 +437,9 @@
       font-size: 22px;
       letter-spacing:.2px;
     }
-    .sectionHead .hint{
-      color: var(--muted2);
-      font-size: 13px;
-    }
+
+    /* ✅ FIX #1: убираем синие “подсказки справа” (то что было выделено на скринах) */
+    .sectionHead .hint{ display:none !important; }
 
     .grid3{
       display:grid;
@@ -725,6 +724,12 @@
     textarea{ min-height: 110px; resize: vertical; }
     .span2{ grid-column: 1 / -1; }
 
+    /* ✅ FIX #2: чтобы варианты в select были видимы (выпадающий список) */
+    select option, select optgroup{
+      color:#0b1020;
+      background:#ffffff;
+    }
+
     .modalActions{
       display:flex;
       gap:10px;
@@ -959,7 +964,7 @@
     <section id="services">
       <div class="sectionHead">
         <h2 class="i18n" data-i18n="servicesTitle">Послуги</h2>
-        <div class="hint i18n" data-i18n="servicesHint">Пишу чисто, з логами та структурою. Можу вести проєкт до продакшну.</div>
+        <div class="hint i18n" data-i18n="servicesHint"></div>
       </div>
 
       <div class="grid3">
@@ -993,7 +998,7 @@
     <section id="projects">
       <div class="sectionHead">
         <h2 class="i18n" data-i18n="projectsTitle">Проєкти</h2>
-        <div class="hint i18n" data-i18n="projectsHint">Скріншоти — опціонально. Можемо замінити на твої реальні.</div>
+        <div class="hint i18n" data-i18n="projectsHint"></div>
       </div>
 
       <div class="projects">
@@ -1051,7 +1056,7 @@
     <section id="process">
       <div class="sectionHead">
         <h2 class="i18n" data-i18n="processTitle">Як працюю</h2>
-        <div class="hint i18n" data-i18n="processHint">План + прозорі етапи, без хаосу.</div>
+        <div class="hint i18n" data-i18n="processHint"></div>
       </div>
 
       <div class="steps">
@@ -1082,7 +1087,7 @@
     <section id="reviews">
       <div class="sectionHead">
         <h2 class="i18n" data-i18n="reviewsTitle">Відгуки</h2>
-        <div class="hint i18n" data-i18n="reviewsHint">Приклад — заміниш на свої реальні, коли будуть.</div>
+        <div class="hint i18n" data-i18n="reviewsHint"></div>
       </div>
 
       <div class="reviews">
@@ -1148,7 +1153,7 @@
     <section id="contacts">
       <div class="sectionHead">
         <h2 class="i18n" data-i18n="contactsTitle">Контакти</h2>
-        <div class="hint i18n" data-i18n="contactsHint">Натискай — відкриється Telegram / дзвінок. Є копіювання.</div>
+        <div class="hint i18n" data-i18n="contactsHint"></div>
       </div>
 
       <div class="contacts">
@@ -1209,10 +1214,10 @@
       </div>
     </section>
 
-    <!-- Footer (убрано выделенное “GitHub Pages…” ) -->
+    <!-- Footer -->
     <footer class="glass glow">
       <span class="i18n" data-i18n="footerLeft">© <span id="y"></span> Ярослав — Python / Telegram</span>
-      <!-- ВТОРОЙ ТЕКСТ УБРАН СПЕЦИАЛЬНО -->
+      <!-- второй текст убран -->
     </footer>
   </div>
 
@@ -1782,7 +1787,6 @@
 
     $("#sendBrief").addEventListener("click", async ()=>{
       const text = buildBriefText();
-      // make it максимально удобно: copy + open TG
       await copyText(text);
       openTelegramWithText(text);
       closeModal();
@@ -1811,14 +1815,12 @@
         targetOp = 0;
       }, {passive:true});
     } else {
-      // On touch devices: minimal
       targetOp = 0;
       fx.style.opacity = 0;
     }
 
     function animateFx(){
       const now = performance.now();
-      // fade out when idle
       if(now - lastMove > 700) targetOp = 0.15;
       if(now - lastMove > 1400) targetOp = 0;
 
@@ -1851,7 +1853,7 @@
       canvas.height = Math.floor(H * DPR);
       ctx.setTransform(DPR,0,0,DPR,0,0);
 
-      const count = Math.floor((W*H) / 14000); // adaptive
+      const count = Math.floor((W*H) / 14000);
       stars = Array.from({length: Math.max(90, Math.min(260, count))}, ()=>({
         x: Math.random()*W,
         y: Math.random()*H,
@@ -1881,7 +1883,6 @@
 
       ctx.clearRect(0,0,W,H);
 
-      // subtle vignette
       const g = ctx.createRadialGradient(W*0.5,H*0.45, 0, W*0.5,H*0.45, Math.max(W,H)*0.75);
       g.addColorStop(0, "rgba(0,0,0,0)");
       g.addColorStop(1, "rgba(0,0,0,0.25)");
