@@ -12,7 +12,6 @@
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Ярослав (@Moonsl1) — Python / Telegram" />
   <meta property="og:description" content="Telegram-боти під ключ, моніторинг каналів/чатів, парсинг, інтеграції API, збереження в SQLite/JSON." />
-  <!-- ВСТАВЬ СЮДЫ ССЫЛКУ НА КАРТИНКУ-ПРЕВЬЮ (например /og.png или полный URL) -->
   <meta property="og:image" content="og.png" />
   <meta property="og:locale" content="uk_UA" />
 
@@ -391,6 +390,7 @@
       position:relative;
       overflow:hidden;
       user-select:none;
+      cursor:pointer;
     }
     .btn::after{
       content:"";
@@ -438,7 +438,7 @@
       letter-spacing:.2px;
     }
 
-    /* ✅ FIX #1: убираем синие “подсказки справа” (то что было выделено на скринах) */
+    /* ✅ FIX #1: hide hints */
     .sectionHead .hint{ display:none !important; }
 
     .grid3{
@@ -559,7 +559,7 @@
     .step h3{ margin:0 0 6px; font-size: 15px; }
     .step p{ margin:0; color: var(--muted); font-size: 13.5px; line-height:1.55; }
 
-    /* ===== Reviews (real-ish) ===== */
+    /* ===== Reviews ===== */
     .reviews{
       display:grid;
       grid-template-columns: repeat(2, 1fr);
@@ -724,7 +724,7 @@
     textarea{ min-height: 110px; resize: vertical; }
     .span2{ grid-column: 1 / -1; }
 
-    /* ✅ FIX #2: чтобы варианты в select были видимы (выпадающий список) */
+    /* ✅ FIX #2: select options visible */
     select option, select optgroup{
       color:#0b1020;
       background:#ffffff;
@@ -869,7 +869,7 @@
     }
 
     /* ============================= */
-    /* ✅ MUSIC BUTTON (added only)  */
+    /* ✅ MUSIC BUTTON               */
     /* ============================= */
     .musicToggle{
       position: fixed;
@@ -899,11 +899,11 @@
 </head>
 
 <body>
-  <!-- ✅ MUSIC (added only) -->
-  <source src="assets/kosmos.mp3" type="audio/mpeg">
-    <source src="assets/music.mp3" type="audio/mpeg" />
+  <!-- ✅ FIX MUSIC: правильный audio + правильные теги -->
+  <audio id="bgMusic" preload="auto" loop>
+    <source src="assets/kosmos.mp3" type="audio/mpeg">
   </audio>
-  <button class="musicToggle" id="musicToggle" type="button" aria-label="Toggle music">🔊 Music</button>
+  <button class="musicToggle" id="musicToggle" type="button" aria-label="Toggle music" aria-pressed="false">🔊 Music</button>
 
   <!-- Cosmic background -->
   <div class="space" aria-hidden="true">
@@ -1236,7 +1236,7 @@
             <a class="btn green" href="https://t.me/Moonsl1" target="_blank" rel="noopener">
               <span class="i18n" data-i18n="btnTelegram">Написати в Telegram</span>
             </a>
-            <button class="btn" id="openBrief">
+            <button class="btn" id="openBrief" type="button">
               <span class="i18n" data-i18n="btnBrief">Заповнити бриф</span>
             </button>
           </div>
@@ -1247,7 +1247,6 @@
     <!-- Footer -->
     <footer class="glass glow">
       <span class="i18n" data-i18n="footerLeft">© <span id="y"></span> Ярослав — Python / Telegram</span>
-      <!-- второй текст убран -->
     </footer>
   </div>
 
@@ -1255,7 +1254,7 @@
   <div class="floatingWrite" aria-label="Quick actions">
     <div class="hint"><span class="dot"></span><span class="i18n" data-i18n="floatHint">Швидкий контакт</span></div>
     <a class="btn green" href="https://t.me/Moonsl1" target="_blank" rel="noopener"><span class="i18n" data-i18n="btnTelegram">Написати в Telegram</span></a>
-    <button class="btn" id="openBrief2"><span class="i18n" data-i18n="btnBrief">Заповнити бриф</span></button>
+    <button class="btn" id="openBrief2" type="button"><span class="i18n" data-i18n="btnBrief">Заповнити бриф</span></button>
   </div>
 
   <!-- Brief modal -->
@@ -1309,10 +1308,10 @@
         </div>
 
         <div class="modalActions">
-          <button class="btn primary" id="sendBrief">
+          <button class="btn primary" id="sendBrief" type="button">
             <span class="i18n" data-i18n="btnSendBrief">Відправити в Telegram</span>
           </button>
-          <button class="btn" id="copyBrief">
+          <button class="btn" id="copyBrief" type="button">
             <span class="i18n" data-i18n="btnCopyBrief">Скопіювати текст</span>
           </button>
         </div>
@@ -1327,13 +1326,12 @@
   <div class="toast" id="toast">Copied</div>
 
   <script>
-    // ✅ MUSIC LOGIC (added only)
+    // ✅ MUSIC LOGIC (fixed)
     (function(){
       const audio = document.getElementById("bgMusic");
       const btn = document.getElementById("musicToggle");
       if(!audio || !btn) return;
 
-      // quiet by default
       audio.volume = 0.25;
 
       let enabled = (localStorage.getItem("music") === "on");
@@ -1348,7 +1346,7 @@
         try{
           await audio.play();
         }catch{
-          // autoplay blocked; will succeed after a user gesture
+          // autoplay blocked; will work after user gesture
         }
       }
 
@@ -1360,11 +1358,8 @@
         else audio.pause();
       }
 
-      btn.addEventListener("click", ()=>{
-        setEnabled(!enabled);
-      });
+      btn.addEventListener("click", ()=> setEnabled(!enabled));
 
-      // If user previously enabled music, start after first interaction anywhere
       function firstGesture(){
         tryPlay();
         window.removeEventListener("pointerdown", firstGesture);
@@ -1470,7 +1465,7 @@
         stackLine3: "GitHub Pages (для портфоліо)",
 
         servicesTitle: "Послуги",
-        servicesHint: "Пишу чисто, з логами та структурою. Можу вести проєкт до продакшну.",
+        servicesHint: "",
         srv1Title: "Telegram-бот “під ключ”",
         srv2Title: "Моніторинг / оповіщення",
         srv3Title: "Інтеграції та дані",
@@ -1482,7 +1477,7 @@
         srv3Text: "Requests/API, бази (SQLite/JSON), збереження статистики, резервні копії, деплой.",
 
         projectsTitle: "Проєкти",
-        projectsHint: "Скріншоти — опціонально. Можемо замінити на твої реальні.",
+        projectsHint: "",
         p1Title: "VIKING Monitoring — моніторинг Telegram-каналів",
         p1Desc: "Читає пости з каналів, фільтрує по ключових словах і надсилає в групу волонтерів.",
         p1Bullets: `
@@ -1499,11 +1494,9 @@
         `,
         pLinkDiscuss: "Обговорити",
         pLinkOrder: "Замовити схожий",
-        phScreenshot1: "Тут можна вставити твій реальний скріншот (img).<br/>Зараз плейсхолдер.",
-        phScreenshot2: "Додай реальний скрін чат-бота/меню — буде топ.<br/>Зараз плейсхолдер.",
 
         processTitle: "Як працюю",
-        processHint: "План + прозорі етапи, без хаосу.",
+        processHint: "",
         s1Title: "Бриф",
         s1Text: "Уточнюємо задачу, сценарії, ролі, адмінку, джерела даних.",
         s2Title: "Прототип",
@@ -1514,10 +1507,10 @@
         s4Text: "Запуск 24/7 + інструкція, резервні копії, підтримка.",
 
         reviewsTitle: "Відгуки",
-        reviewsHint: "Приклад — заміниш на свої реальні, коли будуть.",
+        reviewsHint: "",
 
         contactsTitle: "Контакти",
-        contactsHint: "Натискай — відкриється Telegram / дзвінок. Є копіювання.",
+        contactsHint: "",
         contactMainTitle: "Зв’язатися зі мною",
         openBtn: "Відкрити",
         copyBtn: "Копіювати",
@@ -1529,7 +1522,6 @@
         btnBrief: "Заповнити бриф",
 
         footerLeft: "© <span id='y'></span> Ярослав — Python / Telegram",
-
         floatHint: "Швидкий контакт",
 
         briefTitle: "Міні-бриф",
@@ -1572,7 +1564,7 @@
         stackLine3: "GitHub Pages (для портфолио)",
 
         servicesTitle: "Услуги",
-        servicesHint: "Пишу чисто, с логами и структурой. Могу довести проект до продакшена.",
+        servicesHint: "",
         srv1Title: "Telegram-бот “под ключ”",
         srv2Title: "Мониторинг / уведомления",
         srv3Title: "Интеграции и данные",
@@ -1584,7 +1576,7 @@
         srv3Text: "Requests/API, базы (SQLite/JSON), статистика, бэкапы, деплой.",
 
         projectsTitle: "Проекты",
-        projectsHint: "Скриншоты — опционально. Можно заменить на твои реальные.",
+        projectsHint: "",
         p1Title: "VIKING Monitoring — мониторинг Telegram-каналов",
         p1Desc: "Читает посты из каналов, фильтрует по ключевым словам и отправляет в группу волонтеров.",
         p1Bullets: `
@@ -1601,11 +1593,9 @@
         `,
         pLinkDiscuss: "Обсудить",
         pLinkOrder: "Заказать похожий",
-        phScreenshot1: "Тут можно вставить твой реальный скриншот (img).<br/>Сейчас плейсхолдер.",
-        phScreenshot2: "Добавь реальный скрин чат-бота/меню — будет топ.<br/>Сейчас плейсхолдер.",
 
         processTitle: "Как работаю",
-        processHint: "План + прозрачные этапы, без хаоса.",
+        processHint: "",
         s1Title: "Бриф",
         s1Text: "Уточняем задачу, сценарии, роли, админку, источники данных.",
         s2Title: "Прототип",
@@ -1616,22 +1606,21 @@
         s4Text: "Запуск 24/7 + инструкция, бэкапы, поддержка.",
 
         reviewsTitle: "Отзывы",
-        reviewsHint: "Пример — заменишь на реальные, когда будут.",
+        reviewsHint: "",
 
         contactsTitle: "Контакты",
-        contactsHint: "Нажимай — откроется Telegram / звонок. Есть копирование.",
+        contactsHint: "",
         contactMainTitle: "Связаться со мной",
         openBtn: "Открыть",
         copyBtn: "Копировать",
         phoneLabel: "Телефон",
         callBtn: "Позвонить",
-        contactNote: "* Бриф без бота: открывает Telegram с уже вставленным текстом — тебе остаётся нажать “Send”.",
+        contactNote: "",
         quickTitle: "Быстро",
         quickText: "Напиши, что нужно: “бот заявок”, “мониторинг каналов”, “парсер”, “админка”, “статистика”. Отвечу планом и вариантами.",
         btnBrief: "Заполнить бриф",
 
         footerLeft: "© <span id='y'></span> Ярослав — Python / Telegram",
-
         floatHint: "Быстрый контакт",
 
         briefTitle: "Мини-бриф",
@@ -1674,7 +1663,7 @@
         stackLine3: "GitHub Pages (portfolio)",
 
         servicesTitle: "Services",
-        servicesHint: "Clean code, logs, structure. I can bring a project to production.",
+        servicesHint: "",
         srv1Title: "Turnkey Telegram bot",
         srv2Title: "Monitoring / alerts",
         srv3Title: "Integrations & data",
@@ -1686,7 +1675,7 @@
         srv3Text: "Requests/API, storage (SQLite/JSON), stats, backups, deployment.",
 
         projectsTitle: "Projects",
-        projectsHint: "Screenshots are optional — replace with real ones anytime.",
+        projectsHint: "",
         p1Title: "VIKING Monitoring — Telegram channel monitoring",
         p1Desc: "Reads posts, filters by keywords, forwards to a volunteers group.",
         p1Bullets: `
@@ -1703,11 +1692,9 @@
         `,
         pLinkDiscuss: "Discuss",
         pLinkOrder: "Order similar",
-        phScreenshot1: "Place your real screenshot here (img).<br/>Currently placeholder.",
-        phScreenshot2: "Add a real bot UI/menu screenshot here.<br/>Currently placeholder.",
 
         processTitle: "Process",
-        processHint: "Clear stages, no chaos.",
+        processHint: "",
         s1Title: "Brief",
         s1Text: "We clarify flows, roles, admin tools, data sources.",
         s2Title: "Prototype",
@@ -1718,22 +1705,21 @@
         s4Text: "24/7 launch + docs, backups, support.",
 
         reviewsTitle: "Reviews",
-        reviewsHint: "Example — replace with real reviews later.",
+        reviewsHint: "",
 
         contactsTitle: "Contacts",
-        contactsHint: "Tap — opens Telegram / call. Copy supported.",
+        contactsHint: "",
         contactMainTitle: "Get in touch",
         openBtn: "Open",
         copyBtn: "Copy",
         phoneLabel: "Phone",
         callBtn: "Call",
-        contactNote: "* Brief without a bot: opens Telegram with pre-filled text — you just hit “Send”.",
+        contactNote: "",
         quickTitle: "Quick",
         quickText: "Tell me what you need: request bot, monitoring, parser, admin panel, analytics. I’ll reply with a plan.",
         btnBrief: "Fill brief",
 
         footerLeft: "© <span id='y'></span> Yaroslav — Python / Telegram",
-
         floatHint: "Quick contact",
 
         briefTitle: "Mini brief",
@@ -1769,8 +1755,11 @@
           const k = el.getAttribute("data-i18n");
           const val = T[lang][k];
           if (val == null) return;
-          if (val.includes("<li") || val.includes("<br") || val.includes("<b") || val.includes("<span")) el.innerHTML = val;
-          else el.textContent = val;
+          if (typeof val === "string" && (val.includes("<li") || val.includes("<br") || val.includes("<b") || val.includes("<span"))) {
+            el.innerHTML = val;
+          } else {
+            el.textContent = val;
+          }
         });
         setLangButtons();
         i18nEls.forEach(el=>{
@@ -1854,7 +1843,6 @@
       return lines.join("\n");
     }
 
-    // send via Telegram deep link (no bot)
     const TG_USER = "Moonsl1";
     function openTelegramWithText(text){
       const url = `https://t.me/${TG_USER}?text=${encodeURIComponent(text)}`;
@@ -1873,13 +1861,13 @@
       closeModal();
     });
 
-    // ===== Cursor FX (soft, not screaming) =====
+    // ===== Cursor FX (soft) =====
     const fx = $("#cursorFx");
     let mx = window.innerWidth * 0.5;
     let my = window.innerHeight * 0.5;
     let tx = mx, ty = my;
-    let mop = 0;         // current opacity 0..1
-    let targetOp = 0;    // target opacity
+    let mop = 0;
+    let targetOp = 0;
     let lastMove = performance.now();
 
     const isCoarse = matchMedia("(pointer: coarse)").matches;
@@ -1917,7 +1905,7 @@
     }
     requestAnimationFrame(animateFx);
 
-    // ===== Stars (parallax + performance) =====
+    // ===== Stars =====
     const canvas = $("#stars");
     const ctx = canvas.getContext("2d", { alpha: true });
 
@@ -2010,4 +1998,3 @@
   </script>
 </body>
 </html>
-
