@@ -867,10 +867,44 @@
       .nebula{ animation:none !important; }
       .btn, .glass{ transition:none !important; }
     }
+
+    /* ============================= */
+    /* ✅ MUSIC BUTTON (added only)  */
+    /* ============================= */
+    .musicToggle{
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 90;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(10,14,28,.55);
+      color: rgba(255,255,255,.92);
+      padding: 10px 12px;
+      font-weight: 900;
+      cursor: pointer;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 18px 50px rgba(0,0,0,.35);
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+      user-select:none;
+    }
+    .musicToggle:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.22);
+      background: rgba(255,255,255,.08);
+    }
+    .musicToggle:active{ transform: translateY(0px) scale(.99); }
   </style>
 </head>
 
 <body>
+  <!-- ✅ MUSIC (added only) -->
+  <audio id="bgMusic" preload="auto" loop>
+    <source src="assets/music.mp3" type="audio/mpeg" />
+  </audio>
+  <button class="musicToggle" id="musicToggle" type="button" aria-label="Toggle music">🔊 Music</button>
+
   <!-- Cosmic background -->
   <div class="space" aria-hidden="true">
     <div class="nebula"></div>
@@ -1293,6 +1327,57 @@
   <div class="toast" id="toast">Copied</div>
 
   <script>
+    // ✅ MUSIC LOGIC (added only)
+    (function(){
+      const audio = document.getElementById("bgMusic");
+      const btn = document.getElementById("musicToggle");
+      if(!audio || !btn) return;
+
+      // quiet by default
+      audio.volume = 0.25;
+
+      let enabled = (localStorage.getItem("music") === "on");
+
+      function render(){
+        btn.textContent = enabled ? "🔇 Music" : "🔊 Music";
+        btn.setAttribute("aria-pressed", enabled ? "true" : "false");
+      }
+
+      async function tryPlay(){
+        if(!enabled) return;
+        try{
+          await audio.play();
+        }catch{
+          // autoplay blocked; will succeed after a user gesture
+        }
+      }
+
+      function setEnabled(v){
+        enabled = v;
+        localStorage.setItem("music", enabled ? "on" : "off");
+        render();
+        if(enabled) tryPlay();
+        else audio.pause();
+      }
+
+      btn.addEventListener("click", ()=>{
+        setEnabled(!enabled);
+      });
+
+      // If user previously enabled music, start after first interaction anywhere
+      function firstGesture(){
+        tryPlay();
+        window.removeEventListener("pointerdown", firstGesture);
+        window.removeEventListener("keydown", firstGesture);
+        window.removeEventListener("touchstart", firstGesture);
+      }
+      window.addEventListener("pointerdown", firstGesture, {once:true, passive:true});
+      window.addEventListener("keydown", firstGesture, {once:true});
+      window.addEventListener("touchstart", firstGesture, {once:true, passive:true});
+
+      render();
+    })();
+
     // ===== Helpers =====
     const $ = (s, p=document)=>p.querySelector(s);
     const $$ = (s, p=document)=>Array.from(p.querySelectorAll(s));
